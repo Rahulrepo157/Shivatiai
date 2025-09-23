@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="MechMotion AI by shivati_ai: Master machine dynamics with intelligent simulation. Analyze kinematics and kinetics, predict vibrations, and optimize dynamic mechanical systems.">
+    <title>MechMotion AI - Intelligent Machine Dynamics | shivati_ai</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* --- Base Styles & Animations --- */
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        :root {
+             /* MechMotion AI Specific Accent - Vibrant Green */
+             --product-accent-color: #4ade80; /* Vibrant Green */
+             --product-accent-light: #86efac; /* Lighter Green */
+             --product-glow-color: rgba(74, 222, 128, 0.4); /* Green Glow */
+
+             /* General Theme Variables */
+             --link-color: #74ebd5; /* Teal for general links */
+             --highlight-color: #4dabf7; /* Blue for general highlights like final CTA */
+             --text-color: #e0e0e0;
+             --text-muted-color: #a0a0a0;
+             --background-dark: #01020a;
+             --background-gradient-start: #050a1a;
+             --background-gradient-end: #0a0514;
+             --card-bg: rgba(30, 30, 35, 0.6);
+             --card-border: rgba(255, 255, 255, 0.1);
+             --card-blur: 15px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(-45deg, var(--background-dark), var(--background-gradient-start), var(--background-dark), var(--background-gradient-end));
+            background-size: 400% 400%;
+            animation: moveGradient 30s ease infinite;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* --- Header Styles (Consistent) --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 50px; position: sticky; top: 0;
+            background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .logo { font-size: 24px; font-weight: bold; color: #fff;}
+        nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
+        nav ul li { margin-left: 25px; position: relative; }
+        nav ul li a { text-decoration: none; color: #ddd; font-size: 16px; transition: color 0.3s ease; cursor: pointer; padding: 5px 0; }
+        nav ul li a:hover, nav ul li a.active-product-link { color: var(--product-accent-light); }
+        .demo-button { background-color: transparent; color: #fff; border: 1px solid #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: all 0.3s ease; }
+        .demo-button:hover { background-color: #fff; color: #000; transform: translateY(-2px); }
+
+
+        /* --- General Section Styling --- */
+        section {
+            padding: 100px 40px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        .section-title {
+             font-size: 2.5rem;
+             color: #fff;
+             text-align: center;
+             margin-bottom: 60px;
+             text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+              opacity: 0; transform: translateY(30px); /* Animation */
+              transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+         section.animate-in .section-title {
+             opacity: 1;
+             transform: translateY(0);
+         }
+
+        /* --- Product Hero Section --- */
+        .product-hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 120px;
+            padding-bottom: 80px;
+            position: relative;
+        }
+        .product-hero::before {
+             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+             opacity: 0.15;
+             background-image: radial-gradient(ellipse at center, var(--product-accent-color) 0%, transparent 70%);
+             filter: blur(50px);
+             z-index: -1;
+        }
+        .product-hero h1 {
+            font-size: 4rem;
+            color: #fff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px var(--product-glow-color);
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease-out 0.1s, transform 1s ease-out 0.1s;
+        }
+        .product-hero .tagline {
+            font-size: 1.5rem;
+            color: var(--product-accent-light);
+            margin-bottom: 25px;
+            font-weight: 500;
+             opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease-out 0.3s, transform 1s ease-out 0.3s;
+        }
+        .product-hero .intro-text {
+            font-size: 1.1rem;
+            color: #ccc;
+            max-width: 750px; /* Slightly wider for this product's intro */
+            margin: 0 auto 35px auto;
+            line-height: 1.7;
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease-out 0.5s, transform 1s ease-out 0.5s;
+        }
+        .animate-in h1, .animate-in .tagline, .animate-in .intro-text, .animate-in .cta-button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- General CTA Button Style (Adaptable) --- */
+        .cta-button {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: linear-gradient(90deg, var(--product-accent-color), var(--product-accent-light));
+            color: #052e16; /* Dark green text for contrast on light green button */
+            border: none; padding: 14px 35px; border-radius: 8px;
+            cursor: pointer; font-size: 1rem; font-weight: bold; text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--product-glow-color);
+             opacity: 0; transform: translateY(30px);
+        }
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.03);
+            background: linear-gradient(90deg, var(--product-accent-light), #bbf7d0); /* Lighter gradient */
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.5);
+        }
+        .cta-button i { font-size: 1em; }
+
+        /* --- Two Column Section (Problem/Solution) --- */
+        .two-column {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .text-column {
+            flex: 1;
+            min-width: 300px;
+             opacity: 0; transform: translateY(40px);
+             transition: opacity 0.8s ease-out 0.1s, transform 0.8s ease-out 0.1s;
+        }
+        .visual-column {
+            flex: 1;
+            min-width: 300px;
+            display: flex; justify-content: center; align-items: center;
+             opacity: 0; transform: translateY(40px);
+             transition: opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s;
+        }
+        .two-column h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--product-accent-color);
+            padding-left: 15px;
+        }
+        .two-column h3 {
+            font-size: 1.3rem;
+            color: #eee;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        .two-column p {
+            color: #bbb;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+         .animate-in .text-column, .animate-in .visual-column {
+             opacity: 1;
+             transform: translateY(0);
+         }
+
+        /* Visual Placeholder */
+        .visual-placeholder {
+            width: 100%; max-width: 500px; aspect-ratio: 16 / 10;
+            background-color: rgba(74, 222, 128, 0.05); border-radius: 15px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border: 1px dashed var(--product-accent-light); color: var(--product-accent-light);
+            text-align: center; padding: 20px;
+        }
+        .placeholder-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.6; }
+        .visual-placeholder span { font-size: 0.9rem; font-style: italic; }
+
+        /* --- Features Section --- */
+        .features-section { background-color: rgba(0,0,0, 0.2); }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .feature-item {
+            background: var(--card-bg); backdrop-filter: blur(var(--card-blur));
+            border: 1px solid var(--card-border); border-radius: 15px;
+            padding: 30px; text-align: left;
+            opacity: 0; transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
+            transition-delay: var(--stagger-delay);
+        }
+         .animate-in .feature-item { opacity: 1; transform: translateY(0); }
+
+        .feature-item:hover { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); transform: translateY(-5px); }
+        .feature-item i {
+            font-size: 2rem;
+            color: var(--product-accent-light);
+            margin-bottom: 15px;
+            display: block;
+        }
+        .feature-item h3 { font-size: 1.2rem; color: #fff; margin-bottom: 10px; }
+        .feature-item p { font-size: 0.95rem; color: #bbb; line-height: 1.6; }
+
+        /* --- How it Works Section --- */
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .step-item {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+             opacity: 0; transform: translateY(40px);
+             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+             transition-delay: var(--stagger-delay);
+        }
+        .animate-in .step-item { opacity: 1; transform: translateY(0); }
+
+        .step-number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: rgba(74, 222, 128, 0.15); /* Faint accent color */
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            line-height: 1;
+        }
+        .step-item h3 { font-size: 1.2rem; color: #fff; margin-bottom: 10px; margin-top: 20px; }
+        .step-item p { font-size: 0.95rem; color: #bbb; line-height: 1.6; }
+
+        /* --- Benefits Section --- */
+         .benefits-section { background-color: rgba(0,0,0, 0.2); }
+         .benefits-grid {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+             gap: 30px;
+         }
+         .benefit-card {
+             background: transparent;
+             border-left: 3px solid var(--product-accent-color);
+             padding: 20px 25px;
+              opacity: 0; transform: translateY(40px);
+              transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+              transition-delay: var(--stagger-delay);
+         }
+          .animate-in .benefit-card { opacity: 1; transform: translateY(0); }
+
+         .benefit-card i { font-size: 1.8rem; color: var(--product-accent-light); margin-bottom: 15px; display: block;}
+         .benefit-card h3 { font-size: 1.1rem; color: #fff; margin-bottom: 8px; }
+         .benefit-card p { font-size: 0.9rem; color: #bbb; line-height: 1.5; }
+
+
+        /* --- Final CTA Section (Using general highlight color) --- */
+        .final-cta-section { padding: 120px 40px; text-align: center; position: relative; overflow: hidden; z-index: 2; background: radial-gradient( ellipse 120% 80% at 50% -30%, rgba(0, 150, 255, 0.2) 0%, rgba(0, 100, 200, 0.08) 35%, rgba(0, 50, 100, 0.0) 60% ), var(--background-dark); }
+        .cta-content-container { max-width: 750px; margin: 0 auto; position: relative; z-index: 3; }
+        .cta-title { font-size: 2.6rem; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 35px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1); opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .final-cta-section .cta-button {
+             background: linear-gradient(90deg, var(--highlight-color), #74c0fc); /* General Blue gradient */
+             color: #051020;
+             box-shadow: 0 4px 15px rgba(77, 171, 247, 0.3);
+             transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s, background 0.3s ease, box-shadow 0.3s ease;
+        }
+         .final-cta-section .cta-button:hover {
+             background: linear-gradient(90deg, #74c0fc, #a5d8ff);
+             box-shadow: 0 6px 20px rgba(77, 171, 247, 0.4);
+         }
+         section.animate-in .cta-title, section.animate-in .cta-button { opacity: 1; transform: translateY(0); }
+
+        /* --- Footer Styles (Consistent) --- */
+        .site-footer { background-color: #000000; color: var(--text-muted-color); padding-top: 60px; font-size: 0.9rem; position: relative; overflow: hidden; margin-top: 0 !important; }
+        .footer-content { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr; gap: 30px; max-width: 1400px; margin: 0 auto; padding: 0 40px 50px 40px; position: relative; z-index: 2; }
+        .footer-logo-column, .footer-links-column, .footer-contact-column { padding: 0 10px; }
+        .footer-logo { font-size: 1.8rem; font-weight: bold; color: #fff; margin-bottom: 20px; }
+        .footer-social-icons a { color: #888; font-size: 1.2rem; margin-right: 15px; transition: color 0.3s ease; } .footer-social-icons a:hover { color: #fff; }
+        .footer-links-column h4 { font-size: 1rem; color: #fff; margin-bottom: 15px; font-weight: 600; }
+        .footer-links-column ul { list-style: none; padding: 0; margin: 0; } .footer-links-column li { margin-bottom: 10px; }
+        .footer-links-column a { color: var(--text-muted-color); text-decoration: none; transition: color 0.3s ease; } .footer-links-column a:hover { color: #fff; text-decoration: underline; }
+        .footer-links-column a.active-product-link { color: var(--product-accent-light); font-weight: bold; }
+        .footer-contact-column h4 { font-size: 1rem; color: #fff; margin-bottom: 15px; font-weight: 600; } .footer-contact-column p { margin-bottom: 10px; } .footer-contact-column a { color: var(--text-muted-color); text-decoration: none; transition: color 0.3s ease; } .footer-contact-column a:hover { color: #fff; text-decoration: underline; }
+        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center; padding: 20px 40px; font-size: 0.8rem; color: #888; position: relative; z-index: 2; background-color: #000; }
+        .footer-graphic { position: absolute; bottom: 0; right: 0; width: 40%; height: 100%; max-width: 500px; background: linear-gradient( to top left, transparent 50%, rgba(255, 255, 255, 0.02) 50.5%, rgba(255, 255, 255, 0.02) 51.5%, transparent 52% ), linear-gradient( to top left, transparent 60%, rgba(255, 255, 255, 0.015) 60.5%, rgba(255, 255, 255, 0.015) 61.5%, transparent 62% ), linear-gradient( to top left, transparent 68%, rgba(255, 255, 255, 0.01) 68.5%, rgba(255, 255, 255, 0.01) 69.5%, transparent 70% ); background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none; z-index: 1; opacity: 0.7; }
+
+
+        /* --- Responsive --- */
+         @media (max-width: 992px) {
+             .two-column { flex-direction: column-reverse; }
+             .text-column, .visual-column { max-width: 100%; }
+             .features-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+             .benefits-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+             .steps-container { justify-content: center; }
+             .footer-content { grid-template-columns: repeat(3, 1fr); }
+             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; text-align: center; margin-bottom: 30px;}
+         }
+
+         @media (max-width: 768px) {
+             section { padding: 60px 20px; }
+             .section-title { font-size: 2rem; margin-bottom: 40px; }
+             header { padding: 15px 20px; position: static; background-color: #000; backdrop-filter: none; border-bottom: none; }
+             nav ul { display: none; } /* Implement burger later if needed */
+             .product-hero { padding-top: 80px; padding-bottom: 60px; min-height: 60vh;}
+             .product-hero h1 { font-size: 2.8rem; }
+             .product-hero .tagline { font-size: 1.2rem; }
+             .product-hero .intro-text { font-size: 1rem; }
+             .two-column { gap: 40px; }
+             .two-column h2 { font-size: 1.5rem; }
+             .two-column h3 { font-size: 1.1rem; }
+             .two-column p { font-size: 0.95rem; }
+             .features-grid, .benefits-grid { grid-template-columns: 1fr; gap: 25px; }
+             .step-item { min-width: 100%; }
+             .final-cta-section { padding: 80px 20px; }
+             .cta-title { font-size: 2rem; }
+             .cta-button { padding: 12px 28px; font-size: 0.95rem; }
+             .footer-content { grid-template-columns: 1fr 1fr; padding: 0 20px 40px 20px; }
+             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; }
+             .footer-links-column { text-align: center; }
+             .footer-graphic { width: 60%; opacity: 0.5; }
+         }
+
+          @media (max-width: 480px) {
+             .product-hero h1 { font-size: 2.2rem; }
+             .product-hero .tagline { font-size: 1rem; }
+             .step-number { font-size: 3rem; top: 0; }
+             .step-item h3 { margin-top: 30px; }
+             .footer-content { grid-template-columns: 1fr; } .footer-links-column { margin-bottom: 20px; } .footer-graphic { display: none; }
+          }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">shivati_ai</div>
+        <nav>
+             <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/product">Products</a></li>
+                <li><a href="/about">Company</a></li>
+                <li><a href="#">Security</a></li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="/careers">Careers</a></li>
+             </ul>
+        </nav>
+        <button class="demo-button">Request a Demo</button>
+    </header>
+
+    <main>
+        <section class="product-hero mechmotion-hero animate-in">
+            <div class="hero-content">
+                <h1>MechMotion AI</h1>
+                <p class="tagline">Master Machine Dynamics with Intelligent Simulation.</p>
+                <p class="intro-text">MechMotion AI analyzes kinematics and kinetics, predicts vibrations, and optimizes the performance and lifespan of dynamic mechanical systems.</p>
+                <a href="#request-demo" class="cta-button">Request MechMotion AI Demo <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <section class="product-section two-column">
+            <div class="content-wrapper animate-in">
+                <div class="text-column">
+                    <h2>The Challenge: Predicting Complex Dynamic Behaviors</h2>
+                    <p>Optimizing for performance and longevity in dynamic systems is often a trial-and-error process. Traditional methods involve complex multi-body simulations and extensive physical testing, which can be slow and costly, delaying innovation.</p>
+                    <h3>The Solution: AI-Enhanced Dynamic System Understanding</h3>
+                    <p>MechMotion AI uses advanced machine learning to rapidly simulate and analyze complex mechanical movements. It predicts vibrational responses, identifies optimal design parameters for improved efficiency, and helps reduce wear and tear, accelerating your design cycle.</p>
+                </div>
+                <div class="visual-column">
+                    <div class="visual-placeholder">
+                        <i class="fas fa-gears placeholder-icon"></i> <span>Dynamic System Simulation Comparison (Placeholder)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-section features-section">
+            <div class="content-wrapper">
+                <h2 class="section-title">Core Capabilities</h2>
+                <div class="features-grid">
+                    <div class="feature-item" data-delay="0.1s"> <i class="fas fa-project-diagram"></i> <h3>Kinematics & Kinetics Analysis</h3> <p>Leverage AI for rapid calculation of motion paths, velocities, accelerations, forces, and torques in complex assemblies.</p> </div>
+                    <div class="feature-item" data-delay="0.2s"> <i class="fas fa-wave-square"></i> <h3>Vibration Prediction & Mitigation</h3> <p>Identify potential resonance issues and harmful vibrations early, with AI suggestions for damping or design modification.</p> </div>
+                    <div class="feature-item" data-delay="0.3s"> <i class="fas fa-tachometer-alt"></i> <h3>Performance Optimization</h3> <p>Intelligently optimize systems for speed, energy efficiency, load-bearing capacity, and operational smoothness.</p> </div>
+                    <div class="feature-item" data-delay="0.4s"> <i class="fas fa-tools"></i> <h3>Predictive Maintenance Insights</h3> <p>Analyze dynamic behavior patterns to forecast component wear, enabling optimized maintenance schedules and reducing downtime.</p> </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-section how-it-works-section">
+             <div class="content-wrapper">
+                 <h2 class="section-title">How MechMotion AI Works</h2>
+                 <div class="steps-container">
+                     <div class="step-item" data-delay="0.1s"> <span class="step-number">01</span> <h3>Input System Parameters</h3> <p>Provide CAD models, material properties, joint definitions, operating conditions, and desired motion profiles.</p> </div>
+                     <div class="step-item" data-delay="0.2s"> <span class="step-number">02</span> <h3>AI Dynamic Analysis</h3> <p>Our trained models simulate multi-body dynamics, analyze forces and torques, and predict vibrational behavior.</p> </div>
+                     <div class="step-item" data-delay="0.3s"> <span class="step-number">03</span> <h3>Visualize & Optimize</h3> <p>Explore interactive motion plots, vibration modes, and performance metrics. Leverage AI-driven recommendations for design improvements.</p> </div>
+                 </div>
+             </div>
+         </section>
+
+        <section class="product-section benefits-section">
+             <div class="content-wrapper">
+                 <h2 class="section-title">Benefits & Use Cases</h2>
+                 <div class="benefits-grid">
+                     <div class="benefit-card" data-delay="0.1s"> <i class="fas fa-forward"></i> <h3>Faster Dynamic System Design</h3> <p>Significantly reduce time spent on complex simulations and physical prototyping of moving assemblies.</p> </div>
+                     <div class="benefit-card" data-delay="0.2s"> <i class="fas fa-sliders-h"></i> <h3>Reduced Physical Prototyping</h3> <p>Validate dynamic performance virtually, minimizing the need for costly and time-consuming physical test rigs.</p> </div>
+                     <div class="benefit-card" data-delay="0.3s"> <i class="fas fa-chart-line"></i> <h3>Improved Operational Efficiency</h3> <p>Design smoother, faster, and more energy-efficient mechanisms that meet demanding performance targets.</p> </div>
+                     <div class="benefit-card" data-delay="0.4s"> <i class="fas fa-robot"></i> <h3>Robotics & Automation</h3> <p>Optimize robot arm dynamics, actuator performance, trajectory planning, and end-effector stability.</p> </div>
+                     <div class="benefit-card" data-delay="0.5s"> <i class="fas fa-car-side"></i> <h3>Automotive Systems</h3> <p>Analyze powertrain dynamics, suspension behavior, steering mechanisms, and reduce NVH (Noise, Vibration, Harshness).</p> </div>
+                     <div class="benefit-card" data-delay="0.6s"> <i class="fas fa-industry"></i> <h3>Industrial Machinery</h3> <p>Design and optimize linkages, actuators, conveyor systems, and high-speed manufacturing equipment for longevity and performance.</p> </div>
+                 </div>
+             </div>
+         </section>
+
+        <section class="final-cta-section" id="request-demo">
+            <div class="cta-content-container animate-in">
+                <h2 class="cta-title">Ready to Optimize Your Dynamic Mechanical Systems?</h2>
+                <a href="#contact-sales" class="cta-button"> Request a Personalized MechMotion AI Demo <i class="fas fa-arrow-right"></i> </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+         <div class="footer-content">
+             <div class="footer-logo-column">
+                 <div class="footer-logo">shivati_ai</div>
+                 <div class="footer-social-icons">
+                     <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                     <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                 </div>
+             </div>
+             <div class="footer-links-column">
+                 <h4>Product</h4>
+                 <ul>
+                     <li><a href="/product">Overview</a></li>
+                     <li><a href="#mechmotion" class="active-product-link">MechMotion AI</a></li>
+                     <li><a href="#">StressMaster</a></li>
+                     <li><a href="#">ThermoSolver</a></li>
+                 </ul>
+             </div>
+             <div class="footer-links-column">
+                 <h4>Company</h4>
+                 <ul>
+                     <li><a href="/about/">About Us</a></li>
+                     <li><a href="/careers">Careers</a></li>
+                     <li><a href="#">Blog</a></li>
+                     <li><a href="#">Resources</a></li>
+                 </ul>
+             </div>
+             <div class="footer-links-column">
+                 <h4>Legal</h4>
+                 <ul>
+                     <li><a href="#">Terms of Service</a></li>
+                     <li><a href="#">Privacy Policy</a></li>
+                 </ul>
+             </div>
+             <div class="footer-contact-column" id="contact-sales">
+                 <h4>Contact</h4>
+                 <p><a href="mailto:contact@shivati_ai.com">contact@shivati_ai.com</a></p>
+                 <p>Sales: <a href="mailto:sales@shivati_ai.com">sales@shivati_ai.com</a></p>
+             </div>
+         </div>
+         <div class="footer-bottom">
+             <p>© <span id="copyright-year">2025</span> shivati_ai Inc. All rights reserved.</p>
+         </div>
+          <div class="footer-graphic"></div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Consolidated Intersection Observer for Scroll Animations ---
+             const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% is visible
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+
+                        // Apply staggered delay to direct children
+                        const itemsToStagger = target.querySelectorAll('.feature-item, .step-item, .benefit-card, .text-column, .visual-column');
+                        if (itemsToStagger.length > 0) {
+                            itemsToStagger.forEach((item, itemIndex) => {
+                                const delay = item.getAttribute('data-delay') || `${(itemIndex * 0.08) + 0.1}s`;
+                                item.style.transitionDelay = delay;
+                            });
+                        }
+                         target.classList.add('animate-in');
+                         if (!target.classList.contains('product-hero')) { // Keep observing hero if it might re-enter
+                            observer.unobserve(target);
+                         }
+                    }
+                });
+            };
+
+            const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+            document.querySelectorAll('.product-hero, .product-section .content-wrapper, .features-section .content-wrapper, .how-it-works-section .content-wrapper, .benefits-section .content-wrapper, .final-cta-section .cta-content-container').forEach(el => {
+                if (el.classList.contains('product-hero') && isElementInViewport(el)) {
+                     el.classList.add('animate-in');
+                     // Stagger hero elements manually if needed on load
+                     const heroElements = el.querySelectorAll('.hero-content h1, .hero-content .tagline, .hero-content .intro-text, .hero-content .cta-button');
+                     heroElements.forEach((item, index) => {
+                         // Apply delays based on their transition settings in CSS or override here
+                         item.style.transitionDelay = item.style.transitionDelay || `${index * 0.2 + 0.1}s`;
+                     });
+                } else {
+                    scrollObserver.observe(el);
+                }
+            });
+
+            function isElementInViewport(el) {
+                if (!el) return false;
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top < window.innerHeight && rect.bottom >= 0 &&
+                    rect.left < window.innerWidth && rect.right >= 0
+                );
+            }
+
+            const yearSpan = document.getElementById('copyright-year');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+
+            const heroCtaButton = document.querySelector('.product-hero .cta-button[href="#request-demo"]');
+            if (heroCtaButton) {
+                heroCtaButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetSection = document.getElementById('request-demo');
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            }
+            const finalCtaButton = document.querySelector('.final-cta-section .cta-button[href="#contact-sales"]');
+            if (finalCtaButton) {
+                 finalCtaButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetSection = document.getElementById('contact-sales');
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                 });
+            }
+
+        }); // end DOMContentLoaded
+    </script>
+
+</body>
+</html>

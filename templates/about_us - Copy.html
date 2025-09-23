@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gulyam_ai - About Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @keyframes moveGradient { /* Background animation keyframes */
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            /* Enhanced background: Animated subtle gradient */
+            background: linear-gradient(-45deg, #000000, #050a1a, #000000, #0a0514);
+            background-size: 400% 400%; /* Make gradient large */
+            animation: moveGradient 30s ease infinite; /* Apply animation */
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Header Styling - Sticky */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            position: sticky; /* Make header sticky */
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent sticky header */
+            backdrop-filter: blur(10px); /* Blur effect */
+            z-index: 100; /* Ensure header is above content */
+        }
+
+        .logo { font-size: 24px; font-weight: bold; }
+        nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
+        nav ul li { margin-left: 25px; }
+        nav ul li a { text-decoration: none; color: #ddd; font-size: 16px; transition: color 0.3s ease; }
+        nav ul li a:hover { color: #fff; }
+
+        .demo-button {
+            background-color: transparent; color: #fff; border: 1px solid #fff; padding: 10px 20px;
+            border-radius: 5px; cursor: pointer; font-size: 16px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Added transform transition */
+        }
+        .demo-button:hover {
+            background-color: #fff; color: #000;
+            transform: translateY(-2px); /* Subtle lift on hover */
+        }
+
+        /* About Us Section Styling */
+        .about-section {
+            position: relative; /* For pseudo-element */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+            padding: 60px 20px; /* Added padding */
+            overflow: hidden; /* Contain pseudo-element */
+            z-index: 1; /* Keep content above pseudo-element */
+        }
+
+        /* Subtle Background Glow for About Section */
+        .about-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80%; /* Wider spread */
+            padding-bottom: 80%; /* Creates aspect ratio for ellipse */
+            transform: translate(-50%, -50%);
+            border-radius: 50%; /* Make it circular/elliptical */
+            /* Subtle blue glow */
+            background: radial-gradient(ellipse at center, rgba(0, 123, 255, 0.15) 0%, transparent 70%);
+            filter: blur(20px); /* More blur for softness */
+            z-index: -1; /* Behind content */
+            opacity: 0.7; /* Adjust opacity */
+        }
+
+        .about-content {
+            max-width: 700px;
+            padding: 40px 20px;
+            border-radius: 8px;
+            z-index: 1; /* Ensure content is above section's pseudo-element */
+        }
+
+        .about-title {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Subtle text glow */
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
+        }
+
+        .learn-more-button {
+            background-color: #fff; color: #000; border: none; padding: 12px 30px;
+            border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;
+            display: inline-flex; align-items: center; gap: 8px;
+            text-decoration: none; /* If using <a> instead of <button> */
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Added transform transition */
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease 0.6s, transform 1s ease 0.6s; /* Delay */
+        }
+        .learn-more-button:hover {
+            background-color: #ddd;
+            transform: translateY(-2px); /* Subtle lift on hover */
+        }
+        .learn-more-button i { font-size: 0.9em; }
+
+        /* Animation Class */
+        .animate-in .about-title,
+        .animate-in .about-text,
+        .animate-in .learn-more-button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px; position: static; background-color: #000; backdrop-filter: none;
+            }
+            nav ul { margin-top: 15px; flex-direction: column; align-items: center; }
+            nav ul li { margin: 10px 0; }
+            .about-section { min-height: 70vh; }
+            .about-title { font-size: 2.5rem; }
+            .about-text { font-size: 1rem; }
+            .about-section::before { /* Make glow smaller on mobile */
+                width: 90%;
+                padding-bottom: 90%;
+                filter: blur(15px);
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">gulyam_ai</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/product">Product</a></li>
+                <li><a href="/about">Company</a></li>
+                <li><a href="#">Security</a></li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Careers</a></li>
+            </ul>
+        </nav>
+        <button class="demo-button">Request a Demo</button>
+    </header>
+
+    <section class="about-section">
+        <div class="about-content">
+            <h1 class="about-title">About us</h1>
+            <p class="about-text">
+                gulyam_ai empowers mechanical industries to leverage the most advanced AI solutions to solve their complex challenges.
+                We are dedicated to delivering cutting-edge technology that enhances efficiency, optimizes processes, and drives innovation
+                across the entire mechanical engineering spectrum.
+            </p>
+            <!-- Changed to an anchor tag for potential future linking -->
+            <a href="#" class="learn-more-button">
+                Learn more <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const aboutSection = document.querySelector('.about-section');
+            aboutSection.classList.add('animate-in'); // Animate on page load
+        });
+    </script>
+</body>
+</html>

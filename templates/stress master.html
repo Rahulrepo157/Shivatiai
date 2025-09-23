@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Explore StressMaster by shivati_ai - AI-powered structural analysis and design optimization for faster, more resilient mechanical and civil engineering projects.">
+    <title>StressMaster - AI Structural Analysis | shivati_ai</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* --- Base Styles & Animations --- */
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        :root {
+             /* StressMaster Specific Accent - Choosing a strong blue */
+             --product-accent-color: #3b82f6; /* Strong Blue for StressMaster */
+             --product-accent-light: #60a5fa; /* Lighter Blue */
+             --product-glow-color: rgba(59, 130, 246, 0.4); /* For text/box shadows */
+
+             /* General Theme Variables */
+             --link-color: #74ebd5;
+             --highlight-color: #4dabf7; /* General highlight, can be same as product for consistency or different */
+             --text-color: #e0e0e0;
+             --text-muted-color: #a0a0a0;
+             --background-dark: #01020a;
+             --background-gradient-start: #050a1a;
+             --background-gradient-end: #0a0514;
+             --card-bg: rgba(30, 30, 35, 0.6);
+             --card-border: rgba(255, 255, 255, 0.1);
+             --card-blur: 15px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(-45deg, var(--background-dark), var(--background-gradient-start), var(--background-dark), var(--background-gradient-end));
+            background-size: 400% 400%;
+            animation: moveGradient 30s ease infinite;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* --- Header Styles (Consistent) --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 50px; position: sticky; top: 0;
+            background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .logo { font-size: 24px; font-weight: bold; color: #fff;}
+        nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
+        nav ul li { margin-left: 25px; position: relative; }
+        nav ul li a { text-decoration: none; color: #ddd; font-size: 16px; transition: color 0.3s ease; cursor: pointer; padding: 5px 0; }
+        nav ul li a:hover, nav ul li a.active-product-link { color: var(--product-accent-light); } /* Highlight active product */
+        .demo-button { background-color: transparent; color: #fff; border: 1px solid #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: all 0.3s ease; }
+        .demo-button:hover { background-color: #fff; color: #000; transform: translateY(-2px); }
+
+
+        /* --- General Section Styling --- */
+        section {
+            padding: 100px 40px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        .section-title {
+             font-size: 2.5rem;
+             color: #fff;
+             text-align: center;
+             margin-bottom: 60px;
+             text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+              opacity: 0; transform: translateY(30px); /* Animation */
+              transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+         section.animate-in .section-title {
+             opacity: 1;
+             transform: translateY(0);
+         }
+
+        /* --- Product Hero Section --- */
+        .product-hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 120px;
+            padding-bottom: 80px;
+            position: relative;
+        }
+        .product-hero::before {
+             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+             opacity: 0.15;
+             background-image: radial-gradient(ellipse at center, var(--product-accent-color) 0%, transparent 70%);
+             filter: blur(50px);
+             z-index: -1;
+        }
+        .product-hero h1 {
+            font-size: 4rem;
+            color: #fff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px var(--product-glow-color);
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease-out 0.1s, transform 1s ease-out 0.1s;
+        }
+        .product-hero .tagline {
+            font-size: 1.5rem;
+            color: var(--product-accent-light);
+            margin-bottom: 25px;
+            font-weight: 500;
+             opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease-out 0.3s, transform 1s ease-out 0.3s;
+        }
+        .product-hero .intro-text {
+            font-size: 1.1rem;
+            color: #ccc;
+            max-width: 700px;
+            margin: 0 auto 35px auto;
+            line-height: 1.7;
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease-out 0.5s, transform 1s ease-out 0.5s;
+        }
+        .animate-in h1, .animate-in .tagline, .animate-in .intro-text, .animate-in .cta-button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- General CTA Button Style (Adaptable) --- */
+        .cta-button {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: linear-gradient(90deg, var(--product-accent-color), var(--product-accent-light));
+            color: #fff; /* White text for contrast on blue */
+            border: none; padding: 14px 35px; border-radius: 8px;
+            cursor: pointer; font-size: 1rem; font-weight: bold; text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--product-glow-color);
+             opacity: 0; transform: translateY(30px);
+        }
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.03);
+            background: linear-gradient(90deg, var(--product-accent-light), #93c5fd); /* Lighter gradient */
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+        .cta-button i { font-size: 1em; }
+
+        /* --- Two Column Section (Problem/Solution) --- */
+        .two-column {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .text-column {
+            flex: 1;
+            min-width: 300px;
+             opacity: 0; transform: translateY(40px);
+             transition: opacity 0.8s ease-out 0.1s, transform 0.8s ease-out 0.1s;
+        }
+        .visual-column {
+            flex: 1;
+            min-width: 300px;
+            display: flex; justify-content: center; align-items: center;
+             opacity: 0; transform: translateY(40px);
+             transition: opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s;
+        }
+        .two-column h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--product-accent-color);
+            padding-left: 15px;
+        }
+        .two-column h3 {
+            font-size: 1.3rem;
+            color: #eee;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        .two-column p {
+            color: #bbb;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+         .animate-in .text-column, .animate-in .visual-column {
+             opacity: 1;
+             transform: translateY(0);
+         }
+
+        /* Visual Placeholder */
+        .visual-placeholder {
+            width: 100%; max-width: 500px; aspect-ratio: 16 / 10;
+            background-color: rgba(59, 130, 246, 0.05); border-radius: 15px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border: 1px dashed var(--product-accent-light); color: var(--product-accent-light);
+            text-align: center; padding: 20px;
+        }
+        .placeholder-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.6; }
+        .visual-placeholder span { font-size: 0.9rem; font-style: italic; }
+
+        /* --- Features Section --- */
+        .features-section { background-color: rgba(0,0,0, 0.2); }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .feature-item {
+            background: var(--card-bg); backdrop-filter: blur(var(--card-blur));
+            border: 1px solid var(--card-border); border-radius: 15px;
+            padding: 30px; text-align: left;
+            opacity: 0; transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
+            transition-delay: var(--stagger-delay);
+        }
+         .animate-in .feature-item { opacity: 1; transform: translateY(0); }
+
+        .feature-item:hover { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); transform: translateY(-5px); }
+        .feature-item i {
+            font-size: 2rem;
+            color: var(--product-accent-light);
+            margin-bottom: 15px;
+            display: block;
+        }
+        .feature-item h3 { font-size: 1.2rem; color: #fff; margin-bottom: 10px; }
+        .feature-item p { font-size: 0.95rem; color: #bbb; line-height: 1.6; }
+
+        /* --- How it Works Section --- */
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .step-item {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+             opacity: 0; transform: translateY(40px);
+             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+             transition-delay: var(--stagger-delay);
+        }
+        .animate-in .step-item { opacity: 1; transform: translateY(0); }
+
+        .step-number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: rgba(59, 130, 246, 0.15); /* Faint accent color */
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            line-height: 1;
+        }
+        .step-item h3 { font-size: 1.2rem; color: #fff; margin-bottom: 10px; margin-top: 20px; }
+        .step-item p { font-size: 0.95rem; color: #bbb; line-height: 1.6; }
+
+        /* --- Benefits Section --- */
+         .benefits-section { background-color: rgba(0,0,0, 0.2); }
+         .benefits-grid {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+             gap: 30px;
+         }
+         .benefit-card {
+             background: transparent;
+             border-left: 3px solid var(--product-accent-color);
+             padding: 20px 25px;
+              opacity: 0; transform: translateY(40px);
+              transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+              transition-delay: var(--stagger-delay);
+         }
+          .animate-in .benefit-card { opacity: 1; transform: translateY(0); }
+
+         .benefit-card i { font-size: 1.8rem; color: var(--product-accent-light); margin-bottom: 15px; display: block;}
+         .benefit-card h3 { font-size: 1.1rem; color: #fff; margin-bottom: 8px; }
+         .benefit-card p { font-size: 0.9rem; color: #bbb; line-height: 1.5; }
+
+
+        /* --- Final CTA Section (Consistent with general highlight for variety) --- */
+        .final-cta-section { padding: 120px 40px; text-align: center; position: relative; overflow: hidden; z-index: 2; background: radial-gradient( ellipse 120% 80% at 50% -30%, rgba(0, 150, 255, 0.2) 0%, rgba(0, 100, 200, 0.08) 35%, rgba(0, 50, 100, 0.0) 60% ), var(--background-dark); }
+        .cta-content-container { max-width: 750px; margin: 0 auto; position: relative; z-index: 3; }
+        .cta-title { font-size: 2.6rem; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 35px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1); opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        /* Use general .cta-button style, maybe override background */
+        .final-cta-section .cta-button {
+             background: linear-gradient(90deg, var(--highlight-color), #74c0fc); /* General Blue gradient */
+             color: #051020; /* Dark text for contrast */
+             box-shadow: 0 4px 15px rgba(77, 171, 247, 0.3);
+             transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s, background 0.3s ease, box-shadow 0.3s ease;
+        }
+         .final-cta-section .cta-button:hover {
+             background: linear-gradient(90deg, #74c0fc, #a5d8ff);
+             box-shadow: 0 6px 20px rgba(77, 171, 247, 0.4);
+         }
+         section.animate-in .cta-title, section.animate-in .cta-button { opacity: 1; transform: translateY(0); }
+
+        /* --- Footer Styles (Consistent) --- */
+        .site-footer { background-color: #000000; color: var(--text-muted-color); padding-top: 60px; font-size: 0.9rem; position: relative; overflow: hidden; margin-top: 0 !important; }
+        .footer-content { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr; gap: 30px; max-width: 1400px; margin: 0 auto; padding: 0 40px 50px 40px; position: relative; z-index: 2; }
+        .footer-logo-column, .footer-links-column, .footer-contact-column { padding: 0 10px; }
+        .footer-logo { font-size: 1.8rem; font-weight: bold; color: #fff; margin-bottom: 20px; }
+        .footer-social-icons a { color: #888; font-size: 1.2rem; margin-right: 15px; transition: color 0.3s ease; } .footer-social-icons a:hover { color: #fff; }
+        .footer-links-column h4 { font-size: 1rem; color: #fff; margin-bottom: 15px; font-weight: 600; }
+        .footer-links-column ul { list-style: none; padding: 0; margin: 0; } .footer-links-column li { margin-bottom: 10px; }
+        .footer-links-column a { color: var(--text-muted-color); text-decoration: none; transition: color 0.3s ease; } .footer-links-column a:hover { color: #fff; text-decoration: underline; }
+        .footer-links-column a.active-product-link { color: var(--product-accent-light); font-weight: bold; }
+        .footer-contact-column h4 { font-size: 1rem; color: #fff; margin-bottom: 15px; font-weight: 600; } .footer-contact-column p { margin-bottom: 10px; } .footer-contact-column a { color: var(--text-muted-color); text-decoration: none; transition: color 0.3s ease; } .footer-contact-column a:hover { color: #fff; text-decoration: underline; }
+        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center; padding: 20px 40px; font-size: 0.8rem; color: #888; position: relative; z-index: 2; background-color: #000; }
+        .footer-graphic { position: absolute; bottom: 0; right: 0; width: 40%; height: 100%; max-width: 500px; background: linear-gradient( to top left, transparent 50%, rgba(255, 255, 255, 0.02) 50.5%, rgba(255, 255, 255, 0.02) 51.5%, transparent 52% ), linear-gradient( to top left, transparent 60%, rgba(255, 255, 255, 0.015) 60.5%, rgba(255, 255, 255, 0.015) 61.5%, transparent 62% ), linear-gradient( to top left, transparent 68%, rgba(255, 255, 255, 0.01) 68.5%, rgba(255, 255, 255, 0.01) 69.5%, transparent 70% ); background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none; z-index: 1; opacity: 0.7; }
+
+
+        /* --- Responsive --- */
+         @media (max-width: 992px) {
+             .two-column { flex-direction: column-reverse; }
+             .text-column, .visual-column { max-width: 100%; }
+             .features-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+             .benefits-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+             .steps-container { justify-content: center; }
+             .footer-content { grid-template-columns: repeat(3, 1fr); }
+             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; text-align: center; margin-bottom: 30px;}
+         }
+
+         @media (max-width: 768px) {
+             section { padding: 60px 20px; }
+             .section-title { font-size: 2rem; margin-bottom: 40px; }
+             header { padding: 15px 20px; position: static; background-color: #000; backdrop-filter: none; border-bottom: none; }
+             nav ul { display: none; } /* Implement burger later if needed */
+             .product-hero { padding-top: 80px; padding-bottom: 60px; min-height: 60vh;}
+             .product-hero h1 { font-size: 2.8rem; }
+             .product-hero .tagline { font-size: 1.2rem; }
+             .product-hero .intro-text { font-size: 1rem; }
+             .two-column { gap: 40px; }
+             .two-column h2 { font-size: 1.5rem; }
+             .two-column h3 { font-size: 1.1rem; }
+             .two-column p { font-size: 0.95rem; }
+             .features-grid, .benefits-grid { grid-template-columns: 1fr; gap: 25px; }
+             .step-item { min-width: 100%; }
+             .final-cta-section { padding: 80px 20px; }
+             .cta-title { font-size: 2rem; }
+             .cta-button { padding: 12px 28px; font-size: 0.95rem; }
+             .footer-content { grid-template-columns: 1fr 1fr; padding: 0 20px 40px 20px; }
+             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; }
+             .footer-links-column { text-align: center; }
+             .footer-graphic { width: 60%; opacity: 0.5; }
+         }
+
+          @media (max-width: 480px) {
+             .product-hero h1 { font-size: 2.2rem; }
+             .product-hero .tagline { font-size: 1rem; }
+             .step-number { font-size: 3rem; top: 0; }
+             .step-item h3 { margin-top: 30px; }
+             .footer-content { grid-template-columns: 1fr; } .footer-links-column { margin-bottom: 20px; } .footer-graphic { display: none; }
+          }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">shivati_ai</div>
+        <nav>
+             <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/product">Products</a></li>
+                <li><a href="about/">Company</a></li>
+                <li><a href="#">Security</a></li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="/careers">Careers</a></li>
+             </ul>
+        </nav>
+        <button class="demo-button">Request a Demo</button>
+    </header>
+
+    <main>
+        <section class="product-hero stressmaster-hero animate-in">
+            <div class="hero-content">
+                <h1>StressMaster</h1>
+                <p class="tagline">Intelligent Structural Analysis & Design Optimization</p>
+                <p class="intro-text">Accelerate your structural design process with AI-driven insights. StressMaster provides rapid predictions, identifies potential failure points, and optimizes material usage for complex structural elements and systems.</p>
+                <a href="#request-demo" class="cta-button">Request StressMaster Demo <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <section class="product-section two-column">
+            <div class="content-wrapper animate-in">
+                <div class="text-column">
+                    <h2>The Challenge: Complex & Iterative Structural Design</h2>
+                    <p>Traditional structural analysis relies on time-intensive Finite Element Analysis (FEA) setup, long computation cycles, and manual iteration to ensure integrity and optimize designs. This often leads to over-engineering or lengthy development timelines.</p>
+                    <h3>The Solution: AI-Powered Predictive Engineering</h3>
+                    <p>StressMaster employs advanced machine learning models trained on extensive structural data. It dramatically cuts down analysis time, predicts stress, strain, and deformation across various load cases, and suggests optimized designs for strength, stiffness, and material efficiency.</p>
+                </div>
+                <div class="visual-column">
+                    <div class="visual-placeholder">
+                        <i class="fas fa-project-diagram placeholder-icon"></i> <span>FEA vs. AI Analysis Speed (Placeholder)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-section features-section">
+            <div class="content-wrapper">
+                <h2 class="section-title">Core Capabilities</h2>
+                <div class="features-grid">
+                    <div class="feature-item" data-delay="0.1s"> <i class="fas fa-brain"></i> <h3>Predictive Stress/Strain Analysis</h3> <p>Instantly forecast stress concentrations, deformation, and potential failure modes under various loading conditions without full FEA reruns.</p> </div>
+                    <div class="feature-item" data-delay="0.2s"> <i class="fas fa-cogs"></i> <h3>AI-Driven Design Optimization</h3> <p>Receive intelligent recommendations for topology, shape, and material selection to enhance structural performance and reduce weight.</p> </div>
+                    <div class="feature-item" data-delay="0.3s"> <i class="fas fa-wave-square"></i> <h3>Fatigue & Durability Prediction</h3> <p>Estimate component lifespan and identify critical areas prone to fatigue failure early in the design cycle.</p> </div>
+                    <div class="feature-item" data-delay="0.4s"> <i class="fas fa-shield-alt"></i> <h3>Automated Compliance Insights</h3> <p>Leverage AI to quickly assess designs against common industry codes and standards for preliminary compliance checks. (Conceptual)</p> </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-section how-it-works-section">
+             <div class="content-wrapper">
+                 <h2 class="section-title">How StressMaster Works</h2>
+                 <div class="steps-container">
+                     <div class="step-item" data-delay="0.1s"> <span class="step-number">01</span> <h3>Input Parameters</h3> <p>Provide component geometry (CAD), material properties, load scenarios, and boundary conditions.</p> </div>
+                     <div class="step-item" data-delay="0.2s"> <span class="step-number">02</span> <h3>AI Structural Simulation</h3> <p>Our trained models rapidly process inputs, predicting stress fields, deformation, and key performance indicators.</p> </div>
+                     <div class="step-item" data-delay="0.3s"> <span class="step-number">03</span> <h3>Visualize & Refine</h3> <p>Explore interactive results, conduct virtual 'what-if' scenarios, and utilize AI suggestions for design enhancements.</p> </div>
+                 </div>
+             </div>
+         </section>
+
+        <section class="product-section benefits-section">
+             <div class="content-wrapper">
+                 <h2 class="section-title">Benefits & Use Cases</h2>
+                 <div class="benefits-grid">
+                     <div class="benefit-card" data-delay="0.1s"> <i class="fas fa-tachometer-alt"></i> <h3>Accelerate Design Validation</h3> <p>Drastically reduce FEA iterations and time-to-market for new structural designs and components.</p> </div>
+                     <div class="benefit-card" data-delay="0.2s"> <i class="fas fa-leaf"></i> <h3>Optimize Material Usage</h3> <p>Achieve lighter, more efficient designs by identifying areas for material reduction without compromising safety.</p> </div>
+                     <div class="benefit-card" data-delay="0.3s"> <i class="fas fa-hard-hat"></i> <h3>Enhance Safety & Reliability</h3> <p>Proactively identify and mitigate potential failure points, leading to more robust and durable structures.</p> </div>
+                     <div class="benefit-card" data-delay="0.4s"> <i class="fas fa-building"></i> <h3>Civil & Architectural Design</h3> <p>Optimize building frames, bridges, and other large-scale structures for load distribution and material efficiency.</p> </div>
+                     <div class="benefit-card" data-delay="0.5s"> <i class="fas fa-cogs"></i> <h3>Mechanical Components</h3> <p>Analyze and optimize gears, brackets, casings, and other machine parts for strength and durability.</p> </div>
+                     <div class="benefit-card" data-delay="0.6s"> <i class="fas fa-fighter-jet"></i> <h3>Aerospace & Automotive Structures</h3> <p>Design lightweight and resilient airframes, chassis components, and internal structural members.</p> </div>
+                 </div>
+             </div>
+         </section>
+
+        <section class="final-cta-section" id="request-demo">
+            <div class="cta-content-container animate-in">
+                <h2 class="cta-title">Ready to Revolutionize Your Structural Design?</h2>
+                <a href="#contact-sales" class="cta-button"> Request a Personalized StressMaster Demo <i class="fas fa-arrow-right"></i> </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+         <div class="footer-content">
+             <div class="footer-logo-column">
+                 <div class="footer-logo">shivati_ai</div>
+                 <div class="footer-social-icons">
+                     <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                     <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                 </div>
+             </div>
+             <div class="footer-links-column">
+                 <h4>Product</h4>
+                 <ul>
+                     <li><a href="/product">Overview</a></li>
+                     <li><a href="#stressmaster" class="active-product-link">StressMaster</a></li>
+                     <li><a href="#">ThermoSolver</a></li>
+                     {/* ... other products ... */}
+                 </ul>
+             </div>
+             <div class="footer-links-column">
+                 <h4>Company</h4>
+                 <ul>
+                     <li><a href="/about/">About Us</a></li>
+                     <li><a href="/careers">Careers</a></li>
+                     <li><a href="#">Blog</a></li>
+                     <li><a href="#">Resources</a></li>
+                 </ul>
+             </div>
+             <div class="footer-links-column">
+                 <h4>Legal</h4>
+                 <ul>
+                     <li><a href="#">Terms of Service</a></li>
+                     <li><a href="#">Privacy Policy</a></li>
+                 </ul>
+             </div>
+             <div class="footer-contact-column" id="contact-sales"> <h4>Contact</h4>
+                 <p><a href="mailto:contact@shivati_ai.com">contact@shivati_ai.com</a></p>
+                 <p>Sales: <a href="mailto:sales@shivati_ai.com">sales@shivati_ai.com</a></p>
+             </div>
+         </div>
+         <div class="footer-bottom">
+             <p>© <span id="copyright-year">2024</span> shivati_ai Inc. All rights reserved.</p>
+         </div>
+          <div class="footer-graphic"></div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Consolidated Intersection Observer for Scroll Animations ---
+             const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% is visible
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+
+                        // Apply staggered delay to direct children
+                        const itemsToStagger = target.querySelectorAll('.feature-item, .step-item, .benefit-card, .text-column, .visual-column');
+                        if (itemsToStagger.length > 0) {
+                            itemsToStagger.forEach((item, itemIndex) => {
+                                const delay = item.getAttribute('data-delay') || `${(itemIndex * 0.08) + 0.1}s`; // Slightly faster stagger
+                                item.style.transitionDelay = delay;
+                            });
+                        }
+                         target.classList.add('animate-in');
+                         // Unobserve after triggering if not needed for continuous observation
+                         // For hero elements that are visible on load, trigger animation directly.
+                         if (!target.classList.contains('product-hero')) {
+                            observer.unobserve(target);
+                         }
+                    }
+                });
+            };
+
+            const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+            // Observe sections or wrappers that trigger animations
+             document.querySelectorAll('.product-hero, .product-section .content-wrapper, .features-section .content-wrapper, .how-it-works-section .content-wrapper, .benefits-section .content-wrapper, .final-cta-section .cta-content-container').forEach(el => {
+                 // If element is already in view on load (like hero), trigger immediately
+                if (el.classList.contains('product-hero') && isElementInViewport(el)) {
+                     el.classList.add('animate-in');
+                     const itemsToStagger = el.querySelectorAll('.hero-content h1, .hero-content .tagline, .hero-content .intro-text, .hero-content .cta-button');
+                     itemsToStagger.forEach((item, itemIndex) => {
+                        const delay = item.style.transitionDelay || `${(itemIndex * 0.2) + 0.1}s`;
+                        item.style.transitionDelay = delay; // Keep existing or apply new
+                     });
+                } else {
+                    scrollObserver.observe(el);
+                }
+            });
+
+            // Helper function to check if element is in viewport
+            function isElementInViewport(el) {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+
+             // --- Dynamic Copyright Year ---
+            const yearSpan = document.getElementById('copyright-year');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+
+            // --- Smooth Scroll for Hero CTA to Demo Section ---
+            const heroCtaButton = document.querySelector('.product-hero .cta-button[href="#request-demo"]');
+            const finalCtaButton = document.querySelector('.final-cta-section .cta-button[href="#contact-sales"]');
+
+            if (heroCtaButton) {
+                heroCtaButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector('#request-demo').scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+            if (finalCtaButton) {
+                 // No explicit scroll needed if it links to an ID within the footer that might be visible
+                 // Or, if #contact-sales is a separate section, ensure smooth scroll
+                 // For this example, it links to an ID in the footer.
+            }
+
+
+        }); // end DOMContentLoaded
+    </script>
+
+</body>
+</html>

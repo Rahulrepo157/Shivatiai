@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>shivati_ai - Enhanced Home</title>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Google Font: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* --- CSS Variables --- */
+    :root {
+      --bg-gradient: linear-gradient(-45deg, #000000, #030610, #000000, #06030c);
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --text-heading: #ffffff;
+      --accent-glow: rgba(255, 255, 255, 0.1);
+      --card-bg: rgba(28, 28, 33, 0.65);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(255, 255, 255, 0.2);
+      --button-bg: rgba(50, 50, 55, 0.8);
+      --button-hover-bg: rgba(70, 70, 75, 0.9);
+      --transition-speed: 0.6s;
+      --transition-easing: cubic-bezier(0.25, 0.1, 0.25, 1);
+      --section-padding: 100px 40px;
+      --section-padding-mobile: 60px 20px;
+    }
+
+    /* --- Base Styles & Animations --- */
+    @keyframes moveGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    @keyframes scrollLeftAnimation { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    @-webkit-keyframes scrollLeftAnimation { 0% { -webkit-transform: translateX(0); } 100% { -webkit-transform: translateX(-50%); } }
+    @keyframes rotateSimple { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes drawLine { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif; /* NEW FONT */
+      background: var(--bg-gradient);
+      background-size: 400% 400%;
+      animation: moveGradient 35s ease infinite; /* Slightly slower */
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased; /* Smoother font rendering */
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* --- Header Styles --- */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 50px; position: sticky; top: 0;
+      background-color: rgba(5, 5, 10, 0.7); /* Darker, less transparent */
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      z-index: 1000; /* Ensure header is on top */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Subtle separator */
+    }
+    .logo { font-size: 24px; font-weight: 600; color: var(--text-heading); }
+    nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
+    nav ul li { margin-left: 30px; } /* More spacing */
+    nav ul li a { text-decoration: none; color: var(--text-secondary); font-size: 15px; font-weight: 500; transition: color 0.3s ease; }
+    nav ul li a:hover { color: var(--text-heading); }
+    .demo-button {
+      background-color: transparent; color: var(--text-heading); border: 1px solid var(--card-border); padding: 10px 25px;
+      border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+    }
+    .demo-button:hover { background-color: var(--text-heading); color: #000; transform: translateY(-2px); border-color: var(--text-heading); }
+
+    /* --- Hero Section Styles --- */
+    .hero-section {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 90vh; text-align: center; padding: var(--section-padding); position: relative; z-index: 1;
+    }
+    .hero-title {
+      font-size: 4rem; /* Larger */ font-weight: 700; line-height: 1.2; margin-bottom: 25px; max-width: 950px;
+      color: var(--text-heading); opacity: 0; transform: translateY(40px) scale(0.98);
+      transition: opacity 0.8s var(--transition-easing), transform 0.8s var(--transition-easing);
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    .hero-subtitle {
+      font-size: 1.25rem; color: var(--text-secondary); max-width: 750px; margin-bottom: 35px;
+      opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
+    }
+    .input-area {
+      display: flex; gap: 15px; opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s;
+    }
+    .email-input {
+      padding: 14px 18px; border: 1px solid var(--card-border); border-radius: 8px; background-color: rgba(20, 20, 25, 0.5);
+      color: var(--text-primary); font-size: 16px; width: 320px; transition: border-color 0.3s ease;
+    }
+    .email-input:focus { outline: none; border-color: var(--card-hover-border); }
+    .email-input::placeholder { color: #777; }
+    .book-demo-button {
+      background-color: var(--text-heading); color: #000; border: none; padding: 14px 35px; border-radius: 8px;
+      cursor: pointer; font-size: 16px; font-weight: 600;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .book-demo-button:hover { background-color: #d0d0d0; transform: translateY(-2px); }
+
+    /* Hero Animation Trigger Class */
+    .animate-in .hero-title,
+    .animate-in .hero-subtitle,
+    .animate-in .input-area { opacity: 1; transform: translateY(0) scale(1); }
+
+    /* --- Logo Scroller Styles --- */
+    .logo-scroller-section {
+      background-color: #000; padding: 50px 0; margin-top: 50px; color: var(--text-secondary); overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .logo-scroller-section h3 { text-align: center; margin-bottom: 40px; font-size: 1rem; font-weight: 500; color: #aaa; letter-spacing: 0.5px; }
+    .logo-scroller { width: 100%; overflow: hidden; mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); }
+    .logo-scroller-inner { display: flex; flex-wrap: nowrap; width: fit-content; align-items: center; animation: scrollLeftAnimation 45s linear infinite; -webkit-animation: scrollLeftAnimation 45s linear infinite; }
+    .logo-scroller:hover .logo-scroller-inner { animation-play-state: paused; -webkit-animation-play-state: paused; }
+    .logo-item { display: flex; align-items: center; justify-content: center; padding: 0 45px; height: 50px; flex-shrink: 0; white-space: nowrap; color: var(--text-primary); font-size: 1.1rem; box-sizing: border-box; opacity: 0.7; transition: opacity 0.3s ease; }
+    .logo-item:hover { opacity: 1;}
+    /* .logo-item img { ... } */
+
+    /* --- Base Card Style --- (Used by Alerts and Features) */
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px; /* Consistent rounding */
+      padding: 30px;
+      box-shadow: 0 8px 35px rgba(0, 0, 0, 0.3);
+      color: var(--text-primary);
+      display: flex; flex-direction: column;
+      opacity: 0; transform: translateY(40px) scale(0.98); /* Unified entrance */
+      transition: opacity var(--transition-speed) var(--transition-easing),
+                  transform var(--transition-speed) var(--transition-easing),
+                  box-shadow 0.4s ease, background-color 0.4s ease, border-color 0.4s ease;
+      will-change: transform, opacity, box-shadow;
+    }
+    .glass-card.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+    .glass-card:hover { box-shadow: 0 12px 45px rgba(0, 0, 0, 0.4); border-color: var(--card-hover-border); transform: translateY(-4px) scale(1.01); }
+
+    /* --- Alert Section Styles --- */
+    .alerts-section { padding: var(--section-padding); max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
+    .alerts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+
+    .alert-card { /* Inherit from .glass-card */ min-height: 380px; } /* Adjust height */
+    .card-chart-placeholder { height: 130px; background-color: rgba(255, 255, 255, 0.03); border-radius: 15px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; color: #666; border: 1px dashed rgba(255, 255, 255, 0.1); }
+    .alert-card h3 { font-size: 1.2rem; margin-bottom: 15px; color: var(--text-heading); font-weight: 600; }
+    .alert-card p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: auto; padding-bottom: 25px; }
+    .alert-card button {
+      background-color: var(--button-bg); color: var(--text-primary); border: 1px solid transparent; /* Start transparent */
+      padding: 12px 25px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95em;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+      align-self: center; width: 85%; margin-top: auto;
+    }
+    .alert-card button:hover { background-color: var(--button-hover-bg); border-color: var(--card-border); color: var(--text-heading); }
+    .alert-card.is-selected { background-color: rgba(40, 40, 45, 0.75); border-color: rgba(255, 255, 255, 0.3); box-shadow: 0 0 30px var(--accent-glow); }
+    /* Staggered Delays */
+    .alert-card:nth-child(1).is-visible { transition-delay: 0.1s; } .alert-card:nth-child(2).is-visible { transition-delay: 0.2s; } .alert-card:nth-child(3).is-visible { transition-delay: 0.3s; } .alert-card:nth-child(4).is-visible { transition-delay: 0.4s; }
+
+    /* --- Sequential Lines Section Styles (Cycling) --- */
+    .sequential-lines-section { padding: var(--section-padding); background-color: #000; text-align: center; overflow: hidden; }
+    .lines-container { max-width: 950px; margin: 0 auto; position: relative; min-height: 130px; display: flex; align-items: center; justify-content: center; }
+    .sequential-line {
+      font-size: 3rem; line-height: 1.4; color: var(--text-secondary); margin: 0; font-weight: 500; width: 100%;
+      position: absolute; top: 50%; left: 0; right: 0; opacity: 0; transform: translateY(-50%);
+      transition: opacity 0.6s ease-in-out; will-change: opacity; /* Slightly slower fade */
+    }
+    .sequential-line:nth-child(2) strong { color: var(--text-heading); font-weight: 600; }
+    .sequential-line.is-visible { opacity: 1; }
+
+    /* --- Features & Globe Section Styles --- */
+    .features-globe-section { padding: var(--section-padding); background-color: #000; overflow: hidden; }
+    .features-globe-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: stretch; gap: 60px; }
+    .features-column-left { flex: 1 1 40%; display: flex; flex-direction: column; justify-content: center; gap: 35px; }
+    .features-column-right { flex: 1 1 60%; display: flex; }
+
+    .feature-card { /* Inherit from .glass-card */ }
+    .features-column-right .feature-card { width: 100%; } /* Right card takes full column */
+    .feature-icon { font-size: 1.8rem; color: var(--text-heading); margin-bottom: 20px; width: fit-content; }
+    .feature-card h3 { font-size: 1.5rem; color: var(--text-heading); margin-bottom: 15px; line-height: 1.3; font-weight: 600; }
+    .feature-card p { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 0; }
+    /* Push globe down in the right card */
+    .features-column-right .feature-card p { margin-bottom: 40px; }
+    .features-column-right .feature-card .globe-placeholder { margin-top: auto; }
+    /* Staggered delays for feature cards */
+    .features-column-left .feature-card:nth-child(1).is-visible { transition-delay: 0.15s; }
+    .features-column-left .feature-card:nth-child(2).is-visible { transition-delay: 0.3s; }
+    .features-column-right .feature-card.is-visible { transition-delay: 0.2s; }
+
+    /* Globe Placeholder & Rotation */
+    @keyframes rotateDots { from { background-position: 0 0; } to { background-position: 100px 50px; } } /* Animate background position */
+
+    .globe-placeholder {
+      width: 90%; max-width: 500px; aspect-ratio: 1 / 1; border-radius: 50%;
+      margin: 20px auto 0 auto; position: relative; background-color: #08080a;
+      box-shadow: inset 0 0 60px rgba(0,0,0,0.7), 0 0 70px -20px rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      /* Note: Simple CSS rotate animation removed, dots handle movement */
+    }
+    .globe-placeholder::before { /* Dotted Layer */
+      content: ''; position: absolute; top: -5%; left: -5%; right: -5%; bottom: -5%; /* Slightly larger to cover edges during rotation */
+      border-radius: 50%; background-image: radial-gradient(circle at 1.5px 1.5px, rgba(255, 255, 255, 0.5) 0.75px, transparent 1px);
+      background-size: 7px 7px; /* Adjust dot size/spacing */
+      opacity: 0.35;
+      animation: rotateDots 15s linear infinite; /* Animate the background itself */
+    }
+    .globe-placeholder::after { /* Lighting Overlay */
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%;
+      background: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.12), rgba(255,255,255,0) 60%);
+      opacity: 0.9;
+    }
+
+    /* --- Impactful Results Section --- */
+    .results-section {
+      background-color: #050507; /* Slightly different dark */
+      padding: 120px 40px; /* More padding */
+      text-align: center;
+      color: var(--text-heading);
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .results-title {
+      font-size: 3rem; font-weight: 600; line-height: 1.3; margin-bottom: 80px;
+      max-width: 750px; margin-left: auto; margin-right: auto; color: var(--text-heading);
+    }
+    .results-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px;
+      max-width: 1100px; margin: 0 auto 80px auto;
+    }
+    .result-item {
+      position: relative; padding: 0 25px; opacity: 0; /* Start hidden */
+      /* Base state for elements before JS animation */
+       transform: translateY(30px);
+       transition: opacity 0.6s ease-out 0.4s; /* Delay opacity for text */
+    }
+     /* Separator lines */
+    .result-item:not(:first-child)::before {
+        content: ''; position: absolute; top: 15%; bottom: 15%; left: -25px; /* Half the gap */ width: 1px;
+        background: linear-gradient( to bottom, transparent, rgba(255, 255, 255, 0.2), transparent );
+        transform: scaleY(0); transform-origin: center center; /* Start scaled to 0 */
+        transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) 0.3s; /* Animate scale with delay */
+    }
+    .result-number {
+      font-size: 7.5rem; font-weight: 600; line-height: 1; margin-bottom: 10px;
+      color: #f5f5f5; letter-spacing: -3px; display: inline-block; /* Needed for number/percent layout */
+    }
+    .result-number-value { display: inline-block; } /* Target for JS */
+    .result-percent {
+        font-size: 4rem; /* Smaller percent */
+        font-weight: 500;
+        color: #a0a0a0; /* Greyer percent */
+        margin-left: -10px; /* Overlap slightly */
+        opacity: 0; /* Start hidden */
+        transition: opacity 0.5s ease-out 0.5s; /* Fade in after number starts */
+        display: inline-block;
+        vertical-align: super; /* Align with top of number */
+    }
+    .result-description {
+      font-size: 1.05rem; color: var(--text-secondary); line-height: 1.6;
+      max-width: 280px; margin: 0 auto; font-weight: 400;
+      opacity: 0; transform: translateY(15px); /* Start slightly lower */
+      transition: opacity 0.6s ease-out 0.6s, transform 0.6s ease-out 0.6s; /* Delayed entrance */
+    }
+
+    /* Animation trigger states for Results */
+    .result-item.is-visible {
+        opacity: 1;
+        /* transform: translateY(0); Base transform handled by JS indirectly */
+    }
+    .result-item.is-visible::before { transform: scaleY(1); } /* Animate separator line */
+    .result-item.is-visible .result-percent { opacity: 1; } /* Fade in percent */
+    .result-item.is-visible .result-description { opacity: 1; transform: translateY(0); } /* Fade in description */
+
+    .results-button {
+      background-color: var(--text-heading); color: #000; border: none; padding: 15px 40px;
+      border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .results-button:hover { background-color: #d0d0d0; transform: scale(1.03); box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1); }
+
+
+    /* --- Responsive Design --- */
+    @media (max-width: 992px) { /* Tablet */
+        :root { --section-padding: 80px 30px; --section-padding-mobile: 50px 20px; }
+        .hero-title { font-size: 3rem; }
+        .features-globe-container { flex-direction: column; gap: 40px; align-items: center; }
+        .features-column-left, .features-column-right { flex-basis: auto; width: 90%; max-width: 600px; }
+        .features-column-right { order: -1; }
+        .features-column-right .feature-card { align-items: center; text-align: center; }
+        .globe-placeholder { width: 60%; max-width: 350px; margin-top: 30px; }
+        .features-column-left { justify-content: flex-start; }
+        .results-grid { grid-template-columns: 1fr; gap: 60px; } /* Stack results */
+        .result-item:not(:first-child)::before { display: none; } /* Hide separators when stacked */
+        .result-number { font-size: 6rem; }
+        .result-percent { font-size: 3rem; }
+    }
+
+    @media (max-width: 768px) { /* Mobile */
+      header { padding: 15px 20px; position: static; background-color: #000; backdrop-filter: none; }
+      nav ul { display: none; } /* Hide nav */
+      .hero-section { min-height: 70vh; }
+      .hero-title { font-size: 2.2rem; }
+      .hero-subtitle { font-size: 1.1rem; }
+      .input-area { flex-direction: column; align-items: center; width: 90%; }
+      .email-input { width: 100%; max-width: 350px; }
+      .book-demo-button { width: calc(100% - 30px); max-width: 350px; }
+      .logo-scroller-section { margin-top: 30px; padding: 30px 0; }
+      .logo-item { padding: 0 25px; height: 40px; }
+      .alerts-section { padding: var(--section-padding-mobile); }
+      .alerts-grid { grid-template-columns: 1fr; gap: 30px; } /* Stack alerts */
+      .alert-card { min-height: auto; } /* Auto height */
+      .sequential-lines-section { padding: var(--section-padding-mobile); }
+      .lines-container { min-height: 100px; }
+      .sequential-line { font-size: 1.6rem; line-height: 1.5; }
+      .features-globe-section { padding: var(--section-padding-mobile); }
+      .features-column-left, .features-column-right { width: 100%; }
+      .feature-card { padding: 25px; }
+      .feature-card h3 { font-size: 1.2rem; }
+      .feature-card p { font-size: 0.9rem; }
+      .globe-placeholder { width: 75%; max-width: 280px; }
+      .results-section { padding: var(--section-padding-mobile); }
+      .results-title { font-size: 2rem; margin-bottom: 50px; }
+      .result-number { font-size: 5rem; }
+      .result-percent { font-size: 2.5rem; }
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">shivati_ai</div>
+    <nav>
+      <ul>
+        <li><a href="#">Product</a></li>
+        <li><a href="#">Company</a></li>
+        <li><a href="#">Security</a></li>
+        <li><a href="#">Resources</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </nav>
+    <button class="demo-button">Request a Demo</button>
+  </header>
+
+  <section class="hero-section">
+    <h1 class="hero-title">AI-Powered Solutions for the Complete Mechanical Stack</h1>
+    <p class="hero-subtitle">Unlock the full potential of your mechanical data with shivati_ai's comprehensive AI solutions for Industry 4.0.</p>
+    <div class="input-area">
+      <input type="email" class="email-input" placeholder="What's your work email?">
+      <button class="book-demo-button">Book demo</button>
+    </div>
+  </section>
+
+  <!-- Logo Scroller Section -->
+  <section class="logo-scroller-section">
+      <h3>Trusted by leading Quality, Service and Engineering teams</h3>
+      <div class="logo-scroller">
+          <div class="logo-scroller-inner">
+              {/* Insert Logo Items Here */}
+              <div class="logo-item">Baxter</div> <div class="logo-item">DENSO</div> <div class="logo-item">PennEngineering</div> <div class="logo-item">Raytheon Technologies</div> <div class="logo-item">Newell Brands</div> <div class="logo-item">Great Dane</div> <div class="logo-item">Cummins</div> <div class="logo-item">Boeing</div> <div class="logo-item">U.S. Air Force</div>
+              <div class="logo-item">Baxter</div> <div class="logo-item">DENSO</div> <div class="logo-item">PennEngineering</div> <div class="logo-item">Raytheon Technologies</div> <div class="logo-item">Newell Brands</div> <div class="logo-item">Great Dane</div> <div class="logo-item">Cummins</div> <div class="logo-item">Boeing</div> <div class="logo-item">U.S. Air Force</div>
+          </div>
+      </div>
+  </section>
+
+  <section class="alerts-section">
+    <div class="alerts-grid">
+      <div class="alert-card glass-card green"> {/* Added base glass-card class */}
+        <div class="card-chart-placeholder">(Chart Area: ABS Issues)</div>
+        <h3>Emerging ABS Electrical Issues Detected</h3>
+        <p>New emerging intermittent power failure issue detected...</p>
+        <button>Investigate & Launch Project</button>
+      </div>
+      <div class="alert-card glass-card blue">
+        <div class="card-chart-placeholder">(Bar Graph: Countermeasure)</div>
+        <h3>Broken countermeasure detected</h3>
+        <p>Motor stall persists after design change...</p>
+        <button>Notify Design team</button>
+      </div>
+      <div class="alert-card glass-card red">
+        <div class="card-chart-placeholder">(Line Graph: DTC Surge)</div>
+        <h3>Surging DTC Code-4571</h3>
+        <p>The new 45T engine configuration exhibits a 65% higher rate...</p>
+        <button>Send alert to supplier</button>
+      </div>
+      <div class="alert-card glass-card aqua">
+         <div class="card-chart-placeholder">(Diverging Lines: Config Spike)</div>
+        <h3>New config associated with spike</h3>
+        <p>New release Version 45C has 60% higher failure rate...</p>
+        <button>Notify product team</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sequential-lines-section">
+    <div class="lines-container">
+        {/* Lines will cycle here */}
+        <p class="sequential-line">Uncover masked issues before they cause</p>
+        <p class="sequential-line"><strong>customer dissatisfaction</strong></p>
+        <p class="sequential-line">Identify root causes faster.</p>
+        <p class="sequential-line">Prevent recurring problems.</p>
+        <p class="sequential-line">Improve product quality.</p>
+        <p class="sequential-line">Reduce warranty claims.</p>
+        <p class="sequential-line">Enhance user experience.</p>
+        <p class="sequential-line">Predict potential failures.</p>
+        <p class="sequential-line">Optimize maintenance schedules.</p>
+        <p class="sequential-line">Gain deeper insights from data.</p>
+    </div>
+  </section>
+
+  <section class="features-globe-section">
+    <div class="features-globe-container">
+        <div class="features-column-left">
+            <div class="feature-card glass-card"> {/* Added base glass-card class */}
+                <i class="fa-solid fa-magnifying-glass feature-icon"></i>
+                <h3>Detect issues at the earliest sign</h3>
+                <p>High-precision AI automatically catches and contextualizes issues...</p>
+            </div>
+            <div class="feature-card glass-card">
+                 <i class="fa-regular fa-clock feature-icon"></i>
+                 <h3>Spend time solving issues, not manually looking</h3>
+                 <p>Empower your team to solve complex problems instead of being stuck...</p>
+            </div>
+        </div>
+        <div class="features-column-right">
+             <div class="feature-card glass-card">
+                 <i class="fa-solid fa-diagram-project feature-icon"></i>
+                 <h3>Breakdown silos across your organization</h3>
+                 <p>Enable your team to gain visibility and collaborate across regions...</p>
+                 <div class="globe-placeholder"></div>
+             </div>
+        </div>
+    </div>
+  </section>
+
+   <section class="results-section">
+    <h2 class="results-title">Impactful results that reduce the cost of poor quality</h2>
+    <div class="results-grid">
+      <div class="result-item">
+        {/* Span added for JS targeting */}
+        <div class="result-number"><span class="result-number-value" data-target="16">0</span><span class="result-percent">%</span></div>
+        <p class="result-description">reduction in warranty & service operational cost</p>
+      </div>
+      <div class="result-item">
+        <div class="result-number"><span class="result-number-value" data-target="30">0</span><span class="result-percent">%</span></div>
+        <p class="result-description">increase in detection-to-issue countermeasure speed</p>
+      </div>
+      <div class="result-item">
+        <div class="result-number"><span class="result-number-value" data-target="27">0</span><span class="result-percent">%</span></div>
+        <p class="result-description">decrease in downtime leading to improved customer satisfaction</p>
+      </div>
+    </div>
+    <button class="results-button">Start now →</button>
+  </section>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // --- Intersection Observer Setup (Reusable) ---
+        const createObserver = (callback, options) => {
+            return new IntersectionObserver(callback, options);
+        };
+
+        const defaultObserverOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const featureObserverOptions = { ...defaultObserverOptions, threshold: 0.2 };
+        const resultObserverOptions = { ...defaultObserverOptions, threshold: 0.3 }; // Trigger results later
+
+        // --- Hero Section Animation ---
+        const heroSection = document.querySelector('.hero-section');
+        if (heroSection) {
+             // Check immediately and on scroll
+            const checkHeroScroll = () => {
+                if (!heroSection.classList.contains('animate-in')) {
+                    const heroSectionTop = heroSection.getBoundingClientRect().top;
+                    if (heroSectionTop < window.innerHeight * 0.7) {
+                        heroSection.classList.add('animate-in');
+                        window.removeEventListener('scroll', checkHeroScroll); // Remove listener once animated
+                    }
+                }
+            };
+            checkHeroScroll();
+            window.addEventListener('scroll', checkHeroScroll, { passive: true });
+        }
+
+        // --- Generic Card Observer (Alerts & Features) ---
+        const cardsToObserve = document.querySelectorAll('.glass-card'); // Observe all cards with base class
+        if (cardsToObserve.length > 0) {
+            const cardObserverCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            };
+            const cardObserver = createObserver(cardObserverCallback, featureObserverOptions); // Use feature options threshold
+            cardsToObserve.forEach(card => cardObserver.observe(card));
+        }
+
+        // --- Alert Card Click Handling (Specific to alert cards) ---
+        const alertCards = document.querySelectorAll('.alert-card');
+        if (alertCards.length > 0) {
+            alertCards.forEach(card => {
+                card.addEventListener('click', function(event) {
+                    if (event.target.tagName === 'BUTTON') return;
+                    const currentlySelected = document.querySelector('.alert-card.is-selected');
+                    if (currentlySelected && currentlySelected !== card) {
+                        currentlySelected.classList.remove('is-selected');
+                    }
+                    card.classList.toggle('is-selected');
+                });
+            });
+        }
+
+        // --- Sequential Lines Animation (Cycling) ---
+        const linesSection = document.querySelector('.sequential-lines-section');
+        const lines = linesSection ? linesSection.querySelectorAll('.sequential-line') : null;
+        let lineIntervalId = null;
+        let currentLineIndex = 0;
+        const lineDisplayDuration = 2800; // Slightly longer display
+
+        if (linesSection && lines && lines.length > 0) {
+            const startLineCycling = () => {
+                if (lineIntervalId) clearInterval(lineIntervalId);
+                const cycleLines = () => {
+                    const prevIdx = (currentLineIndex - 1 + lines.length) % lines.length;
+                    if(lines[prevIdx]) lines[prevIdx].classList.remove('is-visible');
+                    if(lines[currentLineIndex]) lines[currentLineIndex].classList.add('is-visible');
+                    currentLineIndex = (currentLineIndex + 1) % lines.length;
+                };
+                lines.forEach(line => line.classList.remove('is-visible'));
+                cycleLines(); // Show first
+                lineIntervalId = setInterval(cycleLines, lineDisplayDuration);
+            };
+            const stopLineCycling = () => {
+                if (lineIntervalId) {
+                    clearInterval(lineIntervalId); lineIntervalId = null;
+                    const lastIdx = (currentLineIndex - 1 + lines.length) % lines.length;
+                    if (lines[lastIdx]) lines[lastIdx].classList.remove('is-visible');
+                    currentLineIndex = 0;
+                }
+            };
+            const linesObserverCallback = (entries) => {
+                entries.forEach(entry => entry.isIntersecting ? startLineCycling() : stopLineCycling());
+            };
+            const linesObserver = createObserver(linesObserverCallback, { root: null, threshold: 0.1 });
+            linesObserver.observe(linesSection);
+        }
+
+       // --- Results Section Animation (Number Count Up) --- INNOVATIVE ---
+        const resultItems = document.querySelectorAll('.result-item');
+        if (resultItems.length > 0) {
+            const resultsObserverCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const item = entry.target;
+                        item.classList.add('is-visible'); // Trigger description/separator CSS animations
+
+                        const numberElement = item.querySelector('.result-number-value');
+                        const target = parseInt(numberElement.getAttribute('data-target'), 10);
+
+                        animateCountUp(numberElement, target); // Call count-up function
+
+                        observer.unobserve(item); // Observe each item only once
+                    }
+                });
+            };
+
+            const resultObserver = createObserver(resultsObserverCallback, resultObserverOptions);
+            resultItems.forEach(item => resultObserver.observe(item));
+        }
+
+        // --- Count Up Animation Function ---
+        function animateCountUp(element, target) {
+            let start = 0;
+            const duration = 1500; // Animation duration in milliseconds
+            const startTime = performance.now();
+
+            function step(currentTime) {
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1); // Ensure progress doesn't exceed 1
+
+                // Ease-out function (t => 1 - Math.pow(1 - t, 3))
+                const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+                let currentCount = Math.floor(easedProgress * target);
+                element.textContent = currentCount;
+
+                if (progress < 1) {
+                    requestAnimationFrame(step); // Continue animation
+                } else {
+                    element.textContent = target; // Ensure final value is exact
+                }
+            }
+            requestAnimationFrame(step); // Start the animation
+        }
+        // --- End Results Animation ---
+
+    }); // end DOMContentLoaded
+  </script>
+
+</body>
+</html>

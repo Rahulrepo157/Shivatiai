@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-g">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatSci AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: sans-serif; display: flex; padding: 20px; }
+        .sidebar { width: 300px; }
+        .main-content { flex-grow: 1; margin-left: 20px; }
+        .property-card { border: 1px solid #ccc; padding: 15px; border-radius: 8px; }
+        #material-name { margin-top: 0; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Search Material</h2>
+        <input type="text" id="material-search-input" value="AISI 1045 Steel">
+        <button onclick="fetchMaterialData()">Fetch Data</button>
+    </div>
+
+    <div class="main-content">
+        <h1 id="material-name">Select a Material</h1>
+
+        <h3>Mechanical Behavior 🦾</h3>
+        <div class="property-card">
+            <h4>Key Properties</h4>
+            <p><strong>Yield Strength:</strong> <span id="yield-strength">--</span> MPa</p>
+            <p><strong>Ultimate Tensile Strength:</strong> <span id="uts">--</span> MPa</p>
+            <p><strong>Ductility (% Elongation):</strong> <span id="elongation">--</span> %</p>
+        </div>
+
+        <h4>Stress-Strain Diagram</h4>
+        <canvas id="stressStrainChart" width="400" height="200"></canvas>
+    </div>
+
+<script>
+    let stressStrainChart;
+
+    async function fetchMaterialData() {
+        const materialName = document.getElementById('material-search-input').value;
+        // Replace with your actual server URL
+        const response = await fetch(`/api/material/${materialName}/`);
+
+        if (!response.ok) {
+            alert("Material not found!");
+            return;
+        }
+
+        const data = await response.json();
+        updateUI(data);
+    }
+
+    function updateUI(data) {
+        // Update text fields
+        document.getElementById('material-name').textContent = data.name;
+        document.getElementById('yield-strength').textContent = data.mechanical_properties.yield_strength_mpa;
+        document.getElementById('uts').textContent = data.mechanical_properties.uts_mpa;
+        document.getElementById('elongation').textContent = data.mechanical_properties.elongation_percent;
+
+        // Update Stress-Strain Chart
+        const ctx = document.getElementById('stressStrainChart').getContext('2d');
+        if (stressStrainChart) {
+            stressStrainChart.destroy(); // Destroy old chart before creating a new one
+        }
+        stressStrainChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.plots.stress_strain.strain,
+                datasets: [{
+                    label: 'Stress (MPa)',
+                    data: data.plots.stress_strain.stress,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                scales: {
+                    x: { title: { display: true, text: 'Strain (m/m)' } },
+                    y: { title: { display: true, text: 'Stress (MPa)' } }
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

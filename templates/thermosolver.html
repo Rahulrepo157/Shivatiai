@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Explore ThermoSolver by shivati_ai - AI-powered thermodynamics and heat transfer analysis for faster optimization and predictive insights in mechanical engineering.">
+    <title>ThermoSolver - AI Thermodynamics Analysis | shivati_ai</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* --- Base Styles & Animations --- */
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        :root {
+             /* ThermoSolver Specific Accent */
+             --product-accent-color: #ff6b3b; /* Orange/Red for Thermo */
+             --product-accent-light: #ff8a63;
+             --product-glow-color: rgba(255, 107, 59, 0.4); /* For text/box shadows */
+
+             /* General Theme Variables */
+             --link-color: #74ebd5;
+             --highlight-color: #4dabf7;
+             --text-color: #e0e0e0;
+             --text-muted-color: #a0a0a0;
+             --background-dark: #01020a;
+             --background-gradient-start: #050a1a;
+             --background-gradient-end: #0a0514;
+             --card-bg: rgba(30, 30, 35, 0.6);
+             --card-border: rgba(255, 255, 255, 0.1);
+             --card-blur: 15px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(-45deg, var(--background-dark), var(--background-gradient-start), var(--background-dark), var(--background-gradient-end));
+            background-size: 400% 400%;
+            animation: moveGradient 30s ease infinite;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* --- Header Styles (Consistent) --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 50px; position: sticky; top: 0;
+            background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .logo { font-size: 24px; font-weight: bold; color: #fff;}
+        nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
+        nav ul li { margin-left: 25px; position: relative; }
+        /* Update nav links to point correctly */
+        nav ul li a { text-decoration: none; color: #ddd; font-size: 16px; transition: color 0.3s ease; cursor: pointer; padding: 5px 0; }
+        nav ul li a:hover { color: #fff; }
+        .demo-button { background-color: transparent; color: #fff; border: 1px solid #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: all 0.3s ease; }
+        .demo-button:hover { background-color: #fff; color: #000; transform: translateY(-2px); }
+
+
+        /* --- General Section Styling --- */
+        section {
+            padding: 100px 40px; /* Generous padding */
+            position: relative;
+            overflow: hidden; /* Clip background effects */
+            z-index: 1;
+        }
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative; /* Content above pseudo-elements */
+            z-index: 2;
+        }
+        .section-title {
+             font-size: 2.5rem;
+             color: #fff;
+             text-align: center;
+             margin-bottom: 60px;
+             text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+              opacity: 0; transform: translateY(30px); /* Animation */
+              transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+         section.animate-in .section-title {
+             opacity: 1;
+             transform: translateY(0);
+         }
+
+        /* --- Product Hero Section --- */
+        .product-hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 120px; /* Extra top padding */
+            padding-bottom: 80px;
+            position: relative; /* For ::before */
+        }
+        /* Product Specific Background Glow */
+        .product-hero::before {
+             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+             opacity: 0.15; /* Adjust intensity */
+             background-image: radial-gradient(ellipse at center, var(--product-accent-color) 0%, transparent 70%);
+             filter: blur(50px);
+             z-index: -1;
+        }
+        .product-hero h1 {
+            font-size: 4rem;
+            color: #fff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px var(--product-glow-color);
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease-out 0.1s, transform 1s ease-out 0.1s;
+        }
+        .product-hero .tagline {
+            font-size: 1.5rem;
+            color: var(--product-accent-light);
+            margin-bottom: 25px;
+            font-weight: 500;
+             opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease-out 0.3s, transform 1s ease-out 0.3s;
+        }
+        .product-hero .intro-text {
+            font-size: 1.1rem;
+            color: #ccc;
+            max-width: 700px;
+            margin: 0 auto 35px auto;
+            line-height: 1.7;
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease-out 0.5s, transform 1s ease-out 0.5s;
+        }
+         /* Animate Hero Content */
+        .animate-in h1, .animate-in .tagline, .animate-in .intro-text, .animate-in .cta-button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- General CTA Button Style (Adaptable) --- */
+        .cta-button {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: linear-gradient(90deg, var(--product-accent-color), var(--product-accent-light));
+            color: #1a0a05; /* Dark text for contrast */
+            border: none; padding: 14px 35px; border-radius: 8px;
+            cursor: pointer; font-size: 1rem; font-weight: bold; text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 59, 0.3); /* Glow effect using product color */
+             opacity: 0; transform: translateY(30px); /* Base animation state */
+             /* Transition on hero needs delay */
+             /* transition: opacity 1s ease-out 0.7s, transform 1s ease-out 0.7s, background 0.3s ease, box-shadow 0.3s ease; */
+        }
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.03);
+            background: linear-gradient(90deg, var(--product-accent-light), #ffcbb8); /* Lighter gradient */
+            box-shadow: 0 6px 20px rgba(255, 107, 59, 0.4);
+        }
+        .cta-button i { font-size: 1em; }
+
+        /* --- Two Column Section (Problem/Solution) --- */
+        .two-column {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap; /* Wrap on smaller screens */
+        }
+        .text-column {
+            flex: 1;
+            min-width: 300px;
+             opacity: 0; transform: translateY(40px); /* Animation */
+             transition: opacity 0.8s ease-out 0.1s, transform 0.8s ease-out 0.1s;
+        }
+        .visual-column {
+            flex: 1;
+            min-width: 300px;
+            display: flex; justify-content: center; align-items: center;
+             opacity: 0; transform: translateY(40px); /* Animation */
+             transition: opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s;
+        }
+        .two-column h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--product-accent-color);
+            padding-left: 15px;
+        }
+        .two-column h3 {
+            font-size: 1.3rem;
+            color: #eee;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        .two-column p {
+            color: #bbb;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+         .animate-in .text-column, .animate-in .visual-column {
+             opacity: 1;
+             transform: translateY(0);
+         }
+
+        /* Visual Placeholder */
+        .visual-placeholder {
+            width: 100%; max-width: 500px; aspect-ratio: 16 / 10;
+            background-color: rgba(255, 107, 59, 0.05); border-radius: 15px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border: 1px dashed var(--product-accent-light); color: var(--product-accent-light);
+            text-align: center; padding: 20px;
+        }
+        .placeholder-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.6; }
+        .visual-placeholder span { font-size: 0.9rem; font-style: italic; }
+
+        /* --- Features Section --- */
+        .features-section { background-color: rgba(0,0,0, 0.2); } /* Slight bg difference */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .feature-item {
+            background: var(--card-bg); backdrop-filter: blur(var(--card-blur));
+            border: 1px solid var(--card-border); border-radius: 15px;
+            padding: 30px; text-align: left;
+            opacity: 0; transform: translateY(40px); /* Animation */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
+            transition-delay: var(--stagger-delay); /* Stagger animation with JS */
+        }
+         .animate-in .feature-item { opacity: 1; transform: translateY(0); }
+
+        .feature-item:hover { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); transform: translateY(-5px); }
+        .feature-item i {
+            font-size: 2rem;
+            color: var(--product-accent-light);
+            margin-bottom: 15px;
+            display: block; /* Icon on its own line */
+        }
+        .feature-item h3 { font-size: 1.2rem; color: #fff; margin-bottom: 10px; }
+        .feature-item p { font-size: 0.95rem; color: #bbb; line-height: 1.6; }
+
+        /* --- How it Works Section --- */
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap; /* Wrap steps on smaller screens */
+        }
+        .step-item {
+            flex: 1; /* Distribute space */
+            min-width: 250px; /* Min width before wrapping */
+            text-align: center;
+            padding: 20px;
+            position: relative; /* For the number */
+             opacity: 0; transform: translateY(40px); /* Animation */
+             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+             transition-delay: var(--stagger-delay); /* Stagger animation with JS */
+        }
+        .animate-in .step-item { opacity: 1; transform: translateY(0); }
+
+        .step-number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: rgba(255, 107, 59, 0.15); /* Faint accent color */
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1; /* Behind text */
+            line-height: 1;
+        }
+        .step-item h3 { font-size: 1.2rem; color: #fff; margin-bottom: 10px; margin-top: 20px; }
+        .step-item p { font-size: 0.95rem; color: #bbb; line-height: 1.6; }
+
+        /* --- Benefits Section --- */
+         .benefits-section { background-color: rgba(0,0,0, 0.2); }
+         .benefits-grid {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+             gap: 30px;
+         }
+         .benefit-card {
+             background: transparent; /* No extra card background */
+             border-left: 3px solid var(--product-accent-color); /* Accent border */
+             padding: 20px 25px;
+              opacity: 0; transform: translateY(40px); /* Animation */
+              transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+              transition-delay: var(--stagger-delay); /* Stagger animation with JS */
+         }
+          .animate-in .benefit-card { opacity: 1; transform: translateY(0); }
+
+         .benefit-card i { font-size: 1.8rem; color: var(--product-accent-light); margin-bottom: 15px; display: block;}
+         .benefit-card h3 { font-size: 1.1rem; color: #fff; margin-bottom: 8px; }
+         .benefit-card p { font-size: 0.9rem; color: #bbb; line-height: 1.5; }
+
+
+        /* --- Final CTA Section (Consistent) --- */
+        .final-cta-section { padding: 120px 40px; text-align: center; position: relative; overflow: hidden; z-index: 2; background: radial-gradient( ellipse 120% 80% at 50% -30%, rgba(0, 150, 255, 0.2) 0%, rgba(0, 100, 200, 0.08) 35%, rgba(0, 50, 100, 0.0) 60% ), var(--background-dark); }
+        .cta-content-container { max-width: 750px; margin: 0 auto; position: relative; z-index: 3; }
+        .cta-title { font-size: 2.6rem; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 35px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1); opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        /* Use general .cta-button style, maybe override background */
+        .final-cta-section .cta-button {
+             background: linear-gradient(90deg, var(--highlight-color), #74c0fc); /* Blue gradient */
+             color: #051020;
+             box-shadow: 0 4px 15px rgba(77, 171, 247, 0.3);
+              /* Animation needs delay set */
+             transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s, background 0.3s ease, box-shadow 0.3s ease;
+        }
+         .final-cta-section .cta-button:hover {
+             background: linear-gradient(90deg, #74c0fc, #a5d8ff);
+             box-shadow: 0 6px 20px rgba(77, 171, 247, 0.4);
+         }
+         /* Final CTA Animation Trigger */
+         section.animate-in .cta-title, section.animate-in .cta-button { opacity: 1; transform: translateY(0); }
+
+        /* --- Footer Styles (Consistent) --- */
+        .site-footer { background-color: #000000; color: var(--text-muted-color); padding-top: 60px; font-size: 0.9rem; position: relative; overflow: hidden; margin-top: 0 !important; }
+        .footer-content { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr; gap: 30px; max-width: 1400px; margin: 0 auto; padding: 0 40px 50px 40px; position: relative; z-index: 2; }
+        .footer-logo-column, .footer-links-column, .footer-contact-column { padding: 0 10px; }
+        .footer-logo { font-size: 1.8rem; font-weight: bold; color: #fff; margin-bottom: 20px; }
+        .footer-social-icons a { color: #888; font-size: 1.2rem; margin-right: 15px; transition: color 0.3s ease; } .footer-social-icons a:hover { color: #fff; }
+        .footer-links-column h4 { font-size: 1rem; color: #fff; margin-bottom: 15px; font-weight: 600; }
+        .footer-links-column ul { list-style: none; padding: 0; margin: 0; } .footer-links-column li { margin-bottom: 10px; }
+        .footer-links-column a { color: var(--text-muted-color); text-decoration: none; transition: color 0.3s ease; } .footer-links-column a:hover { color: #fff; text-decoration: underline; }
+        .footer-contact-column h4 { font-size: 1rem; color: #fff; margin-bottom: 15px; font-weight: 600; } .footer-contact-column p { margin-bottom: 10px; } .footer-contact-column a { color: var(--text-muted-color); text-decoration: none; transition: color 0.3s ease; } .footer-contact-column a:hover { color: #fff; text-decoration: underline; }
+        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center; padding: 20px 40px; font-size: 0.8rem; color: #888; position: relative; z-index: 2; background-color: #000; }
+        .footer-graphic { position: absolute; bottom: 0; right: 0; width: 40%; height: 100%; max-width: 500px; background: linear-gradient( to top left, transparent 50%, rgba(255, 255, 255, 0.02) 50.5%, rgba(255, 255, 255, 0.02) 51.5%, transparent 52% ), linear-gradient( to top left, transparent 60%, rgba(255, 255, 255, 0.015) 60.5%, rgba(255, 255, 255, 0.015) 61.5%, transparent 62% ), linear-gradient( to top left, transparent 68%, rgba(255, 255, 255, 0.01) 68.5%, rgba(255, 255, 255, 0.01) 69.5%, transparent 70% ); background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none; z-index: 1; opacity: 0.7; }
+
+
+        /* --- Responsive --- */
+         @media (max-width: 992px) {
+             .two-column { flex-direction: column-reverse; } /* Stack visual first */
+             .text-column, .visual-column { max-width: 100%; }
+             .features-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+             .benefits-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+             .steps-container { justify-content: center; } /* Center steps when wrapping */
+             .footer-content { grid-template-columns: repeat(3, 1fr); }
+             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; text-align: center; margin-bottom: 30px;}
+         }
+
+         @media (max-width: 768px) {
+             section { padding: 60px 20px; }
+             .section-title { font-size: 2rem; margin-bottom: 40px; }
+             header { padding: 15px 20px; position: static; background-color: #000; backdrop-filter: none; border-bottom: none; }
+             nav ul { display: none; } /* Hide main nav on mobile - implement burger */
+             .product-hero { padding-top: 80px; padding-bottom: 60px; min-height: 60vh;}
+             .product-hero h1 { font-size: 2.8rem; }
+             .product-hero .tagline { font-size: 1.2rem; }
+             .product-hero .intro-text { font-size: 1rem; }
+             .two-column { gap: 40px; }
+             .two-column h2 { font-size: 1.5rem; }
+             .two-column h3 { font-size: 1.1rem; }
+             .two-column p { font-size: 0.95rem; }
+             .features-grid, .benefits-grid { grid-template-columns: 1fr; gap: 25px; } /* Stack grids */
+             .step-item { min-width: 100%; /* Full width steps */ }
+             .final-cta-section { padding: 80px 20px; }
+             .cta-title { font-size: 2rem; }
+             .cta-button { padding: 12px 28px; font-size: 0.95rem; }
+             .footer-content { grid-template-columns: 1fr 1fr; padding: 0 20px 40px 20px; }
+             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; }
+             .footer-links-column { text-align: center; }
+             .footer-graphic { width: 60%; opacity: 0.5; }
+         }
+
+          @media (max-width: 480px) {
+             .product-hero h1 { font-size: 2.2rem; }
+             .product-hero .tagline { font-size: 1rem; }
+             .step-number { font-size: 3rem; top: 0; }
+             .step-item h3 { margin-top: 30px; } /* More space due to larger number */
+             .footer-content { grid-template-columns: 1fr; } .footer-links-column { margin-bottom: 20px; } .footer-graphic { display: none; }
+          }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">shivati_ai</div>
+        <nav>
+             <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/product">Products</a></li> {/* Link to main product page if exists */}
+                <li><a href="/about">Company</a></li>
+                <li><a href="#">Security</a></li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="/careers">Careers</a></li>
+             </ul>
+        </nav>
+        <a href="/demo?product=ThermoSolver™" class="demo-button">Request a Demo</a>
+    </header>
+
+    <main>
+        <section class="product-hero thermosolver-hero animate-in"> {/* Trigger animation on load */}
+            <div class="hero-content">
+                <h1>ThermoSolver</h1>
+                <p class="tagline">Intelligent Thermodynamics & Heat Transfer Analysis</p>
+                <p class="intro-text">Accelerate your thermal design process with AI-driven insights. ThermoSolver provides rapid predictions and optimization for complex thermal systems.</p>
+                <a href="#request-demo" class="cta-button">Request ThermoSolver Demo <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <section class="product-section two-column">
+            <div class="content-wrapper animate-in"> {/* Animate wrapper */}
+                <div class="text-column">
+                    <h2>The Challenge: Slow Thermal Simulation Cycles</h2>
+                    <p>Traditional thermal analysis involves time-consuming simulation setup, lengthy compute times, and iterative manual adjustments. This bottlenecks the design process, delaying innovation and increasing costs.</p>
+                    <h3>The Solution: AI-Accelerated Insights</h3>
+                    <p>ThermoSolver leverages advanced machine learning models trained on vast thermal datasets. It drastically reduces simulation time, predicts performance across various parameters instantly, and suggests optimized design configurations based on your constraints.</p>
+                </div>
+                <div class="visual-column">
+                    <div class="visual-placeholder">
+                        <i class="fas fa-chart-line placeholder-icon"></i>
+                        <span>Simulation Speed Comparison (Placeholder)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-section features-section">
+            <div class="content-wrapper">
+                <h2 class="section-title">Core Capabilities</h2>
+                <div class="features-grid">
+                    {/* Add data-delay for JS stagger */}
+                    <div class="feature-item" data-delay="0.1s"> <i class="fas fa-brain"></i> <h3>Predictive Simulation</h3> <p>Instantly forecast thermal performance across component variations and operating conditions without lengthy re-runs.</p> </div>
+                    <div class="feature-item" data-delay="0.2s"> <i class="fas fa-cogs"></i> <h3>AI-Driven Optimization</h3> <p>Receive intelligent suggestions for component layout, material selection, and cooling strategies to meet thermal targets.</p> </div>
+                    <div class="feature-item" data-delay="0.3s"> <i class="fas fa-chart-area"></i> <h3>Rapid Parameter Sweeps</h3> <p>Explore vast design spaces quickly by evaluating the thermal impact of multiple parameter changes simultaneously.</p> </div>
+                    <div class="feature-item" data-delay="0.4s"> <i class="fas fa-database"></i> <h3>Knowledge Integration</h3> <p>Integrates with existing simulation data and learns from your specific project history for increasingly accurate predictions.</p> </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-section how-it-works-section">
+             <div class="content-wrapper">
+                 <h2 class="section-title">How ThermoSolver Works</h2>
+                 <div class="steps-container">
+                     <div class="step-item" data-delay="0.1s"> <span class="step-number">01</span> <h3>Input Data</h3> <p>Provide basic geometry, material properties, boundary conditions, or existing simulation results.</p> </div>
+                     <div class="step-item" data-delay="0.2s"> <span class="step-number">02</span> <h3>AI Analysis</h3> <p>Our trained models rapidly process inputs, predicting thermal fields and performance metrics.</p> </div>
+                     <div class="step-item" data-delay="0.3s"> <span class="step-number">03</span> <h3>Visualize & Optimize</h3> <p>Explore results, run virtual parameter sweeps, and leverage AI recommendations for design improvements.</p> </div>
+                 </div>
+             </div>
+         </section>
+
+        <section class="product-section benefits-section">
+             <div class="content-wrapper">
+                 <h2 class="section-title">Benefits & Use Cases</h2>
+                 <div class="benefits-grid">
+                     <div class="benefit-card" data-delay="0.1s"> <i class="fas fa-tachometer-alt"></i> <h3>Reduce Design Cycles</h3> <p>Significantly cut down simulation time and iterations needed to achieve thermal goals.</p> </div>
+                     <div class="benefit-card" data-delay="0.2s"> <i class="fas fa-lightbulb"></i> <h3>Unlock Innovation</h3> <p>Explore more design possibilities and complex scenarios that were previously computationally prohibitive.</p> </div>
+                     <div class="benefit-card" data-delay="0.3s"> <i class="fas fa-dollar-sign"></i> <h3>Lower Prototyping Costs</h3> <p>Identify potential thermal issues early, reducing the need for costly physical prototypes and re-work.</p> </div>
+                     <div class="benefit-card" data-delay="0.4s"> <i class="fas fa-laptop-code"></i> <h3>Electronics Cooling</h3> <p>Optimize heatsinks, airflow, and component placement for PCBs and electronic enclosures.</p> </div>
+                     <div class="benefit-card" data-delay="0.5s"> <i class="fas fa-car"></i> <h3>Automotive Thermal</h3> <p>Analyze engine components, battery thermal management, HVAC systems, and exhaust heat.</p> </div>
+                     <div class="benefit-card" data-delay="0.6s"> <i class="fas fa-rocket"></i> <h3>Aerospace Systems</h3> <p>Evaluate thermal performance for avionics, propulsion systems, and spacecraft components.</p> </div>
+                 </div>
+             </div>
+         </section>
+
+        <section class="final-cta-section" id="request-demo"> {/* ID for hero button link */}
+            <div class="cta-content-container animate-in"> {/* Animate wrapper */}
+                <h2 class="cta-title">Ready to Accelerate Your Thermal Design?</h2>
+                <a href="#contact-sales" class="cta-button"> Request a Personalized Demo <i class="fas fa-arrow-right"></i> </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+         <div class="footer-content">
+             <div class="footer-logo-column">
+                 <div class="footer-logo">shivati_ai</div>
+                 <div class="footer-social-icons">
+                     <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                     <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                 </div>
+             </div>
+             <div class="footer-links-column">
+                 <h4>Product</h4>
+                 <ul>
+                     <li><a href="/product">Overview</a></li>
+                     <li><a href="#thermosolver">ThermoSolver</a></li>
+                     <li><a href="#">StressMaster</a></li>
+                     {/* ... other products ... */}
+                 </ul>
+             </div>
+             <div class="footer-links-column">
+                 <h4>Company</h4>
+                 <ul>
+                     <li><a href="/about/">About Us</a></li>
+                     <li><a href="/careers">Careers</a></li>
+                     <li><a href="#">Blog</a></li>
+                     <li><a href="#">Resources</a></li>
+                 </ul>
+             </div>
+             <div class="footer-links-column">
+                 <h4>Legal</h4>
+                 <ul>
+                     <li><a href="#">Terms of Service</a></li>
+                     <li><a href="#">Privacy Policy</a></li>
+                 </ul>
+             </div>
+             <div class="footer-contact-column">
+                 <h4>Contact</h4>
+                 <p><a href="mailto:contact@shivati_ai.com">contact@shivati_ai.com</a></p>
+             </div>
+         </div>
+         <div class="footer-bottom">
+             <p>© <span id="copyright-year">2024</span> shivati_ai Inc. All rights reserved.</p>
+         </div>
+          <div class="footer-graphic"></div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Consolidated Intersection Observer for Scroll Animations ---
+             const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Trigger when 15% is visible (adjust as needed)
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach((entry, index) => { // Add index for potential base delay calculation
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+
+                        // Apply staggered delay to direct children with data-delay or specific classes
+                        const itemsToStagger = target.querySelectorAll('.feature-item, .step-item, .benefit-card, .text-column, .visual-column');
+                        if (itemsToStagger.length > 0) {
+                            itemsToStagger.forEach((item, itemIndex) => {
+                                const delay = item.getAttribute('data-delay') || `${(itemIndex * 0.1) + 0.1}s`; // Calculate stagger if no data-delay
+                                item.style.transitionDelay = delay;
+                            });
+                        }
+
+                         // Add primary animation class to the section/wrapper itself
+                         target.classList.add('animate-in');
+
+                        // Unobserve after triggering (unless continuous observation is needed)
+                        observer.unobserve(target);
+                    }
+                    // No 'else' needed if only animating once on entry
+                });
+            };
+
+            const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+            // Observe sections or wrappers that trigger animations for their children
+            document.querySelectorAll('.product-section .content-wrapper, .features-section .content-wrapper, .how-it-works-section .content-wrapper, .benefits-section .content-wrapper, .final-cta-section .cta-content-container').forEach(el => {
+                 scrollObserver.observe(el);
+            });
+
+             // --- Dynamic Copyright Year ---
+            const yearSpan = document.getElementById('copyright-year');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+
+        }); // end DOMContentLoaded
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shivati_ai - Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            /* ENHANCEMENT: Define a smoother, custom easing curve for animations */
+            --animation-timing-apple: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(-45deg, #000000, #050a1a, #000000, #0a0514);
+            background-size: 400% 400%;
+            animation: moveGradient 30s ease infinite;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            position: sticky;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.7); /* Slightly less opaque for a softer look */
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for definition */
+        }
+
+        .logo { font-size: 24px; font-weight: bold; }
+        nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
+        nav ul li { margin-left: 25px; }
+        nav ul li a { text-decoration: none; color: #ddd; font-size: 16px; transition: color 0.3s ease; }
+        nav ul li a:hover { color: #fff; }
+        .demo-button {
+            background-color: transparent; color: #fff; border: 1px solid #fff; padding: 10px 20px;
+            border-radius: 5px; cursor: pointer; font-size: 16px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+        .demo-button:hover { background-color: #fff; color: #000; transform: translateY(-2px); }
+
+        /* Product Section Styling */
+        .product-section {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh; /* Increased height for a more spacious feel */
+            text-align: center;
+            padding: 80px 20px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* --- ENHANCEMENT: Interactive, Parallax Background Glow --- */
+        .product-section::before {
+            content: '';
+            position: absolute;
+            top: -20%; /* Start higher for parallax effect */
+            left: 0;
+            width: 100%;
+            height: 140%; /* Taller for parallax movement */
+            opacity: 0.1;
+            background-size: cover;
+            /* Use CSS variables for mouse tracking and parallax */
+            background-position: var(--mouse-x, 50%) var(--scroll-y, 50%);
+            z-index: -1;
+            /* Gradient now follows the mouse; spreads further */
+            background-image: radial-gradient(ellipse 60% 80% at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--product-glow-color, #555) 0%, transparent 70%);
+            filter: blur(10px);
+            /* Smooth transition for mouse movement and parallax scroll */
+            transition: background-position 0.1s linear, opacity 0.5s ease;
+        }
+
+        .product-section:hover::before {
+            opacity: 0.15; /* Slightly brighten glow on hover */
+        }
+
+        /* Assigning specific glow colors (unchanged) */
+        #thermosolver-section { --product-glow-color: #ff6b3b; }
+        #stressmaster-section { --product-glow-color: #4ca1af; }
+        #mechmotion-section { --product-glow-color: #a569bd; }
+        #fluidflow-section { --product-glow-color: #58d68d; }
+        #designgenesis-section { --product-glow-color: #f4d03f; }
+        #manufactwin-section { --product-glow-color: #ec7063; }
+        #robopilot-section { --product-glow-color: #48c9b0; }
+        #matsci-section { --product-glow-color: #bdc3c7; }
+        #enginetune-section { --product-glow-color: #e67e22; }
+        #mesh-mind-section { --product-glow-color: #5dade2; }
+
+        .product-title, .product-description, .learn-more-button {
+            /* ENHANCEMENT: Use custom easing and add will-change for performance */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s var(--animation-timing-apple), transform 1s var(--animation-timing-apple);
+            will-change: opacity, transform;
+        }
+
+        .product-title {
+            font-size: 3.5rem; /* Slightly larger for more impact */
+            line-height: 1.2;
+            margin-bottom: 20px;
+            max-width: 800px;
+            text-shadow: 0 0 15px rgba(0,0,0,0.5); /* Add text shadow for readability */
+        }
+
+        .product-description {
+            font-size: 1.2rem; /* Larger font size */
+            color: #ccc;
+            max-width: 600px;
+            margin-bottom: 30px;
+            transition-delay: 0.2s; /* Staggered delay */
+        }
+
+        .learn-more-button {
+            background-color: #fff; color: #000; border: none; padding: 12px 30px; /* Larger button */
+            border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;
+            display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+            transition-property: background-color, color, transform, box-shadow; /* Animate box-shadow */
+            transition-duration: 0.3s;
+            transition-delay: 0.4s; /* Staggered delay */
+        }
+
+        .learn-more-button:hover {
+            background-color: #ddd;
+            transform: translateY(-3px); /* More lift on hover */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Add shadow on hover for depth */
+        }
+        .learn-more-button i { font-size: 0.9em; }
+
+        .animate-in .product-title,
+        .animate-in .product-description,
+        .animate-in .learn-more-button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; flex-direction: column; gap: 15px; }
+            nav ul { margin: 0; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+            nav ul li { margin: 5px 10px; }
+            .product-section { min-height: 60vh; padding: 60px 15px; }
+            .product-title { font-size: 2.5rem; }
+            .product-description { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">shivati_ai</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/product">Product</a></li>
+                <li><a href="/about/">Company</a></li>
+                <li><a href="#">Security</a></li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Careers</a></li>
+            </ul>
+        </nav>
+        <button class="demo-button">Request a Demo</button>
+    </header>
+
+    <section class="product-section" id="thermosolver-section">
+        <h1 class="product-title">ThermoSolver</h1>
+        <p class="product-description">
+            Unlock thermal insights with AI. ThermoSolver intelligently analyzes heat transfer and thermodynamic cycles,
+            predicting system behavior and optimizing thermal management designs faster than ever.
+        </p>
+        <a href="thermosolver/" class="learn-more-button">Learn more <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <section class="product-section" id="stressmaster-section">
+        <h1 class="product-title">StressMaster</h1>
+        <p class="product-description">
+            Ensure structural integrity with AI-powered stress analysis. StressMaster predicts stress, strain,
+            and fatigue in components under complex loads, optimizing designs for durability and safety.
+        </p>
+        <a href="stressmaster/" class="learn-more-button">Learn more <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <section class="product-section" id="mechmotion-section">
+        <h1 class="product-title">MechMotion AI</h1>
+        <p class="product-description">
+            Master machine dynamics with intelligent simulation. MechMotion AI analyzes kinematics and kinetics,
+            predicts vibrations, and optimizes the performance and lifespan of dynamic mechanical systems.
+        </p>
+        <a href="mech-ai/" class="learn-more-button">Learn more <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <section class="product-section" id="fluidflow-section">
+        <h1 class="product-title">FluidFlow AI</h1>
+        <p class="product-description">
+            Navigate fluid dynamics challenges with AI precision. FluidFlow AI simulates complex fluid behaviors,
+            optimizing aerodynamic profiles, internal flow systems, and multiphase interactions.
+        </p>
+        <a href="fluid_flow_ai/" class="learn-more-button">Learn more <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <section class="product-section" id="designgenesis-section">
+        <h1 class="product-title">DesignGenesis AI</h1>
+        <p class="product-description">
+            Accelerate innovation with AI-driven design. DesignGenesis AI offers generative design capabilities,
+            intelligent topology optimization, and smart component suggestions based on performance criteria.
+        </p>
+        <a href="design_master/" class="learn-more-button">Learn more <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <section class="product-section" id="manufactwin-section">
+        <h1 class="product-title">ManufacTwin AI</h1>
+        <p class="product-description">
+            Build intelligent digital twins for your manufacturing floor. ManufacTwin AI optimizes production processes,
+            enables predictive maintenance, and enhances quality control through real-time data analysis.
+        </p>
+        <a href="manufactaring_twin/" class="learn-more-button">Learn more <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <section class="product-section" id="robopilot-section">
+        <h1 class="product-title">RoboPilot AI</h1>
+        <p class="product-description">
+            Infuse your robots with advanced perception and control. RoboPilot AI enables autonomous task execution,
+            intelligent environment interaction, and seamless human-robot collaboration.
+        </p>
+        <a href="robopilot_ai/" class="learn-more-button">Learn more <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <section class="product-section" id="matsci-section">
+        <h1 class="product-title">MatSci AI</h1>
+        <p class="product-description">
+            Expedite materials discovery and analysis. MatSci AI predicts material properties based on composition and structure,
+            analyzes microstructures, and suggests novel materials for specific applications.
+        </p>
+        <a href="mat_si/" class="learn-more-button">Learn more <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <section class="product-section" id="enginetune-section">
+        <h1 class="product-title">EngineTune AI</h1>
+        <p class="product-description">
+            Achieve optimal engine performance through intelligent calibration. EngineTune AI analyzes combustion data
+            and adjusts parameters dynamically for enhanced efficiency, power, and emissions control.
+        </p>
+        <a href="#" class="learn-more-button">Learn more <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <section class="product-section" id="mesh-mind-section">
+        <h1 class="product-title">MeshMind AI</h1>
+        <p class="product-description">
+            Streamline your Finite Element Analysis workflows. MeshMind AI intelligently assists with mesh generation,
+            interprets simulation results, and suggests design improvements based on FEA insights.
+        </p>
+        <a href="#" class="learn-more-button">Learn more <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productSections = document.querySelectorAll('.product-section');
+            // --- ENHANCEMENT: Accessibility check for reduced motion ---
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // --- ENHANCEMENT: Use IntersectionObserver for performant scroll animations ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, {
+                threshold: 0.2 // Trigger when 20% of the section is visible
+            });
+
+            productSections.forEach(section => {
+                observer.observe(section);
+
+                // --- ENHANCEMENT: Interactive mouse-tracking glow effect ---
+                if (!prefersReducedMotion) {
+                    section.addEventListener('mousemove', (e) => {
+                        const rect = section.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+
+                        // Update CSS variables for the glow's position
+                        section.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+                        section.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+                    });
+
+                     section.addEventListener('mouseleave', () => {
+                        // Reset to center when mouse leaves
+                        section.style.setProperty('--mouse-x', `50%`);
+                        section.style.setProperty('--mouse-y', `50%`);
+                    });
+                }
+            });
+
+            // --- ENHANCEMENT: Parallax effect for the background glow ---
+            if (!prefersReducedMotion) {
+                const handleParallax = () => {
+                    productSections.forEach(section => {
+                        const rect = section.getBoundingClientRect();
+                        // Only calculate for sections in/near the viewport
+                        if (rect.top < window.innerHeight && rect.bottom > 0) {
+                            const scrollPercent = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                            // Move the background Y position based on scroll. Starts at 20%, ends at 80%.
+                            const yPos = 20 + scrollPercent * 60;
+                            section.style.setProperty('--scroll-y', `${yPos}%`);
+                        }
+                    });
+                };
+                window.addEventListener('scroll', handleParallax, { passive: true });
+                handleParallax(); // Initial call
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>shivati_ai - World-Class Security</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* --- Design System & Base Styles --- */
+    :root {
+      --color-background-dark: #000000;
+      --color-background-medium: #050a1a;
+      --color-background-light: #0a0514;
+      --color-accent: #0096FF;
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #e0e0e0;
+      --color-text-muted: #b0b0b0;
+      --color-border: rgba(255, 255, 255, 0.1);
+      --transition-duration: 0.3s;
+      --transition-duration-long: 0.8s;
+      --animation-timing-apple: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes moveGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(-45deg, var(--color-background-dark), var(--color-background-medium), var(--color-background-dark), var(--color-background-light));
+      background-size: 400% 400%;
+      animation: moveGradient 30s ease infinite;
+      color: var(--color-text-primary);
+      overflow-x: hidden;
+    }
+
+    /* --- Header & Footer --- */
+    header { display: flex; justify-content: space-between; align-items: center; padding: 30px 50px; position: sticky; top: 0; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 100; transition: padding var(--transition-duration) ease, background-color var(--transition-duration) ease; }
+    header.scrolled { padding: 15px 50px; background-color: rgba(0, 0, 0, 0.85); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    .logo { font-size: 24px; font-weight: bold; text-decoration: none; color: var(--color-text-primary); }
+    nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
+    nav ul li { margin-left: 25px; }
+    nav ul li a { text-decoration: none; color: var(--color-text-secondary); font-size: 16px; transition: color var(--transition-duration); }
+    nav ul li a:hover, nav ul li a.active { color: var(--color-text-primary); }
+    .demo-button { background-color: transparent; color: var(--color-text-primary); border: 1px solid var(--color-text-primary); padding: 10px 20px; border-radius: 5px; font-size: 16px; transition: all var(--transition-duration); cursor: pointer; }
+    .demo-button:hover { background-color: var(--color-text-primary); color: var(--color-background-dark); transform: translateY(-2px); }
+    .glass-card { background: rgba(30, 30, 35, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--color-border); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); }
+
+    /* --- General Section & Animation --- */
+    .content-section { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+    .content-section h2 { text-align: center; font-size: 2.8rem; margin-bottom: 60px; line-height: 1.3; }
+    [data-animation-item] { opacity: 0; transform: translateY(50px); transition: opacity 0.8s var(--animation-timing-apple), transform 0.8s var(--animation-timing-apple); }
+    [data-animation-item].is-visible { opacity: 1; transform: translateY(0); }
+
+    /* --- ✨ UPGRADED: Advanced Hero Section --- */
+    .security-hero { min-height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 80px 20px; position: relative; }
+    #hero-particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    .security-hero h1 { font-size: 3.5rem; margin-bottom: 15px; max-width: 800px; text-shadow: 0 0 20px rgba(0, 150, 255, 0.3); position: relative; z-index: 1;}
+    .security-hero p { font-size: 1.2rem; color: var(--color-text-muted); max-width: 700px; margin: 0 auto; position: relative; z-index: 1;}
+
+    /* --- Interactive Security Tabs --- */
+    .tabs-container { max-width: 900px; margin: 0 auto; }
+    .tab-nav { display: flex; border-bottom: 1px solid var(--color-border); margin-bottom: 40px; }
+    .tab-btn { padding: 15px 25px; cursor: pointer; background: none; border: none; color: var(--color-text-muted); font-size: 1rem; position: relative; transition: color var(--transition-duration); }
+    .tab-btn::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--color-accent); transform: scaleX(0); transition: transform var(--transition-duration) var(--animation-timing-apple); }
+    .tab-btn:hover { color: var(--color-text-primary); }
+    .tab-btn.active { color: var(--color-text-primary); }
+    .tab-btn.active::after { transform: scaleX(1); }
+
+    .tab-content .tab-panel { display: none; }
+    .tab-content .tab-panel.active { display: block; animation: fadeIn 0.5s ease; }
+    .tab-panel-inner { display: flex; align-items: center; gap: 40px; }
+    .tab-text { flex: 2; }
+    .tab-text h3 { font-size: 1.8rem; margin-top: 0; color: var(--color-accent); }
+    .tab-text p { color: var(--color-text-secondary); line-height: 1.7; }
+    .tab-animation { flex: 1; min-height: 150px; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* --- ✨ NEW: Animations for each tab --- */
+    @keyframes server-light { 0%, 100% { background: #3cff00; } 50% { background: #1a6d00; } }
+    .server-anim .server-rack { width: 100px; height: 120px; background: #222; border: 1px solid #444; margin: auto; }
+    .server-anim .server-unit { height: 10px; background: #555; margin: 10px 5px; position: relative; }
+    .server-anim .server-unit::after { content: ''; position: absolute; right: 5px; top: 3px; width: 5px; height: 5px; border-radius: 50%; animation: server-light 2s linear infinite; }
+    .server-anim .server-unit:nth-child(2)::after { animation-delay: 0.5s; }
+    .server-anim .server-unit:nth-child(3)::after { animation-delay: 1s; }
+
+    @keyframes lock-anim { 0% { transform: translateY(0) rotate(0); } 20% { transform: translateY(-5px) rotate(0); } 40% { transform: translateY(-5px) rotate(10deg); } 60% { transform: translateY(-5px) rotate(-10deg); } 80% { transform: translateY(-5px) rotate(0); } 100% { transform: translateY(0) rotate(0); } }
+    .lock-anim i { font-size: 80px; color: var(--color-accent); animation: lock-anim 3s ease-in-out infinite; display: block; text-align: center; }
+
+    /* --- ✨ UPGRADED: Interactive 3D Security Lifecycle --- */
+    .lifecycle-section { background-color: var(--color-background-dark); }
+    .lifecycle-diagram { position: relative; width: 400px; height: 400px; margin: 40px auto; perspective: 1500px; }
+    .lifecycle-sphere { width: 100%; height: 100%; position: absolute; transform-style: preserve-3d; }
+    .lifecycle-node { position: absolute; top: 50%; left: 50%; width: 120px; height: 120px; background: rgba(30, 30, 35, 0.8); border: 1px solid var(--color-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; cursor: pointer; transition: transform 0.4s ease, box-shadow 0.4s ease; transform: translate(-50%, -50%); will-change: transform; }
+    .lifecycle-node:hover { box-shadow: 0 0 30px rgba(0, 150, 255, 0.6); }
+    .lifecycle-node i { font-size: 1.8rem; margin-bottom: 8px; color: var(--color-accent); }
+    .lifecycle-node span { font-size: 0.9rem; font-weight: bold; }
+    .lifecycle-node .tooltip { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); background: var(--color-background-dark); padding: 8px 12px; border-radius: 5px; border: 1px solid var(--color-border); font-size: 0.8rem; white-space: nowrap; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+    .lifecycle-node:hover .tooltip { opacity: 1; visibility: visible; bottom: 120%; }
+
+    /* --- Upgraded Compliance Section --- */
+    .compliance-section h2 span { color: var(--color-accent); }
+    .compliance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+    .compliance-card { padding: 30px; text-align: center; transition: background-color var(--transition-duration), box-shadow var(--transition-duration); }
+    .compliance-card:hover { background-color: rgba(0, 150, 255, 0.05); box-shadow: 0 0 20px rgba(0, 150, 255, 0.2), inset 0 0 15px rgba(0, 150, 255, 0.1); }
+    .compliance-card img { height: 60px; filter: grayscale(1) brightness(1.5); transition: filter var(--transition-duration); }
+    .compliance-card:hover img { filter: grayscale(0); }
+    .compliance-card p { margin-top: 20px; font-size: 1.1rem; font-weight: bold; color: var(--color-text-secondary); }
+
+     /* --- ✨ UPGRADED Footer --- */
+    .site-footer{background-color:var(--color-background-dark);color:#a0a0a0;padding-top:60px;font-size:.9rem;position:relative;overflow:hidden; border-top: 1px solid var(--color-border);}.footer-content{display:grid;grid-template-columns:1.5fr repeat(3,1fr) 1.5fr;gap:30px;max-width:1400px;margin:0 auto;padding:0 40px 50px 40px;position:relative;z-index:2}.footer-logo-column,.footer-links-column,.footer-contact-column{padding:0 10px}.footer-logo{font-size:1.8rem;font-weight:700;color:var(--color-text-primary);margin-bottom:20px;text-decoration:none;display:inline-block}.footer-social-icons a{color:#888;font-size:1.2rem;margin-right:15px;transition:color var(--transition-duration)}.footer-social-icons a:hover{color:var(--color-text-primary);}.footer-links-column h4{font-size:1rem;color:var(--color-text-primary);margin-bottom:15px;font-weight:600}.footer-links-column ul{list-style:none;padding:0;margin:0}.footer-links-column li{margin-bottom:10px}.footer-links-column a{color:#a0a0a0;text-decoration:none;transition:color var(--transition-duration)}.footer-links-column a:hover{color:var(--color-text-primary);text-decoration:underline;}.footer-bottom{border-top:1px solid var(--color-border);text-align:center;padding:20px 40px;font-size:.8rem;color:#888;position:relative;z-index:2;background-color:var(--color-background-dark)}.footer-graphic{position:absolute;bottom:0;right:0;width:40%;height:100%;max-width:500px;background:linear-gradient(to top left,transparent 50%,rgba(255,255,255,.02) 50.5%,rgba(255,255,255,.02) 51.5%,transparent 52%),linear-gradient(to top left,transparent 60%,rgba(255,255,255,.015) 60.5%,rgba(255,255,255,.015) 61.5%,transparent 62%);pointer-events:none;z-index:1;opacity:.7}
+
+    /* --- Responsive Adjustments --- */
+    @media (max-width: 992px) {
+      .tab-panel-inner { flex-direction: column; }
+      .tab-animation { margin-top: 30px; }
+      .footer-content{grid-template-columns:repeat(3,1fr);gap:25px}.footer-logo-column{grid-column:1/-1;text-align:center;margin-bottom:30px}.footer-contact-column{grid-column:1/-1;text-align:center}
+    }
+    @media (max-width: 768px) {
+      header { padding: 15px 20px; flex-direction: column; gap: 10px; }
+      nav ul { display: none; } /* On smaller screens, you might want a hamburger menu instead */
+      .security-hero h1 { font-size: 2.5rem; }
+      .content-section h2 { font-size: 2.2rem; }
+      .tab-nav { flex-direction: column; }
+      .tab-btn { border-bottom: 1px solid var(--color-border); }
+      .lifecycle-diagram { transform: scale(0.8); margin: 0 auto; }
+      .compliance-grid { grid-template-columns: 1fr; }
+      .footer-content{grid-template-columns:1fr 1fr;padding:0 20px 40px 20px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo">shivati_ai</a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#">Product</a></li>
+        <li><a href="#">Company</a></li>
+        <li><a href="security.html" class="active">Security</a></li>
+        <li><a href="#">Resources</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </nav>
+    <a href="href=/demo?product=ThermoSolver™" class="demo-button">Request a Demo</a>
+  </header>
+
+  <main>
+    <section class="security-hero">
+        <canvas id="hero-particles"></canvas>
+        <h1 data-animation-item>A Fortress for Your Data</h1>
+        <p data-animation-item>Security isn't an afterthought; it's our foundation. Discover how shivati_ai's proactive, multi-layered security architecture protects your most critical assets.</p>
+    </section>
+
+    <section class="content-section">
+        <h2 data-animation-item>Our Security Principles</h2>
+        <div class="tabs-container" data-animation-item>
+            <nav class="tab-nav">
+                <button class="tab-btn active" data-target="panel-1">Infrastructure</button>
+                <button class="tab-btn" data-target="panel-2">Data Encryption</button>
+                <button class="tab-btn" data-target="panel-3">Application</button>
+            </nav>
+            <div class="tab-content">
+                <div id="panel-1" class="tab-panel active">
+                    <div class="tab-panel-inner">
+                        <div class="tab-text">
+                            <h3>Hardened by Design</h3>
+                            <p>We build upon secure, cloud-native architecture with robust access controls, network segmentation, and 24/7 automated monitoring to protect our foundational systems from emerging threats.</p>
+                        </div>
+                        <div class="tab-animation server-anim">
+                            <div class="server-rack">
+                                <div class="server-unit"></div><div class="server-unit"></div><div class="server-unit"></div><div class="server-unit"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panel-2" class="tab-panel">
+                    <div class="tab-panel-inner">
+                        <div class="tab-text">
+                            <h3>Always Encrypted</h3>
+                            <p>Your data is encrypted both in transit using TLS 1.3 and at rest with military-grade AES-256, ensuring confidentiality and integrity at every point. Your privacy is paramount.</p>
+                        </div>
+                        <div class="tab-animation lock-anim">
+                           <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="panel-3" class="tab-panel">
+                    <div class="tab-panel-inner">
+                        <div class="tab-text">
+                            <h3>Secure Code Lifecycle</h3>
+                            <p>Our development lifecycle integrates security from the start, with mandatory peer reviews, static and dynamic analysis (SAST/DAST), and regular third-party penetration testing.</p>
+                        </div>
+                         <div class="tab-animation lock-anim">
+                           <i class="fas fa-code-branch"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section lifecycle-section">
+        <h2 data-animation-item>End-to-End Security Lifecycle</h2>
+        <div class="lifecycle-diagram" data-animation-item>
+            <div class="lifecycle-sphere">
+                <!-- Nodes will be generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section compliance-section">
+        <h2 data-animation-item>Independently <span>Audited & Verified</span></h2>
+        <div class="compliance-grid">
+            <div class="compliance-card glass-card" data-animation-item>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/ISO_27001_logo.svg" alt="ISO 27001 Certified">
+                <p>ISO/IEC 27001</p>
+            </div>
+            <div class="compliance-card glass-card" data-animation-item>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/SOC_2_logo.svg" alt="SOC 2 Type II Compliant">
+                <p>SOC 2 Type II</p>
+            </div>
+            <div class="compliance-card glass-card" data-animation-item>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/GDPR_Logo.svg" alt="GDPR Compliant">
+                <p>GDPR</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-content"><div class="footer-logo-column"><a href="/" class="footer-logo">shivati_ai</a><div class="footer-social-icons"><a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a></div></div><div class="footer-links-column"><h4>Product</h4><ul><li><a href="#">ThermoSolver™</a></li><li><a href="#">StressMaster™</a></li><li><a href="#">MechMotion AI™</a></li><li><a href="#">FluidFlow AI™</a></li><li><a href="#">DesignGenesis AI™</a></li></ul></div><div class="footer-links-column"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li><li><a href="#">Security</a></li></ul></div><div class="footer-links-column"><h4>Contact</h4><ul><li><a href="mailto:contact@shivati_ai.com">contact@shivati_ai.com</a></li></ul></div></div><div class="footer-bottom"><p>© <span id="copyright-year">2025</span> shivati_ai Inc. All rights reserved.</p></div><div class="footer-graphic"></div>
+    </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Standard Setup: Header, Copyright, Animations ---
+      const header = document.querySelector('header');
+      window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
+      document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+      const animationObserver = new IntersectionObserver((entries, o) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); o.unobserve(e.target); } });
+      }, { threshold: 0.2 });
+      document.querySelectorAll('[data-animation-item]').forEach(i => animationObserver.observe(i));
+
+      // --- Interactive Tabs Logic ---
+      const tabContainer = document.querySelector('.tabs-container');
+      if (tabContainer) {
+        const tabButtons = tabContainer.querySelectorAll('.tab-btn');
+        const tabPanels = tabContainer.querySelectorAll('.tab-panel');
+        tabButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            tabPanels.forEach(panel => {
+              panel.classList.toggle('active', panel.id === button.dataset.target);
+            });
+          });
+        });
+      }
+
+      // --- ✨ UPGRADED: Interactive 3D Lifecycle Sphere ---
+      const sphereContainer = document.querySelector('.lifecycle-diagram');
+      if (sphereContainer) {
+        const sphere = sphereContainer.querySelector('.lifecycle-sphere');
+        const nodes = [
+          { icon: 'fa-drafting-compass', text: 'Design', tooltip: 'Secure by Design Principles' },
+          { icon: 'fa-cube', text: 'Build', tooltip: 'Dependency Scanning & Hardening' },
+          { icon: 'fa-vial', text: 'Test', tooltip: 'SAST, DAST & Pen-Testing' },
+          { icon: 'fa-rocket', text: 'Deploy', tooltip: 'Immutable Infrastructure' },
+          { icon: 'fa-satellite-dish', text: 'Monitor', tooltip: '24/7 Threat Intelligence' },
+        ];
+        let angle = 0;
+        let mouseX = 0, mouseY = 0;
+
+        nodes.forEach((nodeData, i) => {
+          const nodeEl = document.createElement('div');
+          nodeEl.className = 'lifecycle-node';
+          const theta = (i / nodes.length) * 2 * Math.PI;
+          nodeEl.innerHTML = `<i class="fas ${nodeData.icon}"></i><span>${nodeData.text}</span><div class="tooltip">${nodeData.tooltip}</div>`;
+          sphere.appendChild(nodeEl);
+          nodeEl.dataset.theta = theta;
+        });
+
+        let isDragging = false;
+        let startX, startAngle;
+        sphereContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startAngle = angle;
+            sphereContainer.style.cursor = 'grabbing';
+        });
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            sphereContainer.style.cursor = 'grab';
+        });
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const dx = e.clientX - startX;
+                angle = startAngle + dx * 0.01;
+            }
+        });
+
+        function animateSphere() {
+          if (!isDragging) {
+            angle += 0.005;
+          }
+          const radius = sphere.offsetWidth / 2.8;
+          Array.from(sphere.children).forEach((node, i) => {
+            if (!node.dataset.theta) return; // Guard against non-node elements
+            const theta = parseFloat(node.dataset.theta) + angle;
+            const x = Math.cos(theta) * radius;
+            const z = Math.sin(theta) * radius;
+            const scale = (z + radius) / (2 * radius);
+            node.style.transform = `translate(-50%, -50%) translate3d(${x}px, 0, ${z}px) scale(${0.8 + scale * 0.4})`;
+            node.style.zIndex = Math.floor(scale * 10);
+          });
+          requestAnimationFrame(animateSphere);
+        }
+        animateSphere();
+      }
+
+      // --- ✨ UPGRADED: Hero Particle Animation ---
+      const canvas = document.getElementById('hero-particles');
+      if (canvas){
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const resize = () => {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        };
+        const createParticles = () => {
+            particles = [];
+            const count = Math.floor(canvas.width * canvas.height / 15000);
+            for(let i=0; i<count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: Math.random() * 2 + 1
+                });
+            }
+        };
+        const drawParticles = () => {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(0, 150, 255, 0.5)';
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                ctx.fill();
+            });
+            ctx.strokeStyle = 'rgba(0, 150, 255, 0.1)';
+            for(let i=0; i<particles.length; i++){
+                for(let j=i; j<particles.length; j++){
+                    const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                    if(dist < 100){
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(drawParticles);
+        };
+        window.addEventListener('resize', () => { resize(); createParticles(); });
+        resize();
+        createParticles();
+        drawParticles();
+      }
+    });
+  </script>
+</body>
+</html>
+
