@@ -288,9 +288,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     submitBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        currentStep = 3; // Go to success step
-        updateFormSteps();
-        triggerParticleSurge(e);
+
+        const data = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            product: document.getElementById('product').value,
+            message: document.getElementById('message').value
+        };
+
+        fetch('/submit_demo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                currentStep = 3; // Go to success step
+                updateFormSteps();
+                triggerParticleSurge(e);
+            }
+        });
     });
 
     // --- Live Validation ---
