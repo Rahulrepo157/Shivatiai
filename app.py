@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-
+import sqlite3
 
 app = Flask(__name__)
 
@@ -11,7 +11,17 @@ def home():
 
 
 # Get material data API
-
+@app.route('/api/material_data')
+def material_data():
+    data = {
+        "material": "Steel",
+        "properties": {
+            "density": "7.85 g/cm^3",
+            "yield_strength": "250 MPa",
+            "tensile_strength": "400-550 MPa"
+        }
+    }
+    return jsonify(data)
 
 
 # Page routes
@@ -80,24 +90,30 @@ def demo():
 
 @app.route('/submit_demo', methods=['POST'])
 def submit_demo():
-    name = request.form.get('name')
-    email = request.form.get('email')
-    product = request.form.get('product')
-    company_size = request.form.get('company_size')
-    source = request.form.get('source')
-    message = request.form.get('message')
+    data = request.get_json()
+    name = data.get('name')
+    email = data.get('email')
+    product = data.get('product')
+    message = data.get('message')
 
-    # For now, just return a success message
-    # In a real application, you would store this data in a database
-    return f"""
-    <div style="font-family: Arial, sans-serif; padding: 2rem;">
-        <h1>Thank you, {name}!</h1>
-        <p>We have received your request for a demo of <strong>{product}</strong> and will get back to you at {email} shortly.</p>
-        <p>Your company size: {company_size}</p>
-        <p>You heard about us from: {source}</p>
-        <p>Your message: "{message}"</p>
-    </div>
-    """
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO requests (name, email, product, message) VALUES (?, ?, ?, ?)",
+                   (name, email, product, message))
+    conn.commit()
+    conn.close()
+
+    return jsonify(success=True)
+
+
+@app.route('/view_requests')
+def view_requests():
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM requests")
+    rows = cursor.fetchall()
+    conn.close()
+    return render_template('requests.html', requests=rows)
 
 
 if __name__ == '__main__':
