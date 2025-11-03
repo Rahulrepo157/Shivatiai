@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="DesignGenesis AI by shivati_ai: Accelerate innovation with AI-driven generative design, intelligent topology optimization, and smart component suggestions based on performance criteria.">
-    <title>DesignGenesis AI - Generative Design & Optimization | shivati_ai</title>
+    <meta name="description" content="MeshMind AI by shivati_ai: Intelligent, automated mesh generation for FEA and CFD. Accelerate your simulation workflows with AI-driven pre-processing.">
+    <title>MeshMind AI - Intelligent Meshing & FEA Prep | shivati_ai</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -18,10 +18,10 @@
         }
 
         :root {
-             /* DesignGenesis AI Specific Accent - Vibrant Purple */
-             --product-accent-color: #a855f7; /* Vibrant Purple */
-             --product-accent-light: #c084fc; /* Lighter Purple */
-             --product-glow-color: rgba(168, 85, 247, 0.4); /* Purple Glow */
+             /* MeshMind AI Specific Accent - Vibrant Teal/Green */
+             --product-accent-color: #10b981; /* Vibrant Teal/Green */
+             --product-accent-light: #34d399; /* Lighter Teal/Green */
+             --product-glow-color: rgba(16, 185, 129, 0.4); /* Teal/Green Glow */
 
              /* General Theme Variables */
              --link-color: #74ebd5; /* General links */
@@ -135,7 +135,7 @@
              background-image: radial-gradient(ellipse at center, var(--product-accent-color) 0%, transparent 70%);
              filter: blur(50px);
              z-index: -1;
-        }
+         }
         .product-hero h1 {
             font-size: 4rem;
             color: #fff;
@@ -170,7 +170,7 @@
         .cta-button {
             display: inline-flex; align-items: center; gap: 10px;
             background: linear-gradient(90deg, var(--product-accent-color), var(--product-accent-light));
-            color: #fff; /* White text for good contrast on purple */
+            color: #fff; /* White text for good contrast */
             border: none; padding: 14px 35px; border-radius: 8px;
             cursor: pointer; font-size: 1rem; font-weight: bold; text-decoration: none;
             transition: all 0.3s ease;
@@ -185,8 +185,8 @@
 
         .cta-button:hover {
             transform: translateY(-3px) scale(1.03);
-            background: linear-gradient(90deg, var(--product-accent-light), #d8b4fe); /* Lighter gradient */
-            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+            background: linear-gradient(90deg, var(--product-accent-light), #6ee7b7); /* Lighter gradient */
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
         }
         .cta-button i { font-size: 1em; }
 
@@ -237,7 +237,7 @@
         /* Visual Placeholder - NOW a chart container */
         .visual-placeholder {
             width: 100%; max-width: 500px;
-            background-color: rgba(168, 85, 247, 0.05); border-radius: 15px;
+            background-color: rgba(16, 185, 129, 0.05); border-radius: 15px;
             border: 1px dashed var(--product-accent-light); color: var(--product-accent-light);
             padding: 20px;
         }
@@ -294,7 +294,7 @@
         .step-number {
             font-size: 3.5rem;
             font-weight: bold;
-            color: rgba(168, 85, 247, 0.15); /* Faint accent color */
+            color: rgba(16, 185, 129, 0.15); /* Faint accent color */
             position: absolute;
             top: -10px;
             left: 50%;
@@ -336,7 +336,7 @@
              color: #051020;
              box-shadow: 0 4px 15px rgba(77, 171, 247, 0.3);
              transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s, background 0.3s ease, box-shadow 0.3s ease;
-        }
+         }
          .final-cta-section .cta-button:hover {
              background: linear-gradient(90deg, #74c0fc, #a5d8ff);
              box-shadow: 0 6px 20px rgba(77, 171, 247, 0.4);
@@ -474,14 +474,14 @@
             <nav>
                  <ul>
                      <li><a href="/">Home</a></li>
-                     <li><a href="/product" class="active-product-link">Products</a></li>
-                     <li><a href="/about">Company</a></li>
-                     <li><a href="#">Security</a></li>
-                     <li><a href="#">Resources</a></li>
+                     <li><a href="/product" class="active-product-link">Product</a></li>
+                     <li><a href="/about-us">Company</a></li>
+                     <li><a href="/security/">Security</a></li>
+                     <li><a href="/resources/">Resources</a></li>
                      <li><a href="/careers">Careers</a></li>
                  </ul>
             </nav>
-            <a href="/demo?product=DesignGenesis" class="demo-button">Request a Demo</a>
+            <a href="/demo?product=MeshMind" class="demo-button">Request a Demo</a>
             
             <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span class="burger-line"></span>
@@ -491,22 +491,22 @@
         </header>
 
         <main>
-        <section class="product-hero designgenesis-hero animate-in">
+        <section class="product-hero meshmind-hero animate-in">
             <div class="hero-content">
-                <h1>DesignGenesis AI</h1>
-                <p class="tagline">Accelerate Innovation with AI-Driven Design.</p>
-                <p class="intro-text">DesignGenesis AI offers generative design capabilities, intelligent topology optimization, and smart component suggestions based on performance criteria.</p>
-                <a href="/demo?product=DesignGenesis" class="cta-button">Explore DesignGenesis AI <i class="fas fa-arrow-right"></i></a>
+                <h1>MeshMind AI</h1>
+                <p class="tagline">Intelligent Meshing. Accelerated Simulation.</p>
+                <p class="intro-text">MeshMind AI helps with automatic mesh generation and FEA/CFD workflow acceleration. Prepare complex geometry for simulation in minutes, not days.</p>
+                <a href="/demo?product=MeshMind" class="cta-button">Explore MeshMind AI <i class="fas fa-arrow-right"></i></a>
             </div>
         </section>
 
         <section class="product-section two-column">
             <div class="content-wrapper animate-in">
                 <div class="text-column">
-                    <h2>The Challenge: Breaking Through Conventional Design Barriers</h2>
-                    <p>Traditional design processes can be limited by human intuition and iterative refinement, often missing novel or highly optimized solutions. Exploring a vast design space for truly innovative forms is manually prohibitive and time-consuming.</p>
-                    <h3>The Solution: AI-Powered Design Exploration & Creation</h3>
-                    <p>DesignGenesis AI autonomously generates a multitude of design alternatives based on your defined constraints and performance goals. It uses advanced algorithms for topology optimization and suggests innovative component forms you might not have conceived, unlocking new levels of efficiency and creativity.</p>
+                    <h2>The Challenge: The Simulation Bottleneck</h2>
+                    <p>Creating a high-quality, simulation-ready mesh for complex geometry is the most time-consuming part of any FEA or CFD workflow. Manual meshing is slow, error-prone, and requires expert-level users.</p>
+                    <h3>The Solution: AI-Powered Mesh Automation</h3>
+                    <p>MeshMind AI uses deep learning to understand your geometry and automatically generate an optimal, high-quality mesh. It intelligently refines high-stress areas and simplifies complex features, drastically cutting pre-processing time.</p>
                 </div>
                 
                 <div class="visual-column">
@@ -521,21 +521,21 @@
             <div class="content-wrapper">
                 <h2 class="section-title">Core Capabilities</h2>
                 <div class="features-grid">
-                    <div class="feature-item" data-delay="0.1s"> <i class="fas fa-magic-wand-sparkles"></i> <h3>AI Generative Design</h3> <p>Autonomously create novel and high-performing design concepts based on your specified functional requirements and constraints.</p> </div>
-                    <div class="feature-item" data-delay="0.2s"> <i class="fas fa-vector-square"></i> <h3>Intelligent Topology Optimization</h3> <p>Optimize material distribution within a design space for maximum strength, stiffness, or other criteria with minimum weight.</p> </div>
-                    <div class="feature-item" data-delay="0.3s"> <i class="fas fa-puzzle-piece"></i> <h3>Smart Component Suggestion</h3> <p>Receive AI-driven recommendations for standard or novel components that best fit your design parameters and performance needs.</p> </div>
-                    <div class="feature-item" data-delay="0.4s"> <i class="fas fa-sliders"></i> <h3>Multi-Objective Design Exploration</h3> <p>Explore and visualize trade-offs between various performance criteria such as weight, cost, manufacturability, and stress.</p> </div>
+                    <div class="feature-item" data-delay="0.1s"> <i class="fas fa-magic-wand-sparkles"></i> <h3>Automated Mesh Generation</h3> <p>Generate high-quality tetrahedral (tet) and hexahedral (hex) meshes for complex CAD assemblies with one click.</p> </div>
+                    <div class="feature-item" data-delay="0.2s"> <i class="fas fa-shapes"></i> <h3>Intelligent Geometry Cleanup</h3> <p>AI automatically de-features, repairs, and simplifies CAD geometry to ensure a robust and valid mesh.</p> </div>
+                    <div class="feature-item" data-delay="0.3s"> <i class="fas fa-magnifying-glass-chart"></i> <h3>Adaptive Mesh Refinement</h3> <p>Automatically refines the mesh in critical areas based on physics primers or anticipated high-stress zones.</p> </div>
+                    <div class="feature-item" data-delay="0.4s"> <i class="fas fa-rocket"></i> <h3>Workflow Acceleration</h3> <p>Seamlessly export to major FEA/CFD solvers (Ansys, Abaqus, Star-CCM+) and cut your pre-processing time by up to 90%.</p> </div>
                 </div>
             </div>
         </section>
 
         <section class="product-section how-it-works-section">
              <div class="content-wrapper">
-                 <h2 class="section-title">How DesignGenesis AI Works</h2>
+                 <h2 class="section-title">How MeshMind AI Works</h2>
                  <div class="steps-container">
-                     <div class="step-item" data-delay="0.1s"> <span class="step-number">01</span> <h3>Define Design Problem</h3> <p>Specify functional requirements, load cases, boundary conditions, material choices, and manufacturing constraints for your project.</p> </div>
-                     <div class="step-item" data-delay="0.2s"> <span class="step-number">02</span> <h3>AI Design Generation</h3> <p>The AI explores the defined design space, autonomously generating and optimizing numerous valid and innovative solutions.</p> </div>
-                     <div class="step-item" data-delay="0.3s"> <span class="step-number">03</span> <h3>Evaluate & Select</h3> <p>Review the AI-generated designs, compare their performance metrics, and select the optimal concept for further development and validation.</p> </div>
+                     <div class="step-item" data-delay="0.1s"> <span class="step-number">01</span> <h3>Import Geometry</h3> <p>Import your native CAD files (STEP, IGES, Parasolid, etc.) directly into the platform.</p> </div>
+                     <div class="step-item" data-delay="0.2s"> <span class="step-number">02</span> <h3>Define Physics & Goals</h3> <p>Briefly specify the analysis type (e.g., Structural, Fluid) and desired mesh quality (Coarse, Medium, Fine).</p> </div>
+                     <div class="step-item" data-delay="0.3s"> <span class="step-number">03</span> <h3>Generate & Export Mesh</h3> <p>The AI generates, validates, and reports on the mesh quality. Export the final mesh file to your preferred solver.</p> </div>
                  </div>
              </div>
          </section>
@@ -544,231 +544,235 @@
              <div class="content-wrapper">
                  <h2 class="section-title">Benefits & Use Cases</h2>
                  <div class="benefits-grid">
-                     <div class="benefit-card" data-delay="0.1s"> <i class="fas fa-lightbulb"></i> <h3>Discover Innovative Designs</h3> <p>Uncover unconventional and highly efficient design solutions that go beyond traditional human ideation.</p> </div>
-                     <div class="benefit-card" data-delay="0.2s"> <i class="fas fa-feather-alt"></i> <h3>Reduce Material & Weight</h3> <p>Achieve significant reductions in component weight and material usage through intelligent optimization.</p> </div>
-                     <div class="benefit-card" data-delay="0.3s"> <i class="fas fa-clock"></i> <h3>Shorten Development Cycles</h3> <p>Automate the early-stage design and ideation process, dramatically accelerating time-to-market.</p> </div>
-                     <div class="benefit-card" data-delay="0.4s"> <i class="fas fa-rocket"></i> <h3>Lightweighting Components</h3> <p>Ideal for aerospace, automotive, and robotics applications where minimizing weight is critical for performance.</p> </div>
-                     <div class="benefit-card" data-delay="0.5s"> <i class="fas fa-bone"></i> <h3>Custom Medical Implants</h3> <p>Generate patient-specific implant designs optimized for fit, function, and biocompatibility based on medical scan data.</p> </div>
-                     <div class="benefit-card" data-delay="0.6s"> <i class="fas fa-box-open"></i> <h3>Consumer Product Innovation</h3> <p>Create novel forms and optimized structures for consumer goods, enhancing aesthetics and functionality.</p> </div>
+                     <div class="benefit-card" data-delay="0.1s"> <i class="fas fa-forward-fast"></i> <h3>Accelerate Time-to-Market</h3> <p>Slash simulation pre-processing time from days or weeks down to just hours or minutes.</p> </div>
+                     <div class="benefit-card" data-delay="0.2s"> <i class="fas fa-user-check"></i> <h3>Democratize Simulation</h3> <p>Enable more engineers, not just meshing experts, to perform high-fidelity simulations.</p> </div>
+                     <div class="benefit-card" data-delay="0.3s"> <i class="fas fa-check-double"></i> <h3>Improve Accuracy & Robustness</h3> <p>Reduce solver failures with high-quality, valid meshes and improve the accuracy of your results.</p> </div>
+                     <div class="benefit-card" data-delay="0.4s"> <i class="fas fa-car"></i> <h3>Automotive & Aerospace</h3> <p>Analyze complex assemblies for crash, aerodynamics (CFD), and structural integrity.</p> </div>
+                     <div class="benefit-card" data-delay="0.5s"> <i class="fas fa-industry"></i> <h3>Industrial Machinery</h3> <p>Perform stress and fatigue analysis on large, complex machine components and weldments.</p> </div>
+                     <div class="benefit-card" data-delay="0.6s"> <i class="fas fa-wind"></i> <h3>Fluid Dynamics (CFD)</h3> <p>Rapidly generate high-quality fluid domain meshes for external aerodynamics and internal flow.</p> </div>
                  </div>
              </div>
          </section>
 
         <section class="final-cta-section" id="request-demo"> <div class="cta-content-container animate-in">
-             <h2 class="cta-title">Ready to Unleash AI-Powered Design Innovation?</h2>
-             <a href="/demo?product=DesignGenesis" class="cta-button"> Get Started with DesignGenesis AI <i class="fas fa-paper-plane"></i> </a>
+             <h2 class="cta-title">Ready to Eliminate the Meshing Bottleneck?</h2>
+             <a href="/demo?product=MeshMind" class="cta-button"> Get Started with MeshMind AI <i class="fas fa-paper-plane"></i> </a>
          </div>
         </section>
     </main>
 
-    <footer class="site-footer">
-         <div class="footer-content">
-             <div class="footer-logo-column">
-                 <a href="/" class="footer-logo">shivati_ai</a>
-                 <div class="footer-social-icons">
-                     <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                     <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <footer class="site-footer">
+             <div class="footer-content">
+                 <div class="footer-logo-column">
+                     <a href="/" class="footer-logo">shivati_ai</a>
+                     <div class="footer-social-icons">
+                         <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                         <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                     </div>
+                 </div>
+                 <div class="footer-links-column">
+                     <h4>Product</h4>
+                     <ul>
+                         <li><a href="/product">Overview</a></li>
+                         <li><a href="#meshmind" class="active-product-link">MeshMind AI</a></li>
+                         <li><a href="#">MatSci AI</a></li>
+                         <li><a href="#">RoboPilot AI</a></li>
+                         <li><a href="#">ManufacTwin AI</a></li>
+                         <li><a href="#">DesignGenesis AI</a></li>
+                         <li><a href="#">FluidFlow AI</a></li>
+                         <li><a href="#">MechMotion AI</a></li>
+                         <li><a href="#">StressMaster</a></li>
+                         <li><a href="#">ThermoSolver</a></li>
+                     </ul>
+                 </div>
+                 <div class="footer-links-column">
+                     <h4>Company</h4>
+                     <ul>
+                         <li><a href="/about/">About Us</a></li>
+                         <li><a href="/careers">Careers</a></li>
+                         <li><a href="#">Blog</a></li>
+                         <li><a href="#">Resources</a></li>
+                     </ul>
+                 </div>
+                 <div class="footer-links-column">
+                     <h4>Legal</h4>
+                     <ul>
+                         <li><a href="#">Terms of Service</a></li>
+                         <li><a href="#">Privacy Policy</a></li>
+                     </ul>
+                 </div>
+                 <div class="footer-contact-column" id="contact-sales">
+                     <h4>Contact</h4>
+                     <p><a href="mailto:contact@shivati_ai.com">contact@shivati_ai.com</a></p>
+                     <p>Sales: <a href="mailto:sales@shivati_ai.com">sales@shivati_ai.com</a></p>
                  </div>
              </div>
-             <div class="footer-links-column">
-                 <h4>Product</h4>
-                 <ul>
-                     <li><a href="/product">Overview</a></li>
-                     <li><a href="#designgenesis" class="active-product-link">DesignGenesis AI</a></li>
-                     <li><a href="#">FluidFlow AI</a></li>
-                     <li><a href="#">MechMotion AI</a></li>
-                     <li><a href="#">StressMaster</a></li>
-                     <li><a href="#">ThermoSolver</a></li>
-                 </ul>
+             <div class="footer-bottom">
+                 <p>© <span id="copyright-year">2025</span> shivati_ai Inc. All rights reserved.</p>
              </div>
-             <div class="footer-links-column">
-                 <h4>Company</h4>
-                 <ul>
-                     <li><a href="/about/">About Us</a></li>
-                     <li><a href="/careers">Careers</a></li>
-                     <li><a href="#">Blog</a></li>
-                     <li><a href="#">Resources</a></li>
-                 </ul>
-             </div>
-             <div class="footer-links-column">
-                 <h4>Legal</h4>
-                 <ul>
-                     <li><a href="#">Terms of Service</a></li>
-                     <li><a href="#">Privacy Policy</a></li>
-                 </ul>
-             </div>
-             <div class="footer-contact-column" id="contact-sales">
-                 <h4>Contact</h4>
-                 <p><a href="mailto:contact@shivati_ai.com">contact@shivati_ai.com</a></p>
-                 <p>Sales: <a href="mailto:sales@shivati_ai.com">sales@shivati_ai.com</a></p>
-             </div>
-         </div>
-         <div class="footer-bottom">
-             <p>© <span id="copyright-year">2025</span> shivati_ai Inc. All rights reserved.</p>
-         </div>
-          <div class="footer-graphic"></div>
-    </footer>
+              <div class="footer-graphic"></div>
+        </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
 
-            // --- Consolidated Intersection Observer for Scroll Animations ---
-             const observerOptions = {
-                 root: null,
-                 rootMargin: '0px',
-                 threshold: 0.1 // Trigger when 10% is visible
-             };
+                // --- Consolidated Intersection Observer for Scroll Animations ---
+                 const observerOptions = {
+                     root: null,
+                     rootMargin: '0px',
+                     threshold: 0.1 // Trigger when 10% is visible
+                 };
 
-             const observerCallback = (entries, observer) => {
-                 entries.forEach(entry => {
-                     if (entry.isIntersecting) {
-                         const target = entry.target;
+                 const observerCallback = (entries, observer) => {
+                     entries.forEach(entry => {
+                         if (entry.isIntersecting) {
+                             const target = entry.target;
 
-                         const itemsToStagger = target.querySelectorAll('.feature-item, .step-item, .benefit-card, .text-column, .visual-column');
-                         if (itemsToStagger.length > 0) {
-                             itemsToStagger.forEach((item, itemIndex) => {
-                                 const delay = item.getAttribute('data-delay') || `${(itemIndex * 0.08) + 0.1}s`;
-                                 item.style.transitionDelay = delay;
-                             });
+                             const itemsToStagger = target.querySelectorAll('.feature-item, .step-item, .benefit-card, .text-column, .visual-column');
+                             if (itemsToStagger.length > 0) {
+                                 itemsToStagger.forEach((item, itemIndex) => {
+                                     const delay = item.getAttribute('data-delay') || `${(itemIndex * 0.08) + 0.1}s`;
+                                     item.style.transitionDelay = delay;
+                                 });
+                             }
+                              target.classList.add('animate-in');
+                              if (!target.classList.contains('product-hero')) {
+                                 observer.unobserve(target);
+                              }
                          }
-                          target.classList.add('animate-in');
-                          if (!target.classList.contains('product-hero')) {
-                             observer.unobserve(target);
-                          }
+                     });
+                 };
+
+                 const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+                 document.querySelectorAll('.product-hero, .product-section .content-wrapper, .features-section .content-wrapper, .how-it-works-section .content-wrapper, .benefits-section .content-wrapper, .final-cta-section .cta-content-container').forEach(el => {
+                     if (el.classList.contains('product-hero') && isElementInViewport(el)) {
+                          el.classList.add('animate-in');
+                          const heroElements = el.querySelectorAll('.hero-content h1, .hero-content .tagline, .hero-content .intro-text, .hero-content .cta-button');
+                          heroElements.forEach((item, index) => {
+                              // Apply delays based on their transition settings in CSS
+                              const style = window.getComputedStyle(item);
+                              let delay = style.getPropertyValue('transition-delay');
+                              if (!delay || delay === '0s') {
+                                delay = `${index * 0.2 + 0.1}s`; 
+                                item.style.transitionDelay = delay;
+                              }
+                          });
+                     } else {
+                         scrollObserver.observe(el);
                      }
                  });
-             };
 
-             const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
-             document.querySelectorAll('.product-hero, .product-section .content-wrapper, .features-section .content-wrapper, .how-it-works-section .content-wrapper, .benefits-section .content-wrapper, .final-cta-section .cta-content-container').forEach(el => {
-                 if (el.classList.contains('product-hero') && isElementInViewport(el)) {
-                      el.classList.add('animate-in');
-                      const heroElements = el.querySelectorAll('.hero-content h1, .hero-content .tagline, .hero-content .intro-text, .hero-content .cta-button');
-                      heroElements.forEach((item, index) => {
-                          // Apply delays based on their transition settings in CSS
-                          const style = window.getComputedStyle(item);
-                          let delay = style.getPropertyValue('transition-delay');
-                          if (!delay || delay === '0s') {
-                            delay = `${index * 0.2 + 0.1}s`; 
-                            item.style.transitionDelay = delay;
-                          }
-                      });
-                 } else {
-                     scrollObserver.observe(el);
+                 function isElementInViewport(el) {
+                     if (!el) return false;
+                     const rect = el.getBoundingClientRect();
+                     return (
+                         rect.top < window.innerHeight && rect.bottom >= 0 &&
+                         rect.left < window.innerWidth && rect.right >= 0
+                     );
                  }
-             });
 
-             function isElementInViewport(el) {
-                 if (!el) return false;
-                 const rect = el.getBoundingClientRect();
-                 return (
-                     rect.top < window.innerHeight && rect.bottom >= 0 &&
-                     rect.left < window.innerWidth && rect.right >= 0
-                 );
-             }
+                 const yearSpan = document.getElementById('copyright-year');
+                 if (yearSpan) {
+                     yearSpan.textContent = new Date().getFullYear(); // Dynamically sets to current year
+                 }
 
-             const yearSpan = document.getElementById('copyright-year');
-             if (yearSpan) {
-                 yearSpan.textContent = new Date().getFullYear(); // Dynamically sets to current year
-             }
-
-            // --- 5. ADDED: Mobile Nav Toggle ---
-            const navToggle = document.querySelector('.mobile-nav-toggle');
-            const nav = document.querySelector('nav');
-            
-            if (navToggle && nav) {
-                navToggle.addEventListener('click', () => {
-                    nav.classList.toggle('mobile-nav-open');
-                    // Toggle body class to prevent scrolling when menu is open
-                    document.body.classList.toggle('mobile-nav-open'); 
-                    
-                    // Toggle ARIA attribute for accessibility
-                    const isExpanded = nav.classList.contains('mobile-nav-open');
-                    navToggle.setAttribute('aria-expanded', isExpanded);
-                });
-            }
-             
-            // --- 6. ADDED: Chart.js Initialization ---
-            const chartCanvas = document.getElementById('speedComparisonChart');
-            if (chartCanvas) {
-                const ctx = chartCanvas.getContext('2d');
+                // --- 5. ADDED: Mobile Nav Toggle ---
+                const navToggle = document.querySelector('.mobile-nav-toggle');
+                const nav = document.querySelector('nav');
                 
-                // Get theme colors from CSS variables
-                const styles = getComputedStyle(document.documentElement);
-                const accentColor = styles.getPropertyValue('--product-accent-color').trim();
-                const textColor = styles.getPropertyValue('--text-color').trim();
-                const gridColor = 'rgba(255, 255, 255, 0.1)';
+                if (navToggle && nav) {
+                    navToggle.addEventListener('click', () => {
+                        nav.classList.toggle('mobile-nav-open');
+                        // Toggle body class to prevent scrolling when menu is open
+                        document.body.classList.toggle('mobile-nav-open'); 
+                        
+                        // Toggle ARIA attribute for accessibility
+                        const isExpanded = nav.classList.contains('mobile-nav-open');
+                        navToggle.setAttribute('aria-expanded', isExpanded);
+                    });
+                }
+                 
+                // --- 6. ADDED: Chart.js Initialization ---
+                const chartCanvas = document.getElementById('speedComparisonChart');
+                if (chartCanvas) {
+                    const ctx = chartCanvas.getContext('2d');
+                    
+                    // Get theme colors from CSS variables
+                    const styles = getComputedStyle(document.documentElement);
+                    const accentColor = styles.getPropertyValue('--product-accent-color').trim();
+                    const textColor = styles.getPropertyValue('--text-color').trim();
+                    const gridColor = 'rgba(255, 255, 255, 0.1)';
 
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Bracket', 'Heat Sink', 'Chassis', 'Aerofoil'],
-                        datasets: [
-                            {
-                                label: 'Traditional Design (Weight kg)',
-                                data: [10, 5, 25, 12], // "Random" high data
-                                backgroundColor: 'rgba(255, 159, 64, 0.6)', // A standard orange
-                                borderColor: 'rgba(255, 159, 64, 1)',
-                                borderWidth: 1
-                            },
-                            {
-                                label: 'DesignGenesis AI (Weight kg)',
-                                data: [6, 2.5, 14, 7], // "Random" optimized data
-                                backgroundColor: accentColor, // Themed color!
-                                borderColor: accentColor,
-                                borderWidth: 1
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: {
-                            legend: {
-                                labels: {
-                                    color: textColor // Dark mode text
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Engine Block', 'Turbocharger', 'Chassis', 'Aerofoil'],
+                            datasets: [
+                                {
+                                    label: 'Manual Meshing (Hours)',
+                                    data: [40, 24, 80, 48], // "Random" slow data
+                                    backgroundColor: 'rgba(255, 99, 132, 0.6)', // A standard red
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'MeshMind AI (Hours)',
+                                    data: [2, 1, 4, 2.5], // "Random" fast data
+                                    backgroundColor: accentColor, // Themed color!
+                                    borderColor: accentColor,
+                                    borderWidth: 1
                                 }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Generative Design Weight Optimization',
-                                color: textColor,
-                                font: {
-                                    size: 16
-                                }
-                            }
+                            ]
                         },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        color: textColor // Dark mode text
+                                    }
+                                },
                                 title: {
                                     display: true,
-                                    text: 'Weight (kg)',
-                                    color: textColor
-                                },
-                                ticks: {
-                                    color: textColor // Dark mode text
-                                },
-                                grid: {
-                                    color: gridColor // Dark mode grid
+                                    text: 'Simulation Pre-Processing Time',
+                                    color: textColor,
+                                    font: {
+                                        size: 16
+                                    }
                                 }
                             },
-                            x: {
-                                ticks: {
-                                    color: textColor // Dark mode text
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Time (Hours)',
+                                        color: textColor
+                                    },
+                                    ticks: {
+                                        color: textColor // Dark mode text
+                                    },
+                                    grid: {
+                                        color: gridColor // Dark mode grid
+                                    }
                                 },
-                                grid: {
-                                    color: 'transparent' // No vertical grid
+                                x: {
+                                    ticks: {
+                                        color: textColor // Dark mode text
+                                    },
+                                    grid: {
+                                        color: 'transparent' // No vertical grid
+                                    }
                                 }
                             }
                         }
-                    }
-                });
-            }
+                    });
+                }
 
 
-        }); // end DOMContentLoaded
-    </script>
+            }); // end DOMContentLoaded
+        </script>
 
-</body>
+    </body>
 </html>

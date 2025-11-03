@@ -149,24 +149,11 @@
             }
         }
     </style>
-</head>
-<body>
-    <header>
-        <div class="logo">gulyam_ai</div>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/product">Product</a></li>
-                <li><a href="/about">Company</a></li>
-                <li><a href="#">Security</a></li>
-                <li><a href="#">Resources</a></li>
-                <li><a href="#">Careers</a></li>
-            </ul>
-        </nav>
-        <button class="demo-button">Request a Demo</button>
-    </header>
+    </head>
+    <body>
+        {% include '_header.html' %}
 
-    <section class="about-section">
+        <section class="about-section">
         <div class="about-content">
             <h1 class="about-title">About us</h1>
             <p class="about-text">
@@ -180,6 +167,8 @@
             </a>
         </div>
     </section>
+
+    {% include '_footer.html' %}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

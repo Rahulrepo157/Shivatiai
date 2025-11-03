@@ -29,7 +29,6 @@
       animation: moveGradient 30s ease infinite;
       color: var(--color-text-primary);
       overflow-x: hidden;
-      cursor: none;
     }
 
     /* --- Header, Footer, Cursor --- */
@@ -107,22 +106,7 @@
   </style>
 </head>
 <body>
-  <div class="spotlight"></div>
-  <div class="spotlight-follower"></div>
-
-  <header>
-    <a href="/" class="logo" data-magnetic>shivati_ai</a>
-    <nav>
-      <ul>
-        <li><a href="/product" data-magnetic>Product</a></li>
-        <li><a href="/about-us" data-magnetic>Company</a></li>
-        <li><a href="/security" data-magnetic>Security</a></li>
-        <li><a href="#" class="active" data-magnetic>Resources</a></li>
-        <li><a href="/careers" data-magnetic>Careers</a></li>
-      </ul>
-    </nav>
-    <a href="/demo" class="demo-button" data-magnetic>Request a Demo</a>
-  </header>
+  {% include '_header.html' %}
 
   <main>
     <section class="resources-hero">

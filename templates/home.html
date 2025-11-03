@@ -143,6 +143,7 @@
       transform: translateY(40px) scale(0.98);
       transition: opacity var(--transition-duration-long) var(--animation-timing-apple), transform var(--transition-duration-long) var(--animation-timing-apple);
     }
+    
     .hero-title { font-size: 3.5rem; line-height: 1.2; margin-bottom: 20px; max-width: 900px; text-shadow: 0 0 15px rgba(255, 255, 255, 0.15); }
     .hero-subtitle { font-size: 1.2rem; color: #ccc; max-width: 700px; margin-bottom: 30px; transition-delay: 0.2s; }
     .input-area { display: flex; gap: 10px; transition-delay: 0.4s; }
@@ -328,19 +329,7 @@
   </style>
 </head>
 <body>
-  <header>
-    <a href="/" class="logo" data-magnetic>shivati_ai</a>
-    <nav>
-      <ul>
-        <li><a href="/product" data-magnetic>Product</a></li>
-        <li><a href="/about-us" data-magnetic>Company</a></li>
-        <li><a href="/security/" data-magnetic>Security</a></li>
-        <li><a href="/resources/" data-magnetic>Resources</a></li>
-        <li><a href="/careers" data-magnetic>Careers</a></li>
-      </ul>
-    </nav>
-    <a href="/demo" class="demo-button" data-magnetic>Request a Demo</a>
-  </header>
+  {% include '_header.html' %}
 
   <main>
     <section class="hero-section" data-animation-container>
@@ -539,51 +528,7 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-content">
-      <div class="footer-logo-column">
-        <a href="/" class="footer-logo" data-magnetic>shivati_ai</a>
-        <div class="footer-social-icons">
-          <a href="#" aria-label="LinkedIn" data-magnetic><i class="fab fa-linkedin-in"></i></a>
-          <a href="#" aria-label="Twitter" data-magnetic><i class="fab fa-twitter"></i></a>
-        </div>
-      </div>
-      <div class="footer-links-column">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="/product#thermosolver-section">ThermoSolver</a></li>
-          <li><a href="/product#stressmaster-section">StressMaster</a></li>
-          <li><a href="/product#mechmotion-section">MechMotion AI</a></li>
-          <li><a href="/product#fluidflow-section">FluidFlow AI</a></li>
-          <li><a href="/product#designgenesis-section">DesignGenesis AI</a></li>
-        </ul>
-      </div>
-      <div class="footer-links-column">
-        <h4>More Products</h4>
-        <ul>
-            <li><a href="/product#manufactwin-section">ManufacTwin AI</a></li>
-            <li><a href="/product#robopilot-section">RoboPilot AI</a></li>
-            <li><a href="/product#matsci-section">MatSci AI</a></li>
-            <li><a href="/product#enginetune-section">EngineTune AI</a></li>
-            <li><a href="/product#mesh-mind-section">MeshMind AI</a></li>
-        </ul>
-      </div>
-      <div class="footer-links-column">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="/about">About Us</a></li> <li><a href="#">Careers</a></li> <li><a href="#">Blog</a></li> <li><a href="#">Security</a></li>
-        </ul>
-      </div>
-      <div class="footer-contact-column">
-        <h4>Contact</h4>
-        <p><a href="mailto:contact@shivati_ai.com">contact@shivati_ai.com</a></p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© <span id="copyright-year"></span> shivati_ai Inc. All rights reserved.</p>
-    </div>
-    <div class="footer-graphic"></div>
-  </footer>
+  {% include '_footer.html' %}
 
   <script>
     document.addEventListener('DOMContentLoaded',function(){const e=document.querySelectorAll('.interactive-card');e.forEach(t=>{const a=6;t.addEventListener('mousemove',c=>{const o=t.getBoundingClientRect(),s=c.clientX-o.left,n=c.clientY-o.top,{width:d,height:l}=o,i=a*(n/l-.5)*-2,r=a*(s/d-.5)*2;t.style.transition='transform 0.1s ease-out',t.style.transform=`perspective(1500px) rotateX(${i}deg) rotateY(${r}deg) scale3d(1.05, 1.05, 1.05)`}),t.addEventListener('mouseleave',()=>{t.style.transition='transform 0.4s ease-out',t.style.transform='perspective(1500px) rotateX(0) rotateY(0) scale3d(1, 1, 1)'})});const t=document.querySelector('.globe-placeholder');t&&window.addEventListener('scroll',()=>{const e=t.getBoundingClientRect(),a=-.1,c=(window.innerHeight/2-(e.top+e.height/2))*a;t.style.transform=`translateY(${c}px)`},{passive:!0});const a=document.querySelector('header');window.addEventListener('scroll',()=>{a.classList.toggle('scrolled',window.scrollY>50)},{passive:!0});const c=new IntersectionObserver((e,t)=>{e.forEach(e=>{if(e.isIntersecting){e.target.hasAttribute('data-animation-container')&&e.target.classList.add('animate-in'),e.target.hasAttribute('data-animation-item')&&e.target.classList.add('is-visible');const a=e.target.dataset.animationHandler;a&&'function'==typeof window[a]&&window[a](e.target),t.unobserve(e.target)}})},{threshold:.2});document.querySelectorAll('[data-animation-container], [data-animation-item], [data-animation-handler]').forEach(e=>{c.observe(e)});let s=null;window.startLineCycling=e=>{if(s)clearInterval(s);const t=Array.from(e.querySelectorAll('.sequential-line'));if(t.length){t.forEach(e=>{if(e.dataset.lettersWrapped)return;const a=e.textContent.trim();e.innerHTML='';const c=a.split('');c.forEach((t,a)=>{const o=document.createElement('span');o.textContent=' '===t?'\xa0':t,o.style.setProperty('--letter-in-delay',`${.04*a}s`),o.style.setProperty('--letter-out-delay',`${.03*(c.length-a-1)}s`),e.appendChild(o)}),e.dataset.lettersWrapped=!0});let a=0;const c=()=>{const e=0===a?t.length-1:a-1,o=t[e],s=t[a];o.classList.add('is-hiding'),setTimeout(()=>{o.classList.remove('is-active','is-hiding'),s.classList.add('is-active')},600),a=(a+1)%t.length};t[0].classList.add('is-active'),s=setInterval(c,4e3)}},window.animateResultNumber=e=>{const t=e.querySelector('.result-number');if(!t||t.classList.contains('has-animated'))return;const a=t.dataset.targetValue||'0',c=a.replace(/[0-9]/g,''),o=parseInt(a,10);t.innerHTML='',String(o).split('').forEach((e,a)=>{const o=document.createElement('span');o.className='digit-roller';const s=document.createElement('span');s.className='digit-roller-inner','0123456789'.repeat(5).split('').forEach(e=>{const t=document.createElement('div');t.textContent=e,s.appendChild(t)}),o.appendChild(s),t.appendChild(o);const n='0123456789'.repeat(5).lastIndexOf(e),d=-(n/50)*100;s.style.setProperty('--digit-delay',`${.1*a}s`),setTimeout(()=>{s.style.transform=`translateY(${d}%)`},100)}),c&&(()=>{const e=document.createElement('span');e.className='result-suffix',e.textContent=c,t.appendChild(e)})(),t.classList.add('has-animated')};const o=document.getElementById('hero-canvas');if(o&&!('ontouchstart'in window||navigator.maxTouchPoints>0)){const e=o.getContext('2d');let t=[];const a=()=>{o.width=o.offsetWidth,o.height=o.offsetHeight},c=()=>{t=[];const e=Math.floor(o.width*o.height/2e4);for(let a=0;a<e;a++)t.push({x:Math.random()*o.width,y:Math.random()*o.height,vx:.5*(Math.random()-.5),vy:.5*(Math.random()-.5),size:1.5*Math.random()+.5})},s=()=>{if(!o.width||!o.height)return;e.clearRect(0,0,o.width,o.height),t.forEach(t=>{t.x+=t.vx,t.y+=t.vy,(t.x<0||t.x>o.width)&&(t.vx*=-1),(t.y<0||t.y>o.height)&&(t.vy*=-1),e.beginPath(),e.arc(t.x,t.y,t.size,0,2*Math.PI),e.fillStyle='rgba(0, 150, 255, 0.5)',e.fill()});for(let a=0;a<t.length;a++)for(let c=a;c<t.length;c++){const n=Math.hypot(t[a].x-t[c].x,t[a].y-t[c].y);n<100&&(e.beginPath(),e.moveTo(t[a].x,t[a].y),e.lineTo(t[c].x,t[c].y),e.strokeStyle=`rgba(0, 150, 255, ${1-n/100})`,e.stroke())}};let n;const d=()=>{s(),n=requestAnimationFrame(d)},l=()=>{cancelAnimationFrame(n),a(),c(),d()};l(),window.addEventListener('resize',l)}
