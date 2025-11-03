@@ -107,19 +107,7 @@
   </style>
 </head>
 <body>
-  <header>
-    <a href="/" class="logo">shivati_ai</a>
-    <nav>
-      <ul>
-        <li><a href="/product">Product</a></li>
-        <li><a href="/about-us">Company</a></li>
-        <li><a href="#">Security</a></li>
-        <li><a href="#">Resources</a></li>
-        <li><a href="/careers" class="active">Careers</a></li>
-      </ul>
-    </nav>
-    <a href="/demo" class="demo-button">Request a Demo</a>
-  </header>
+  {% include '_header.html' %}
 
   <main>
     <section class="careers-hero">
@@ -217,9 +205,7 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-content"><div class="footer-logo-column"><a href="/" class="footer-logo">shivati_ai</a><div class="footer-social-icons"><a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a></div></div><div class="footer-links-column"><h4>Product</h4><ul><li><a href="#">ThermoSolver</a></li><li><a href="#">StressMaster</a></li><li><a href="#">MechMotion AI</a></li></ul></div><div class="footer-links-column"><h4>More Products</h4><ul><li><a href="#">ManufacTwin AI</a></li><li><a href="#">RoboPilot AI</a></li><li><a href="#">MatSci AI</a></li></ul></div><div class="footer-links-column"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li></ul></div></div><div class="footer-bottom"><p>© <span id="copyright-year"></span> shivati_ai Inc. All rights reserved.</p></div><div class="footer-graphic"></div>
-  </footer>
+  {% include '_footer.html' %}
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {

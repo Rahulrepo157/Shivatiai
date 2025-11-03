@@ -11,6 +11,8 @@
     </style>
 </head>
 <body>
+    {% include '_header.html' %}
+    <main style="padding:24px;">
     <h1>Demo Requests</h1>
     <table>
         <tr>
@@ -22,13 +24,15 @@
         </tr>
         {% for request in requests %}
         <tr>
-            <td>{{ request[0] }}</td>
-            <td>{{ request[1] }}</td>
-            <td>{{ request[2] }}</td>
-            <td>{{ request[3] }}</td>
-            <td>{{ request[4] }}</td>
+            <td>{{ request.id }}</td>
+            <td>{{ request.name }}</td>
+            <td>{{ request.email }}</td>
+            <td>{{ request.product }}</td>
+            <td>{{ request.message }}</td>
         </tr>
         {% endfor %}
     </table>
+        </main>
+            {% include '_footer.html' %}
 </body>
 </html>

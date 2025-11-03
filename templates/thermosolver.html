@@ -6,6 +6,9 @@
     <meta name="description" content="Explore ThermoSolver by shivati_ai - AI-powered thermodynamics and heat transfer analysis for faster optimization and predictive insights in mechanical engineering.">
     <title>ThermoSolver - AI Thermodynamics Analysis | shivati_ai</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
         /* --- Base Styles & Animations --- */
         @keyframes moveGradient {
@@ -20,10 +23,7 @@
              --product-accent-light: #ff8a63;
              --product-glow-color: rgba(255, 107, 59, 0.4); /* For text/box shadows */
 
-             /* General Theme Variables */
-             --link-color: #74ebd5;
-             --highlight-color: #4dabf7;
-             --text-color: #e0e0e0;
+            --text-color: #e0e0e0;
              --text-muted-color: #a0a0a0;
              --background-dark: #01020a;
              --background-gradient-start: #050a1a;
@@ -31,7 +31,7 @@
              --card-bg: rgba(30, 30, 35, 0.6);
              --card-border: rgba(255, 255, 255, 0.1);
              --card-blur: 15px;
-        }
+         }
 
         html { scroll-behavior: smooth; }
 
@@ -44,6 +44,11 @@
             color: var(--text-color);
             overflow-x: hidden;
         }
+        
+        /* Prevent scroll when mobile nav is open */
+        body.mobile-nav-open {
+            overflow: hidden;
+        }
 
         /* --- Header Styles (Consistent) --- */
         header {
@@ -53,14 +58,32 @@
             -webkit-backdrop-filter: blur(10px); z-index: 100;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .logo { font-size: 24px; font-weight: bold; color: #fff;}
+        .logo { font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
         nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
         nav ul li { margin-left: 25px; position: relative; }
         /* Update nav links to point correctly */
         nav ul li a { text-decoration: none; color: #ddd; font-size: 16px; transition: color 0.3s ease; cursor: pointer; padding: 5px 0; }
         nav ul li a:hover { color: #fff; }
-        .demo-button { background-color: transparent; color: #fff; border: 1px solid #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: all 0.3s ease; }
+        .demo-button { background-color: transparent; color: #fff; border: 1px solid #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: all 0.3s ease; text-decoration: none; }
         .demo-button:hover { background-color: #fff; color: #000; transform: translateY(-2px); }
+
+        /* --- Mobile Nav Toggle Button --- */
+        .mobile-nav-toggle {
+            display: none; /* Hidden on desktop */
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001; /* Above header */
+        }
+        .mobile-nav-toggle .burger-line {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
 
 
         /* --- General Section Styling --- */
@@ -88,7 +111,7 @@
          section.animate-in .section-title {
              opacity: 1;
              transform: translateY(0);
-         }
+        }
 
         /* --- Product Hero Section --- */
         .product-hero {
@@ -148,11 +171,13 @@
             color: #1a0a05; /* Dark text for contrast */
             border: none; padding: 14px 35px; border-radius: 8px;
             cursor: pointer; font-size: 1rem; font-weight: bold; text-decoration: none;
-            transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(255, 107, 59, 0.3); /* Glow effect using product color */
-             opacity: 0; transform: translateY(30px); /* Base animation state */
-             /* Transition on hero needs delay */
-             /* transition: opacity 1s ease-out 0.7s, transform 1s ease-out 0.7s, background 0.3s ease, box-shadow 0.3s ease; */
+            
+             /* Base animation state */
+             opacity: 0; transform: translateY(30px);
+             
+             /* Corrected transition with delay */
+             transition: opacity 1s ease-out 0.7s, transform 1s ease-out 0.7s, background 0.3s ease, box-shadow 0.3s ease;
         }
         .cta-button:hover {
             transform: translateY(-3px) scale(1.03);
@@ -203,16 +228,16 @@
          .animate-in .text-column, .animate-in .visual-column {
              opacity: 1;
              transform: translateY(0);
-         }
-
-        /* Visual Placeholder */
-        .visual-placeholder {
-            width: 100%; max-width: 500px; aspect-ratio: 16 / 10;
-            background-color: rgba(255, 107, 59, 0.05); border-radius: 15px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            border: 1px dashed var(--product-accent-light); color: var(--product-accent-light);
-            text-align: center; padding: 20px;
         }
+
+        /* Visual Placeholder - NOW a chart container */
+        .visual-placeholder {
+            width: 100%; max-width: 500px;
+            background-color: rgba(255, 107, 59, 0.05); border-radius: 15px;
+            border: 1px dashed var(--product-accent-light);
+            padding: 20px;
+        }
+        /* Keep original icon/text styles in case you want to reuse */
         .placeholder-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.6; }
         .visual-placeholder span { font-size: 0.9rem; font-style: italic; }
 
@@ -283,7 +308,7 @@
              display: grid;
              grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
              gap: 30px;
-         }
+        }
          .benefit-card {
              background: transparent; /* No extra card background */
              border-left: 3px solid var(--product-accent-color); /* Accent border */
@@ -291,8 +316,8 @@
               opacity: 0; transform: translateY(40px); /* Animation */
               transition: opacity 0.6s ease-out, transform 0.6s ease-out;
               transition-delay: var(--stagger-delay); /* Stagger animation with JS */
-         }
-          .animate-in .benefit-card { opacity: 1; transform: translateY(0); }
+        }
+         .animate-in .benefit-card { opacity: 1; transform: translateY(0); }
 
          .benefit-card i { font-size: 1.8rem; color: var(--product-accent-light); margin-bottom: 15px; display: block;}
          .benefit-card h3 { font-size: 1.1rem; color: #fff; margin-bottom: 8px; }
@@ -303,18 +328,22 @@
         .final-cta-section { padding: 120px 40px; text-align: center; position: relative; overflow: hidden; z-index: 2; background: radial-gradient( ellipse 120% 80% at 50% -30%, rgba(0, 150, 255, 0.2) 0%, rgba(0, 100, 200, 0.08) 35%, rgba(0, 50, 100, 0.0) 60% ), var(--background-dark); }
         .cta-content-container { max-width: 750px; margin: 0 auto; position: relative; z-index: 3; }
         .cta-title { font-size: 2.6rem; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 35px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1); opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-        /* Use general .cta-button style, maybe override background */
+        
+        /* Use general .cta-button style, but with corrected product colors */
         .final-cta-section .cta-button {
-             background: linear-gradient(90deg, var(--highlight-color), #74c0fc); /* Blue gradient */
-             color: #051020;
-             box-shadow: 0 4px 15px rgba(77, 171, 247, 0.3);
+             /* CORRECTED to use product accent color */
+             background: linear-gradient(90deg, var(--product-accent-color), var(--product-accent-light));
+             color: #1a0a05;
+             box-shadow: 0 4px 15px rgba(255, 107, 59, 0.3);
+             
               /* Animation needs delay set */
              transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s, background 0.3s ease, box-shadow 0.3s ease;
         }
          .final-cta-section .cta-button:hover {
-             background: linear-gradient(90deg, #74c0fc, #a5d8ff);
-             box-shadow: 0 6px 20px rgba(77, 171, 247, 0.4);
-         }
+             /* CORRECTED to use product accent color */
+             background: linear-gradient(90deg, var(--product-accent-light), #ffcbb8);
+             box-shadow: 0 6px 20px rgba(255, 107, 59, 0.4);
+        }
          /* Final CTA Animation Trigger */
          section.animate-in .cta-title, section.animate-in .cta-button { opacity: 1; transform: translateY(0); }
 
@@ -322,7 +351,7 @@
         .site-footer { background-color: #000000; color: var(--text-muted-color); padding-top: 60px; font-size: 0.9rem; position: relative; overflow: hidden; margin-top: 0 !important; }
         .footer-content { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr; gap: 30px; max-width: 1400px; margin: 0 auto; padding: 0 40px 50px 40px; position: relative; z-index: 2; }
         .footer-logo-column, .footer-links-column, .footer-contact-column { padding: 0 10px; }
-        .footer-logo { font-size: 1.8rem; font-weight: bold; color: #fff; margin-bottom: 20px; }
+        .footer-logo { font-size: 1.8rem; font-weight: bold; color: #fff; margin-bottom: 20px; text-decoration: none; }
         .footer-social-icons a { color: #888; font-size: 1.2rem; margin-right: 15px; transition: color 0.3s ease; } .footer-social-icons a:hover { color: #fff; }
         .footer-links-column h4 { font-size: 1rem; color: #fff; margin-bottom: 15px; font-weight: 600; }
         .footer-links-column ul { list-style: none; padding: 0; margin: 0; } .footer-links-column li { margin-bottom: 10px; }
@@ -339,15 +368,78 @@
              .features-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
              .benefits-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
              .steps-container { justify-content: center; } /* Center steps when wrapping */
-             .footer-content { grid-template-columns: repeat(3, 1fr); }
-             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; text-align: center; margin-bottom: 30px;}
+             
+             /* CORRECTED Footer Grid */
+             .footer-content { 
+                grid-template-columns: 1fr 1fr; /* 2 columns */
+                gap: 40px;
+            }
+            .footer-logo-column {
+                grid-column: 1 / 2; /* Logo top-left */
+                text-align: left;
+                margin-bottom: 0; /* Reset margin */
+            }
+            .footer-contact-column {
+                grid-column: 2 / 3; /* Contact top-right */
+                text-align: left;
+                margin-bottom: 0; /* Reset margin */
+            }
          }
 
          @media (max-width: 768px) {
              section { padding: 60px 20px; }
              .section-title { font-size: 2rem; margin-bottom: 40px; }
              header { padding: 15px 20px; position: static; background-color: #000; backdrop-filter: none; border-bottom: none; }
-             nav ul { display: none; } /* Hide main nav on mobile - implement burger */
+             
+             /* --- Mobile Nav Rules --- */
+             .mobile-nav-toggle {
+                display: block; /* Show burger button */
+             }
+             
+             nav {
+                display: none; /* Hide the nav container by default */
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: #01020a;
+                z-index: 1000;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            nav.mobile-nav-open {
+                display: flex; /* Show the mobile menu */
+            }
+        
+            nav.mobile-nav-open ul {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            nav.mobile-nav-open ul li {
+                margin-left: 0;
+            }
+            nav.mobile-nav-open ul li a {
+                font-size: 1.5rem; /* Larger text for mobile */
+            }
+        
+            /* Animate burger to 'X' */
+            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(2) {
+                opacity: 0;
+            }
+            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            /* --- End Mobile Nav Rules --- */
+             
+             nav ul { display: none; } /* Hide main nav by default */
              .product-hero { padding-top: 80px; padding-bottom: 60px; min-height: 60vh;}
              .product-hero h1 { font-size: 2.8rem; }
              .product-hero .tagline { font-size: 1.2rem; }
@@ -362,7 +454,7 @@
              .cta-title { font-size: 2rem; }
              .cta-button { padding: 12px 28px; font-size: 0.95rem; }
              .footer-content { grid-template-columns: 1fr 1fr; padding: 0 20px 40px 20px; }
-             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; }
+             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; text-align: center; margin-bottom: 30px; } /* Re-center for this breakpoint */
              .footer-links-column { text-align: center; }
              .footer-graphic { width: 60%; opacity: 0.5; }
          }
@@ -380,44 +472,51 @@
 <body>
 
     <header>
-        <div class="logo">shivati_ai</div>
+        <a href="/" class="logo">shivati_ai</a>
         <nav>
              <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/product">Products</a></li> {/* Link to main product page if exists */}
-                <li><a href="/about">Company</a></li>
-                <li><a href="#">Security</a></li>
-                <li><a href="#">Resources</a></li>
-                <li><a href="/careers">Careers</a></li>
+                 <li><a href="/">Home</a></li>
+                 <li><a href="/product">Products</a></li>
+                 <li><a href="/about">Company</a></li>
+                 <li><a href="#">Security</a></li>
+                 <li><a href="#">Resources</a></li>
+                 <li><a href="/careers">Careers</a></li>
              </ul>
         </nav>
-        <a href="/demo?product=ThermoSolver™" class="demo-button">Request a Demo</a>
+        <a href="/demo?product=ThermoSolver" class="demo-button">Request a Demo</a>
+        
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+        </button>
     </header>
 
     <main>
-        <section class="product-hero thermosolver-hero animate-in"> {/* Trigger animation on load */}
+        <section class="product-hero thermosolver-hero animate-in">
             <div class="hero-content">
                 <h1>ThermoSolver</h1>
                 <p class="tagline">Intelligent Thermodynamics & Heat Transfer Analysis</p>
                 <p class="intro-text">Accelerate your thermal design process with AI-driven insights. ThermoSolver provides rapid predictions and optimization for complex thermal systems.</p>
-                <a href="#request-demo" class="cta-button">Request ThermoSolver Demo <i class="fas fa-arrow-right"></i></a>
+                <a href="/demo?product=ThermoSolver" class="cta-button">Request ThermoSolver Demo <i class="fas fa-arrow-right"></i></a>
             </div>
         </section>
 
         <section class="product-section two-column">
-            <div class="content-wrapper animate-in"> {/* Animate wrapper */}
+            <div class="content-wrapper animate-in">
                 <div class="text-column">
                     <h2>The Challenge: Slow Thermal Simulation Cycles</h2>
                     <p>Traditional thermal analysis involves time-consuming simulation setup, lengthy compute times, and iterative manual adjustments. This bottlenecks the design process, delaying innovation and increasing costs.</p>
                     <h3>The Solution: AI-Accelerated Insights</h3>
                     <p>ThermoSolver leverages advanced machine learning models trained on vast thermal datasets. It drastically reduces simulation time, predicts performance across various parameters instantly, and suggests optimized design configurations based on your constraints.</p>
                 </div>
+                
                 <div class="visual-column">
                     <div class="visual-placeholder">
-                        <i class="fas fa-chart-line placeholder-icon"></i>
-                        <span>Simulation Speed Comparison (Placeholder)</span>
+                        <canvas id="speedComparisonChart"></canvas>
                     </div>
                 </div>
+                
             </div>
         </section>
 
@@ -425,7 +524,6 @@
             <div class="content-wrapper">
                 <h2 class="section-title">Core Capabilities</h2>
                 <div class="features-grid">
-                    {/* Add data-delay for JS stagger */}
                     <div class="feature-item" data-delay="0.1s"> <i class="fas fa-brain"></i> <h3>Predictive Simulation</h3> <p>Instantly forecast thermal performance across component variations and operating conditions without lengthy re-runs.</p> </div>
                     <div class="feature-item" data-delay="0.2s"> <i class="fas fa-cogs"></i> <h3>AI-Driven Optimization</h3> <p>Receive intelligent suggestions for component layout, material selection, and cooling strategies to meet thermal targets.</p> </div>
                     <div class="feature-item" data-delay="0.3s"> <i class="fas fa-chart-area"></i> <h3>Rapid Parameter Sweeps</h3> <p>Explore vast design spaces quickly by evaluating the thermal impact of multiple parameter changes simultaneously.</p> </div>
@@ -459,10 +557,10 @@
              </div>
          </section>
 
-        <section class="final-cta-section" id="request-demo"> {/* ID for hero button link */}
-            <div class="cta-content-container animate-in"> {/* Animate wrapper */}
+        <section class="final-cta-section" id="request-demo">
+            <div class="cta-content-container animate-in">
                 <h2 class="cta-title">Ready to Accelerate Your Thermal Design?</h2>
-                <a href="#contact-sales" class="cta-button"> Request a Personalized Demo <i class="fas fa-arrow-right"></i> </a>
+                <a href="/demo?product=ThermoSolver" class="cta-button"> Request a Personalized Demo <i class="fas fa-arrow-right"></i> </a>
             </div>
         </section>
     </main>
@@ -470,7 +568,7 @@
     <footer class="site-footer">
          <div class="footer-content">
              <div class="footer-logo-column">
-                 <div class="footer-logo">shivati_ai</div>
+                 <a href="/" class="footer-logo">shivati_ai</a>
                  <div class="footer-social-icons">
                      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -482,7 +580,6 @@
                      <li><a href="/product">Overview</a></li>
                      <li><a href="#thermosolver">ThermoSolver</a></li>
                      <li><a href="#">StressMaster</a></li>
-                     {/* ... other products ... */}
                  </ul>
              </div>
              <div class="footer-links-column">
@@ -517,46 +614,133 @@
 
             // --- Consolidated Intersection Observer for Scroll Animations ---
              const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.15 // Trigger when 15% is visible (adjust as needed)
-            };
+                 root: null,
+                 rootMargin: '0px',
+                 threshold: 0.15 
+             };
 
-            const observerCallback = (entries, observer) => {
-                entries.forEach((entry, index) => { // Add index for potential base delay calculation
-                    if (entry.isIntersecting) {
-                        const target = entry.target;
+             const observerCallback = (entries, observer) => {
+                 entries.forEach((entry, index) => { 
+                     if (entry.isIntersecting) {
+                         const target = entry.target;
 
-                        // Apply staggered delay to direct children with data-delay or specific classes
-                        const itemsToStagger = target.querySelectorAll('.feature-item, .step-item, .benefit-card, .text-column, .visual-column');
-                        if (itemsToStagger.length > 0) {
-                            itemsToStagger.forEach((item, itemIndex) => {
-                                const delay = item.getAttribute('data-delay') || `${(itemIndex * 0.1) + 0.1}s`; // Calculate stagger if no data-delay
-                                item.style.transitionDelay = delay;
-                            });
-                        }
+                         // Apply staggered delay
+                         const itemsToStagger = target.querySelectorAll('.feature-item, .step-item, .benefit-card, .text-column, .visual-column');
+                         if (itemsToStagger.length > 0) {
+                             itemsToStagger.forEach((item, itemIndex) => {
+                                 const delay = item.getAttribute('data-delay') || `${(itemIndex * 0.1) + 0.1}s`; 
+                                 item.style.transitionDelay = delay;
+                             });
+                         }
 
-                         // Add primary animation class to the section/wrapper itself
-                         target.classList.add('animate-in');
+                          target.classList.add('animate-in');
+                         observer.unobserve(target);
+                     }
+                 });
+             };
 
-                        // Unobserve after triggering (unless continuous observation is needed)
-                        observer.unobserve(target);
-                    }
-                    // No 'else' needed if only animating once on entry
-                });
-            };
+             const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
 
-            const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
-
-            // Observe sections or wrappers that trigger animations for their children
-            document.querySelectorAll('.product-section .content-wrapper, .features-section .content-wrapper, .how-it-works-section .content-wrapper, .benefits-section .content-wrapper, .final-cta-section .cta-content-container').forEach(el => {
+             document.querySelectorAll('.product-section .content-wrapper, .features-section .content-wrapper, .how-it-works-section .content-wrapper, .benefits-section .content-wrapper, .final-cta-section .cta-content-container').forEach(el => {
                  scrollObserver.observe(el);
-            });
+             });
+             
+             // --- Mobile Nav Toggle ---
+            const navToggle = document.querySelector('.mobile-nav-toggle');
+            const nav = document.querySelector('nav');
+            
+            if (navToggle && nav) {
+                navToggle.addEventListener('click', () => {
+                    nav.classList.toggle('mobile-nav-open');
+                    document.body.classList.toggle('mobile-nav-open'); 
+                    const isExpanded = nav.classList.contains('mobile-nav-open');
+                    navToggle.setAttribute('aria-expanded', isExpanded);
+                });
+            }
 
              // --- Dynamic Copyright Year ---
             const yearSpan = document.getElementById('copyright-year');
             if (yearSpan) {
                 yearSpan.textContent = new Date().getFullYear();
+            }
+            
+            
+            // --- 3. ADDED: Chart.js Initialization ---
+            const chartCanvas = document.getElementById('speedComparisonChart');
+            if (chartCanvas) {
+                const ctx = chartCanvas.getContext('2d');
+                
+                // Get theme colors from CSS variables
+                const styles = getComputedStyle(document.documentElement);
+                const accentColor = styles.getPropertyValue('--product-accent-color').trim();
+                const textColor = styles.getPropertyValue('--text-color').trim();
+                const gridColor = 'rgba(255, 255, 255, 0.1)';
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Design Iteration 1', 'Complex Assembly', 'Parameter Sweep', 'Full System Test'],
+                        datasets: [
+                            {
+                                label: 'Traditional Simulation (Hours)',
+                                data: [48, 72, 36, 90], // "Random" slow data
+                                backgroundColor: 'rgba(54, 162, 235, 0.6)', // A standard blue
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'ThermoSolver (Hours)',
+                                data: [2, 3.5, 1.5, 4], // "Random" fast data
+                                backgroundColor: accentColor, // Themed color!
+                                borderColor: accentColor,
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: textColor // Dark mode text
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Simulation Speed Comparison',
+                                color: textColor,
+                                font: {
+                                    size: 16
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Time (Hours)',
+                                    color: textColor
+                                },
+                                ticks: {
+                                    color: textColor // Dark mode text
+                                },
+                                grid: {
+                                    color: gridColor // Dark mode grid
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: textColor // Dark mode text
+                                },
+                                grid: {
+                                    color: 'transparent' // No vertical grid
+                                }
+                            }
+                        }
+                    }
+                });
             }
 
         }); // end DOMContentLoaded

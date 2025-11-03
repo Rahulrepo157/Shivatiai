@@ -22,15 +22,15 @@
     @keyframes check-anim { 0% { stroke-dashoffset: 80; } 100% { stroke-dashoffset: 0; } }
     @keyframes pop-in { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-    body {
+        body {
       font-family: Arial, sans-serif;
       background: linear-gradient(-45deg, var(--color-background-dark), var(--color-background-medium), var(--color-background-dark), var(--color-background-light));
       background-size: 400% 400%;
       animation: moveGradient 30s ease infinite;
       color: var(--color-text-primary);
-      display: flex; justify-content: center; align-items: center;
-      min-height: 100vh; margin: 0; padding: 2rem;
-      overflow: hidden; cursor: none;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; margin: 0; padding: 2rem;
+            overflow: hidden;
     }
     #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
     .spotlight { position: fixed; width: 12px; height: 12px; border-radius: 50%; background-color: var(--color-accent); pointer-events: none; transform: translate(-50%, -50%); z-index: 1001; transition: width 0.3s ease, height 0.3s ease; mix-blend-mode: screen; }
@@ -86,21 +86,21 @@
 
     /* UPDATE: Interactive Product Selector with 3 columns */
     .product-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem; }
-    .product-card {
-      border: 1px solid var(--color-border); border-radius: 8px; padding: 0.8rem;
-      text-align: center; cursor: none; transition: all var(--transition-duration);
-    }
+        .product-card {
+            border: 1px solid var(--color-border); border-radius: 8px; padding: 0.8rem;
+            text-align: center; cursor: pointer; transition: all var(--transition-duration);
+        }
     .product-card i { font-size: 1.5rem; margin-bottom: 0.5rem; }
     .product-card span { font-size: 0.8rem; display: block; }
     .product-card:hover { background: rgba(0, 150, 255, 0.1); border-color: rgba(0, 150, 255, 0.5); }
     .product-card.selected { background: rgba(0, 150, 255, 0.2); border-color: var(--color-accent); box-shadow: 0 0 15px rgba(0, 150, 255, 0.3); }
 
     .button-group { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem; position: absolute; bottom: 0; width: 100%;}
-    .btn {
-      width: 100%; padding: 0.8rem; background-color: var(--color-accent); color: #000;
-      border: none; border-radius: 8px; cursor: none; font-size: 1rem; font-weight: bold;
-      transition: all var(--transition-duration);
-    }
+        .btn {
+            width: 100%; padding: 0.8rem; background-color: var(--color-accent); color: #000;
+            border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold;
+            transition: all var(--transition-duration);
+        }
     .btn:hover { background-color: #fff; transform: scale(1.03); }
     .btn-secondary { background: none; border: 1px solid var(--color-border); color: var(--color-text-secondary); }
     .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); color: var(--color-text-primary); }
@@ -112,10 +112,11 @@
   </style>
 </head>
 <body>
-  <canvas id="hero-canvas"></canvas>
-  <div class="spotlight"></div>
+    {% include '_header.html' %}
+    <canvas id="hero-canvas"></canvas>
+    <div class="spotlight"></div>
 
-  <div class="form-wizard">
+    <div class="form-wizard">
     <div class="form-header">
         <h1 id="form-title">Request a Demo</h1>
     </div>
@@ -175,7 +176,9 @@
             </div>
         </div>
     </div>
-  </div>
+    </div>
+
+    {% include '_footer.html' %}
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -286,32 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    submitBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        const data = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            product: document.getElementById('product').value,
-            message: document.getElementById('message').value
-        };
-
-        fetch('/submit_demo', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                currentStep = 3; // Go to success step
-                updateFormSteps();
-                triggerParticleSurge(e);
-            }
-        });
-    });
+    // submit handling is implemented further below with validation
 
     // --- Live Validation ---
     const nameInput = document.getElementById('name');
@@ -338,12 +316,62 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Product Selector ---
     const productCards = document.querySelectorAll('.product-card');
     const hiddenProductInput = document.getElementById('product');
+    // Accessibility: make product cards focusable and keyboard-activatable
     productCards.forEach(card => {
-        card.addEventListener('click', () => {
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+    });
+
+    // Helper to normalize product names for matching (strip trademark and lowercase)
+    const normalize = s => (s||'').replace(/™/g,'').trim().toLowerCase();
+
+    // Prefill from URL param ?product=Name
+    const urlProduct = new URLSearchParams(window.location.search).get('product');
+    if (urlProduct) {
+        const target = Array.from(productCards).find(c => normalize(c.dataset.value) === normalize(urlProduct));
+        if (target) {
+            target.classList.add('selected');
+            // Store a normalized product name (remove trademark symbol)
+            hiddenProductInput.value = (target.dataset.value || '').replace(/™/g, '').trim();
+        }
+    }
+
+    productCards.forEach(card => {
+        const selectCard = () => {
             productCards.forEach(c => c.classList.remove('selected'));
             card.classList.add('selected');
-            hiddenProductInput.value = card.dataset.value;
-        });
+            // Save normalized product name (strip ™)
+            hiddenProductInput.value = (card.dataset.value || '').replace(/™/g, '').trim();
+        };
+        card.addEventListener('click', selectCard);
+        card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectCard(); } });
+    });
+
+    // Basic client-side validation and improved submit handling
+    const showInlineError = (msg) => { alert(msg); };
+    submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const name = (document.getElementById('name').value || '').trim();
+        const email = (document.getElementById('email').value || '').trim();
+        const product = (document.getElementById('product').value || '').trim();
+        const message = (document.getElementById('message').value || '').trim();
+
+        if (!name || name.length < 2) { showInlineError('Please enter your name (2+ characters).'); return; }
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showInlineError('Please enter a valid work email.'); return; }
+        if (!product) { showInlineError('Please select a product for the demo.'); return; }
+
+        const data = { name, email, product, message };
+        fetch('/submit_demo', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                currentStep = 3; updateFormSteps(); triggerParticleSurge(e);
+            } else {
+                showInlineError(data.error || 'Submission failed.');
+            }
+        }).catch(() => showInlineError('Network error. Try again.'));
     });
 
     // Initial and resize setup

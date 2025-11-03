@@ -6,6 +6,9 @@
     <meta name="description" content="Explore StressMaster by shivati_ai - AI-powered structural analysis and design optimization for faster, more resilient mechanical and civil engineering projects.">
     <title>StressMaster - AI Structural Analysis | shivati_ai</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
         /* --- Base Styles & Animations --- */
         @keyframes moveGradient {
@@ -31,7 +34,7 @@
              --card-bg: rgba(30, 30, 35, 0.6);
              --card-border: rgba(255, 255, 255, 0.1);
              --card-blur: 15px;
-        }
+         }
 
         html { scroll-behavior: smooth; }
 
@@ -44,6 +47,11 @@
             color: var(--text-color);
             overflow-x: hidden;
         }
+        
+        /* ADDED: Prevent scroll when mobile nav is open */
+        body.mobile-nav-open {
+            overflow: hidden;
+        }
 
         /* --- Header Styles (Consistent) --- */
         header {
@@ -53,13 +61,32 @@
             -webkit-backdrop-filter: blur(10px); z-index: 100;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .logo { font-size: 24px; font-weight: bold; color: #fff;}
+        /* FIXED: Logo is now a link */
+        .logo { font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
         nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
         nav ul li { margin-left: 25px; position: relative; }
         nav ul li a { text-decoration: none; color: #ddd; font-size: 16px; transition: color 0.3s ease; cursor: pointer; padding: 5px 0; }
         nav ul li a:hover, nav ul li a.active-product-link { color: var(--product-accent-light); } /* Highlight active product */
-        .demo-button { background-color: transparent; color: #fff; border: 1px solid #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: all 0.3s ease; }
+        .demo-button { background-color: transparent; color: #fff; border: 1px solid #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: all 0.3s ease; text-decoration: none; }
         .demo-button:hover { background-color: #fff; color: #000; transform: translateY(-2px); }
+
+        /* --- ADDED: Mobile Nav Toggle Button --- */
+        .mobile-nav-toggle {
+            display: none; /* Hidden on desktop */
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001; /* Above header */
+        }
+        .mobile-nav-toggle .burger-line {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
 
 
         /* --- General Section Styling --- */
@@ -87,7 +114,7 @@
          section.animate-in .section-title {
              opacity: 1;
              transform: translateY(0);
-         }
+        }
 
         /* --- Product Hero Section --- */
         .product-hero {
@@ -145,9 +172,10 @@
             color: #fff; /* White text for contrast on blue */
             border: none; padding: 14px 35px; border-radius: 8px;
             cursor: pointer; font-size: 1rem; font-weight: bold; text-decoration: none;
-            transition: all 0.3s ease;
             box-shadow: 0 4px 15px var(--product-glow-color);
              opacity: 0; transform: translateY(30px);
+             /* ADDED smooth transition for hero */
+             transition: opacity 1s ease-out 0.7s, transform 1s ease-out 0.7s, background 0.3s ease, box-shadow 0.3s ease;
         }
         .cta-button:hover {
             transform: translateY(-3px) scale(1.03);
@@ -198,15 +226,14 @@
          .animate-in .text-column, .animate-in .visual-column {
              opacity: 1;
              transform: translateY(0);
-         }
+        }
 
-        /* Visual Placeholder */
+        /* Visual Placeholder - NOW a chart container */
         .visual-placeholder {
-            width: 100%; max-width: 500px; aspect-ratio: 16 / 10;
+            width: 100%; max-width: 500px;
             background-color: rgba(59, 130, 246, 0.05); border-radius: 15px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
             border: 1px dashed var(--product-accent-light); color: var(--product-accent-light);
-            text-align: center; padding: 20px;
+            padding: 20px;
         }
         .placeholder-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.6; }
         .visual-placeholder span { font-size: 0.9rem; font-style: italic; }
@@ -278,7 +305,7 @@
              display: grid;
              grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
              gap: 30px;
-         }
+        }
          .benefit-card {
              background: transparent;
              border-left: 3px solid var(--product-accent-color);
@@ -286,8 +313,8 @@
               opacity: 0; transform: translateY(40px);
               transition: opacity 0.6s ease-out, transform 0.6s ease-out;
               transition-delay: var(--stagger-delay);
-         }
-          .animate-in .benefit-card { opacity: 1; transform: translateY(0); }
+        }
+         .animate-in .benefit-card { opacity: 1; transform: translateY(0); }
 
          .benefit-card i { font-size: 1.8rem; color: var(--product-accent-light); margin-bottom: 15px; display: block;}
          .benefit-card h3 { font-size: 1.1rem; color: #fff; margin-bottom: 8px; }
@@ -298,24 +325,27 @@
         .final-cta-section { padding: 120px 40px; text-align: center; position: relative; overflow: hidden; z-index: 2; background: radial-gradient( ellipse 120% 80% at 50% -30%, rgba(0, 150, 255, 0.2) 0%, rgba(0, 100, 200, 0.08) 35%, rgba(0, 50, 100, 0.0) 60% ), var(--background-dark); }
         .cta-content-container { max-width: 750px; margin: 0 auto; position: relative; z-index: 3; }
         .cta-title { font-size: 2.6rem; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 35px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1); opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-        /* Use general .cta-button style, maybe override background */
+        
+        /* This button uses the general theme highlight color, not the product color. This is fine. */
         .final-cta-section .cta-button {
              background: linear-gradient(90deg, var(--highlight-color), #74c0fc); /* General Blue gradient */
              color: #051020; /* Dark text for contrast */
              box-shadow: 0 4px 15px rgba(77, 171, 247, 0.3);
+             /* Re-apply non-hero transition */
              transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s, background 0.3s ease, box-shadow 0.3s ease;
         }
          .final-cta-section .cta-button:hover {
              background: linear-gradient(90deg, #74c0fc, #a5d8ff);
              box-shadow: 0 6px 20px rgba(77, 171, 247, 0.4);
-         }
+        }
          section.animate-in .cta-title, section.animate-in .cta-button { opacity: 1; transform: translateY(0); }
 
         /* --- Footer Styles (Consistent) --- */
         .site-footer { background-color: #000000; color: var(--text-muted-color); padding-top: 60px; font-size: 0.9rem; position: relative; overflow: hidden; margin-top: 0 !important; }
         .footer-content { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr; gap: 30px; max-width: 1400px; margin: 0 auto; padding: 0 40px 50px 40px; position: relative; z-index: 2; }
         .footer-logo-column, .footer-links-column, .footer-contact-column { padding: 0 10px; }
-        .footer-logo { font-size: 1.8rem; font-weight: bold; color: #fff; margin-bottom: 20px; }
+        /* FIXED: Footer logo is now a link */
+        .footer-logo { font-size: 1.8rem; font-weight: bold; color: #fff; margin-bottom: 20px; text-decoration: none; }
         .footer-social-icons a { color: #888; font-size: 1.2rem; margin-right: 15px; transition: color 0.3s ease; } .footer-social-icons a:hover { color: #fff; }
         .footer-links-column h4 { font-size: 1rem; color: #fff; margin-bottom: 15px; font-weight: 600; }
         .footer-links-column ul { list-style: none; padding: 0; margin: 0; } .footer-links-column li { margin-bottom: 10px; }
@@ -333,15 +363,77 @@
              .features-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
              .benefits-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
              .steps-container { justify-content: center; }
-             .footer-content { grid-template-columns: repeat(3, 1fr); }
-             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; text-align: center; margin-bottom: 30px;}
+             /* FIXED: Footer Grid */
+             .footer-content { 
+                grid-template-columns: 1fr 1fr; /* 2 columns */
+                gap: 40px;
+            }
+            .footer-logo-column {
+                grid-column: 1 / 2; /* Logo top-left */
+                text-align: left;
+                margin-bottom: 0; /* Reset margin */
+            }
+            .footer-contact-column {
+                grid-column: 2 / 3; /* Contact top-right */
+                text-align: left;
+                margin-bottom: 0; /* Reset margin */
+            }
          }
 
          @media (max-width: 768px) {
              section { padding: 60px 20px; }
              .section-title { font-size: 2rem; margin-bottom: 40px; }
              header { padding: 15px 20px; position: static; background-color: #000; backdrop-filter: none; border-bottom: none; }
-             nav ul { display: none; } /* Implement burger later if needed */
+             
+             /* --- ADDED: Mobile Nav Rules --- */
+             .mobile-nav-toggle {
+                display: block; /* Show burger button */
+             }
+             
+             nav {
+                display: none; /* Hide the nav container by default */
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: #01020a;
+                z-index: 1000;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            nav.mobile-nav-open {
+                display: flex; /* Show the mobile menu */
+            }
+        
+            nav.mobile-nav-open ul {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            nav.mobile-nav-open ul li {
+                margin-left: 0;
+            }
+            nav.mobile-nav-open ul li a {
+                font-size: 1.5rem; /* Larger text for mobile */
+            }
+        
+            /* Animate burger to 'X' */
+            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(2) {
+                opacity: 0;
+            }
+            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            /* --- End Mobile Nav Rules --- */
+
+             nav ul { display: none; } /* Hide main nav by default */
              .product-hero { padding-top: 80px; padding-bottom: 60px; min-height: 60vh;}
              .product-hero h1 { font-size: 2.8rem; }
              .product-hero .tagline { font-size: 1.2rem; }
@@ -356,7 +448,7 @@
              .cta-title { font-size: 2rem; }
              .cta-button { padding: 12px 28px; font-size: 0.95rem; }
              .footer-content { grid-template-columns: 1fr 1fr; padding: 0 20px 40px 20px; }
-             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; }
+             .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; text-align: center; margin-bottom: 30px; }
              .footer-links-column { text-align: center; }
              .footer-graphic { width: 60%; opacity: 0.5; }
          }
@@ -374,18 +466,24 @@
 <body>
 
     <header>
-        <div class="logo">shivati_ai</div>
+        <a href="/" class="logo">shivati_ai</a>
         <nav>
              <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/product">Products</a></li>
-                <li><a href="about/">Company</a></li>
-                <li><a href="#">Security</a></li>
-                <li><a href="#">Resources</a></li>
-                <li><a href="/careers">Careers</a></li>
+                 <li><a href="/">Home</a></li>
+                 <li><a href="/product" class="active-product-link">Products</a></li>
+                 <li><a href="/about">Company</a></li>
+                 <li><a href="#">Security</a></li>
+                 <li><a href="#">Resources</a></li>
+                 <li><a href="/careers">Careers</a></li>
              </ul>
         </nav>
-        <button class="demo-button">Request a Demo</button>
+        <a href="/demo?product=StressMaster" class="demo-button">Request a Demo</a>
+        
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+        </button>
     </header>
 
     <main>
@@ -394,7 +492,7 @@
                 <h1>StressMaster</h1>
                 <p class="tagline">Intelligent Structural Analysis & Design Optimization</p>
                 <p class="intro-text">Accelerate your structural design process with AI-driven insights. StressMaster provides rapid predictions, identifies potential failure points, and optimizes material usage for complex structural elements and systems.</p>
-                <a href="#request-demo" class="cta-button">Request StressMaster Demo <i class="fas fa-arrow-right"></i></a>
+                <a href="/demo?product=StressMaster" class="cta-button">Request StressMaster Demo <i class="fas fa-arrow-right"></i></a>
             </div>
         </section>
 
@@ -406,9 +504,10 @@
                     <h3>The Solution: AI-Powered Predictive Engineering</h3>
                     <p>StressMaster employs advanced machine learning models trained on extensive structural data. It dramatically cuts down analysis time, predicts stress, strain, and deformation across various load cases, and suggests optimized designs for strength, stiffness, and material efficiency.</p>
                 </div>
+                
                 <div class="visual-column">
                     <div class="visual-placeholder">
-                        <i class="fas fa-project-diagram placeholder-icon"></i> <span>FEA vs. AI Analysis Speed (Placeholder)</span>
+                        <canvas id="speedComparisonChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -454,7 +553,7 @@
         <section class="final-cta-section" id="request-demo">
             <div class="cta-content-container animate-in">
                 <h2 class="cta-title">Ready to Revolutionize Your Structural Design?</h2>
-                <a href="#contact-sales" class="cta-button"> Request a Personalized StressMaster Demo <i class="fas fa-arrow-right"></i> </a>
+                <a href="/demo?product=StressMaster" class="cta-button"> Request a Personalized StressMaster Demo <i class="fas fa-arrow-right"></i> </a>
             </div>
         </section>
     </main>
@@ -462,7 +561,7 @@
     <footer class="site-footer">
          <div class="footer-content">
              <div class="footer-logo-column">
-                 <div class="footer-logo">shivati_ai</div>
+                 <a href="/" class="footer-logo">shivati_ai</a>
                  <div class="footer-social-icons">
                      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -474,8 +573,7 @@
                      <li><a href="/product">Overview</a></li>
                      <li><a href="#stressmaster" class="active-product-link">StressMaster</a></li>
                      <li><a href="#">ThermoSolver</a></li>
-                     {/* ... other products ... */}
-                 </ul>
+                     </ul>
              </div>
              <div class="footer-links-column">
                  <h4>Company</h4>
@@ -509,50 +607,50 @@
 
             // --- Consolidated Intersection Observer for Scroll Animations ---
              const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1 // Trigger when 10% is visible
-            };
+                 root: null,
+                 rootMargin: '0px',
+                 threshold: 0.1 // Trigger when 10% is visible
+             };
 
-            const observerCallback = (entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const target = entry.target;
+             const observerCallback = (entries, observer) => {
+                 entries.forEach(entry => {
+                     if (entry.isIntersecting) {
+                         const target = entry.target;
 
-                        // Apply staggered delay to direct children
-                        const itemsToStagger = target.querySelectorAll('.feature-item, .step-item, .benefit-card, .text-column, .visual-column');
-                        if (itemsToStagger.length > 0) {
-                            itemsToStagger.forEach((item, itemIndex) => {
-                                const delay = item.getAttribute('data-delay') || `${(itemIndex * 0.08) + 0.1}s`; // Slightly faster stagger
-                                item.style.transitionDelay = delay;
-                            });
-                        }
-                         target.classList.add('animate-in');
-                         // Unobserve after triggering if not needed for continuous observation
-                         // For hero elements that are visible on load, trigger animation directly.
-                         if (!target.classList.contains('product-hero')) {
-                            observer.unobserve(target);
+                         // Apply staggered delay to direct children
+                         const itemsToStagger = target.querySelectorAll('.feature-item, .step-item, .benefit-card, .text-column, .visual-column');
+                         if (itemsToStagger.length > 0) {
+                             itemsToStagger.forEach((item, itemIndex) => {
+                                 const delay = item.getAttribute('data-delay') || `${(itemIndex * 0.08) + 0.1}s`; // Slightly faster stagger
+                                 item.style.transitionDelay = delay;
+                             });
                          }
-                    }
-                });
-            };
+                          target.classList.add('animate-in');
+                          // Unobserve after triggering if not needed for continuous observation
+                          // For hero elements that are visible on load, trigger animation directly.
+                          if (!target.classList.contains('product-hero')) {
+                             observer.unobserve(target);
+                          }
+                     }
+                 });
+             };
 
-            const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+             const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
 
             // Observe sections or wrappers that trigger animations
              document.querySelectorAll('.product-hero, .product-section .content-wrapper, .features-section .content-wrapper, .how-it-works-section .content-wrapper, .benefits-section .content-wrapper, .final-cta-section .cta-content-container').forEach(el => {
                  // If element is already in view on load (like hero), trigger immediately
-                if (el.classList.contains('product-hero') && isElementInViewport(el)) {
-                     el.classList.add('animate-in');
-                     const itemsToStagger = el.querySelectorAll('.hero-content h1, .hero-content .tagline, .hero-content .intro-text, .hero-content .cta-button');
-                     itemsToStagger.forEach((item, itemIndex) => {
-                        const delay = item.style.transitionDelay || `${(itemIndex * 0.2) + 0.1}s`;
-                        item.style.transitionDelay = delay; // Keep existing or apply new
-                     });
-                } else {
-                    scrollObserver.observe(el);
-                }
-            });
+                 if (el.classList.contains('product-hero') && isElementInViewport(el)) {
+                      el.classList.add('animate-in');
+                      const itemsToStagger = el.querySelectorAll('.hero-content h1, .hero-content .tagline, .hero-content .intro-text, .hero-content .cta-button');
+                      itemsToStagger.forEach((item, itemIndex) => {
+                         const delay = item.style.transitionDelay || `${(itemIndex * 0.2) + 0.1}s`;
+                         item.style.transitionDelay = delay; // Keep existing or apply new
+                      });
+                 } else {
+                     scrollObserver.observe(el);
+                 }
+             });
 
             // Helper function to check if element is in viewport
             function isElementInViewport(el) {
@@ -572,19 +670,108 @@
             }
 
             // --- Smooth Scroll for Hero CTA to Demo Section ---
+            // Note: Your hero CTA link goes to a different page, so this smooth scroll won't apply to it.
+            // I'll leave the logic here in case you change the href to "#request-demo"
             const heroCtaButton = document.querySelector('.product-hero .cta-button[href="#request-demo"]');
-            const finalCtaButton = document.querySelector('.final-cta-section .cta-button[href="#contact-sales"]');
-
             if (heroCtaButton) {
                 heroCtaButton.addEventListener('click', function(e) {
                     e.preventDefault();
                     document.querySelector('#request-demo').scrollIntoView({ behavior: 'smooth' });
                 });
             }
-            if (finalCtaButton) {
-                 // No explicit scroll needed if it links to an ID within the footer that might be visible
-                 // Or, if #contact-sales is a separate section, ensure smooth scroll
-                 // For this example, it links to an ID in the footer.
+            
+            // --- 4. ADDED: Mobile Nav Toggle ---
+            const navToggle = document.querySelector('.mobile-nav-toggle');
+            const nav = document.querySelector('nav');
+            
+            if (navToggle && nav) {
+                navToggle.addEventListener('click', () => {
+                    nav.classList.toggle('mobile-nav-open');
+                    // Toggle body class to prevent scrolling when menu is open
+                    document.body.classList.toggle('mobile-nav-open'); 
+                    
+                    // Toggle ARIA attribute for accessibility
+                    const isExpanded = nav.classList.contains('mobile-nav-open');
+                    navToggle.setAttribute('aria-expanded', isExpanded);
+                });
+            }
+
+            // --- 5. ADDED: Chart.js Initialization ---
+            const chartCanvas = document.getElementById('speedComparisonChart');
+            if (chartCanvas) {
+                const ctx = chartCanvas.getContext('2d');
+                
+                // Get theme colors from CSS variables
+                const styles = getComputedStyle(document.documentElement);
+                const accentColor = styles.getPropertyValue('--product-accent-color').trim();
+                const textColor = styles.getPropertyValue('--text-color').trim();
+                const gridColor = 'rgba(255, 255, 255, 0.1)';
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Chassis (Torsion)', 'Bracket (Fatigue)', 'Assembly (Vibration)', 'Full System (Load)'],
+                        datasets: [
+                            {
+                                label: 'Traditional FEA (Hours)',
+                                data: [40, 32, 60, 100], // "Random" slow data
+                                backgroundColor: 'rgba(255, 99, 132, 0.6)', // A standard red/pink
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'StressMaster (Hours)',
+                                data: [1.5, 1, 3, 4.5], // "Random" fast data
+                                backgroundColor: accentColor, // Themed color!
+                                borderColor: accentColor,
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: textColor // Dark mode text
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'FEA vs. AI Analysis Speed',
+                                color: textColor,
+                                font: {
+                                    size: 16
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Time (Hours)',
+                                    color: textColor
+                                },
+                                ticks: {
+                                    color: textColor // Dark mode text
+                                },
+                                grid: {
+                                    color: gridColor // Dark mode grid
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: textColor // Dark mode text
+                                },
+                                grid: {
+                                    color: 'transparent' // No vertical grid
+                                }
+                            }
+                        }
+                    }
+                });
             }
 
 
