@@ -1,5 +1,17 @@
 .venv
+.venv-1
 database.db
 app.log
 *.db
 __pycache__/
+
+# Large data files
+*.csv
+WHTCS*.csv
+
+# ML model files
+*.h5
+*.joblib
+
+# IDE
+.idea/

@@ -1,38 +1,580 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Demo Requests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Requests - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        :root {
+            --color-background-dark: #000000;
+            --color-background-medium: #050a1a;
+            --color-background-light: #0a0514;
+            --color-accent: #0096FF;
+            --color-success: #00ff8c;
+            --color-error: #ff4d4d;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #e0e0e0;
+            --color-border: rgba(255, 255, 255, 0.2);
+            --transition-duration: 0.3s;
+            --animation-timing-apple: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes moveGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes pop-in {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(-45deg, var(--color-background-dark), var(--color-background-medium), var(--color-background-dark), var(--color-background-light));
+            background-size: 400% 400%;
+            animation: moveGradient 30s ease infinite;
+            color: var(--color-text-primary);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        #hero-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .spotlight {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--color-accent);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+            transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+            mix-blend-mode: screen;
+        }
+
+        .spotlight.is-hovering {
+            width: 40px;
+            height: 40px;
+            opacity: 0.5;
+        }
+
+        /* --- Login Modal Styles --- */
+        #login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.5s ease;
+        }
+
+        #login-modal {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            padding: 2.5rem 3rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: pop-in 0.5s var(--animation-timing-apple);
+        }
+
+        #login-modal h2 {
+            margin-top: 0;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .login-form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-form-group .fa-lock {
+            position: absolute;
+            top: 13px;
+            left: 15px;
+            color: var(--color-text-secondary);
+        }
+
+        #passwordInput {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.5rem;
+            /* Left padding for icon */
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text-primary);
+            font-size: 1rem;
+            transition: all var(--transition-duration);
+            box-sizing: border-box;
+            /* Important for padding */
+        }
+
+        #passwordInput:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 10px rgba(0, 150, 255, 0.3);
+        }
+
+        #loginButton {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--color-accent);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all var(--transition-duration);
+        }
+
+        #loginButton:hover {
+            background-color: #fff;
+            transform: scale(1.03);
+        }
+
+        #login-error {
+            color: var(--color-error);
+            margin-top: 1rem;
+            height: 1.2em;
+            /* Reserve space to prevent layout shift */
+            font-size: 0.9rem;
+            visibility: hidden;
+            /* Hide by default */
+        }
+
+        main {
+            padding: 2.5rem 3rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            position: relative;
+            z-index: 1;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            display: none;
+            /* Hidden by default */
+        }
+
+        /* --- ADDED: Logout Button Style --- */
+        #logoutButton {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            background: none;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all var(--transition-duration);
+            font-size: 0.9rem;
+        }
+
+        #logoutButton:hover {
+            background: var(--color-error);
+            color: var(--color-text-primary);
+            border-color: var(--color-error);
+        }
+
+        #logoutButton .fa-sign-out-alt {
+            margin-right: 0.5rem;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--color-text-primary);
+            margin-top: 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 1rem;
+            /* Adjust padding for logout button */
+            padding-right: 100px;
+            padding-left: 100px;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .search-container .fa-search {
+            position: absolute;
+            top: 13px;
+            left: 15px;
+            color: var(--color-text-secondary);
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.5rem;
+            /* Left padding for icon */
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text-primary);
+            font-size: 1rem;
+            transition: all var(--transition-duration);
+            box-sizing: border-box;
+            /* Important for padding */
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 10px rgba(0, 150, 255, 0.3);
+        }
+
+        #searchInput::placeholder {
+            color: var(--color-text-secondary);
+            opacity: 0.7;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--color-border);
+            padding: 12px 15px;
+            text-align: left;
+            color: var(--color-text-secondary);
+            border-left: none;
+            /* Cleaner look */
+            border-right: none;
+        }
+
+        th {
+            background-color: rgba(0, 150, 255, 0.1);
+            color: var(--color-text-primary);
+            font-weight: bold;
+        }
+
+        tbody tr {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s var(--animation-timing-apple);
+        }
+
+        tbody tr.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        tbody tr.hide-row {
+            display: none;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 150, 255, 0.05);
+            transform: scale(1.01);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 150, 255, 0.2);
+            z-index: 2;
+            position: relative;
+        }
+
+        td:first-child,
+        th:first-child {
+            width: 5%;
+        }
+
+        td:nth-child(3) {
+            user-select: all;
+            color: var(--color-accent);
+            cursor: pointer;
+            position: relative;
+            transition: color var(--transition-duration);
+        }
+
+        td:nth-child(3):hover {
+            color: var(--color-success);
+        }
+
+        [data-tooltip] {
+            position: relative;
+        }
+
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-success);
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            white-space: nowrap;
+            animation: pop-in 0.2s ease;
+        }
+
+        td:last-child {
+            line-height: 1.5;
+        }
     </style>
 </head>
+
 <body>
-    {% include '_header.html' %}
-    <main style="padding:24px;">
-    <h1>Demo Requests</h1>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Product</th>
-            <th>Message</th>
-        </tr>
-        {% for request in requests %}
-        <tr>
-            <td>{{ request.id }}</td>
-            <td>{{ request.name }}</td>
-            <td>{{ request.email }}</td>
-            <td>{{ request.product }}</td>
-            <td>{{ request.message }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-        </main>
-            {% include '_footer.html' %}
+    <canvas id="hero-canvas"></canvas>
+    <div class="spotlight"></div>
+
+    <div id="login-overlay">
+        <div id="login-modal">
+            <h2><i class="fas fa-user-shield"></i> Admin Access</h2>
+            <div class="login-form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="passwordInput" placeholder="Password" class="interactive-hover">
+            </div>
+            <button id="loginButton" class="interactive-hover">Unlock</button>
+            <div id="login-error">Incorrect Password</div>
+        </div>
+    </div>
+
+    <main id="main-content">
+        <button id="logoutButton" class="interactive-hover">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+
+        <h1>Demo Requests</h1>
+
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search requests..." class="interactive-hover">
+        </div>
+
+        <table id="requestTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Product</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr class="interactive-hover">
+                    <td>{{ request.id }}</td>
+                    <td>{{ request.name }}</td>
+                    <td data-copy>{{ request.email }}</td>
+                    <td>{{ request.product }}</td>
+                    <td>{{ request.message }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+            // --- Particle Background ---
+            const canvas = document.getElementById('hero-canvas');
+            if (canvas && !isTouchDevice) {
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+                const setup = () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    particles = [];
+                    const particleCount = Math.floor(canvas.width * canvas.height / 25000);
+                    for (let i = 0; i < particleCount; i++) {
+                        particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, size: Math.random() * 1.5 + 1 });
+                    }
+                };
+                const animate = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    particles.forEach(p => {
+                        p.x += p.vx; p.y += p.vy;
+                        p.vx *= 0.98; p.vy *= 0.98;
+                        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(0, 150, 255, 0.5)';
+                        ctx.fill();
+                    });
+                    requestAnimationFrame(animate);
+                };
+                setup(); animate();
+                window.addEventListener('resize', setup);
+            }
+
+            // --- Spotlight Cursor ---
+            const spotlight = document.querySelector('.spotlight');
+            if (spotlight && !isTouchDevice) {
+                window.addEventListener('mousemove', e => {
+                    spotlight.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+                });
+
+                // We re-query this *after* login to include table rows
+                const updateInteractiveElements = () => {
+                    const interactiveElements = document.querySelectorAll('.interactive-hover');
+                    interactiveElements.forEach(el => {
+                        el.addEventListener('mouseenter', () => spotlight.classList.add('is-hovering'));
+                        el.addEventListener('mouseleave', () => spotlight.classList.remove('is-hovering'));
+                    });
+                };
+                updateInteractiveElements(); // Run once for modal
+
+                // --- Login Logic ---
+                const loginOverlay = document.getElementById('login-overlay');
+                const mainContent = document.getElementById('main-content');
+                const loginButton = document.getElementById('loginButton');
+                const passwordInput = document.getElementById('passwordInput');
+                const loginError = document.getElementById('login-error');
+
+                // --- UPDATED: Obfuscated Password ---
+                // This is "shivati_ai_admin" encoded in Base64
+                // This is NOT secure, just harder to read.
+                const SECRET_KEY = "c2hpdmF0aV9haV9hZG1pbg==";
+
+                const attemptLogin = () => {
+                    // UPDATED: Check against the decoded (atob) key
+                    if (passwordInput.value === atob(SECRET_KEY)) {
+                        // Success
+                        loginOverlay.style.opacity = '0';
+                        mainContent.style.display = 'block';
+                        document.body.style.overflow = 'auto'; // Restore scrolling
+
+                        setTimeout(() => {
+                            loginOverlay.style.display = 'none';
+
+                            // Trigger staggered row animation *after* login
+                            const rows = document.querySelectorAll('#requestTable tbody tr');
+                            rows.forEach((row, index) => {
+                                setTimeout(() => {
+                                    row.classList.add('is-visible');
+                                }, index * 50); // Stagger by 50ms
+                            });
+
+                            // Update spotlight to include new elements
+                            updateInteractiveElements();
+
+                            // --- Live Search Filter (Initialize AFTER login) ---
+                            const searchInput = document.getElementById('searchInput');
+                            searchInput.addEventListener('input', (e) => {
+                                const searchTerm = e.target.value.toLowerCase();
+                                document.querySelectorAll('#requestTable tbody tr').forEach(row => {
+                                    const rowText = row.textContent.toLowerCase();
+                                    if (rowText.includes(searchTerm)) {
+                                        row.classList.remove('hide-row');
+                                    } else {
+                                        row.classList.add('hide-row');
+                                    }
+                                });
+                            });
+
+                            // --- Click-to-Copy Email (Initialize AFTER login) ---
+                            const emailCells = document.querySelectorAll('td[data-copy]');
+                            emailCells.forEach(cell => {
+                                cell.addEventListener('click', (e) => {
+                                    const email = e.currentTarget.textContent;
+                                    navigator.clipboard.writeText(email).then(() => {
+                                        e.currentTarget.setAttribute('data-tooltip', 'Copied!');
+                                        setTimeout(() => {
+                                            e.currentTarget.removeAttribute('data-tooltip');
+                                        }, 1500);
+                                    }).catch(err => {
+                                        console.error('Failed to copy text: ', err);
+                                    });
+                                });
+                            });
+
+                            // --- ADDED: Logout Button Logic ---
+                            const logoutButton = document.getElementById('logoutButton');
+                            logoutButton.addEventListener('click', () => {
+                                // Simply reload the page to re-trigger the lock
+                                location.reload();
+                            });
+
+                        }, 500); // Match CSS transition
+
+                    } else {
+                        // Failure
+                        loginError.style.visibility = 'visible';
+                        loginOverlay.querySelector('#login-modal').animate([
+                            { transform: 'translateX(-10px)' },
+                            { transform: 'translateX(10px)' },
+                            { transform: 'translateX(-10px)' },
+                            { transform: 'translateX(0px)' }
+                        ], {
+                            duration: 300,
+                            easing: 'ease-in-out'
+                        });
+                        passwordInput.value = ""; // Clear password
+                    }
+                };
+
+                loginButton.addEventListener('click', attemptLogin);
+                passwordInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        attemptLogin();
+                    }
+                    loginError.style.visibility = 'hidden';
+                });
+
+            } else if (spotlight) {
+                spotlight.style.display = 'none';
+            }
+        });
+    </script>
 </body>
+
 </html>

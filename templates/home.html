@@ -1,643 +1,3012 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>shivati_ai - Home</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    /* --- Design System & Base Styles --- */
-    :root {
-      /* Colors */
-      --color-background-dark: #000000;
-      --color-background-medium: #050a1a;
-      --color-background-light: #0a0514;
-      --color-spotlight: rgba(0, 150, 255, 0.15);
-      --color-accent: #0096FF; /* Accent for particles */
-      --color-text-primary: #ffffff;
-      --color-text-secondary: #e0e0e0;
-      --color-text-muted: #b0b0b0;
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>shivati_ai - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* --- Design System & Base Styles --- */
+        :root {
+            /* Colors */
+            --color-background-dark: #000000;
+            --color-background-medium: #050a1a;
+            --color-background-light: #0a0514;
+            --color-spotlight: rgba(0, 150, 255, 0.15);
+            --color-accent: #0096FF;
+            /* Accent for particles */
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #e0e0e0;
+            --color-text-muted: #b0b0b0;
 
-      /* Animations */
-      --transition-duration: 0.3s;
-      --transition-duration-long: 0.8s;
-      --animation-timing-fast: ease;
-      --animation-timing-apple: cubic-bezier(0.4, 0, 0.2, 1);
-    }
+            /* --- ADDED: Case Study Colors --- */
+            --genesis-accent-color: #a855f7;
+            --genesis-accent-light: #c084fc;
+            --genesis-glow-color: rgba(168, 85, 247, 0.4);
+            --color-success: #00ff8c;
 
-    @keyframes moveGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    @keyframes scrollLeftAnimation {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    @keyframes shine-effect {
-        0% { transform: translateX(-150%) skewX(-25deg); }
-        100% { transform: translateX(150%) skewX(-25deg); }
-    }
+            --thermo-accent-color: #ff6b3b;
+            --thermo-accent-light: #ff8a63;
+            --thermo-glow-color: rgba(255, 107, 59, 0.4);
 
-    body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(-45deg, var(--color-background-dark), var(--color-background-medium), var(--color-background-dark), var(--color-background-light));
-      background-size: 400% 400%;
-      animation: moveGradient 30s ease infinite;
-      color: var(--color-text-primary);
-      overflow-x: hidden;
-      /* cursor: none; <-- REMOVED this line to make the cursor visible */
-    }
+            --stress-accent-color: #3b82f6;
+            --stress-accent-light: #60a5fa;
+            --stress-glow-color: rgba(59, 130, 246, 0.4);
 
-    /* --- ✨ Interactive Spotlight & Magnetic Cursor --- */
-    .spotlight {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: var(--color-accent);
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        z-index: 1001;
-        transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border 0.3s ease;
-        mix-blend-mode: screen;
-    }
-    .spotlight.docked {
-        background-color: transparent;
-        width: 60px;
-        height: 60px;
-        border: 1px solid var(--color-accent);
-    }
-    .spotlight-follower {
-        position: fixed;
-        top: 0; left: 0;
-        width: 400px; height: 400px;
-        border-radius: 50%;
-        background: radial-gradient(circle, var(--color-spotlight) 0%, transparent 60%);
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        z-index: 1000;
-    }
+            --mech-accent-color: #4ade80;
+            --mech-accent-light: #86efac;
+            --mech-glow-color: rgba(74, 222, 128, 0.4);
+            /* --- End Product Colors --- */
 
+            /* Animations */
+            --transition-duration: 0.3s;
+            --transition-duration-long: 0.8s;
+            --animation-timing-fast: ease;
+            --animation-timing-apple: cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* --- 🚀 Dynamic Header on Scroll --- */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 30px 50px;
-      position: sticky;
-      top: 0;
-      background-color: rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      z-index: 100;
-      transition: padding var(--transition-duration) ease, background-color var(--transition-duration) ease;
-    }
-    header.scrolled {
-        padding: 15px 50px;
-        background-color: rgba(0, 0, 0, 0.85);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-    .logo {
-      font-size: 24px; font-weight: bold; text-decoration: none;
-      color: var(--color-text-primary);
-    }
-    nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
-    nav ul li { margin-left: 25px; }
-    nav ul li a {
-      text-decoration: none; color: var(--color-text-secondary); font-size: 16px;
-      transition: color var(--transition-duration) var(--animation-timing-fast);
-    }
-    nav ul li a:hover, nav ul li a:focus-visible { color: var(--color-text-primary); outline: none; }
-    .demo-button {
-      background-color: transparent; color: var(--color-text-primary); border: 1px solid var(--color-text-primary);
-      padding: 10px 20px; border-radius: 5px; font-size: 16px;
-      transition: background-color var(--transition-duration) var(--animation-timing-fast), color var(--transition-duration) var(--animation-timing-fast), transform 0.2s var(--animation-timing-fast);
-    }
-    .demo-button:hover, .demo-button:focus-visible {
-      background-color: var(--color-text-primary); color: var(--color-background-dark);
-      transform: translateY(-2px); outline: none;
-    }
+            /* Card styles */
+            --card-bg: rgba(30, 30, 35, .6);
+            --color-border: rgba(255, 255, 255, 0.1);
 
-    /* --- 🌌 Hero Canvas --- */
-    #hero-canvas {
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        z-index: 0;
-    }
-    .hero-content {
-        position: relative; z-index: 1; display: flex;
-        flex-direction: column; align-items: center;
-    }
+            --text-color: #e0e0e0;
+            --text-muted-color: #a0a0a0;
+            --background-dark: #01020a;
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
 
-    /* --- Hero Section Styles --- */
-    .hero-section {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: 85vh; text-align: center; padding: 40px 20px; position: relative; overflow: hidden;
-    }
-    .hero-title, .hero-subtitle, .input-area {
-      opacity: 0;
-      transform: translateY(40px) scale(0.98);
-      transition: opacity var(--transition-duration-long) var(--animation-timing-apple), transform var(--transition-duration-long) var(--animation-timing-apple);
-    }
-    
-    .hero-title { font-size: 3.5rem; line-height: 1.2; margin-bottom: 20px; max-width: 900px; text-shadow: 0 0 15px rgba(255, 255, 255, 0.15); }
-    .hero-subtitle { font-size: 1.2rem; color: #ccc; max-width: 700px; margin-bottom: 30px; transition-delay: 0.2s; }
-    .input-area { display: flex; gap: 10px; transition-delay: 0.4s; }
-    .animate-in .hero-title, .animate-in .hero-subtitle, .animate-in .input-area {
-      opacity: 1; transform: translateY(0) scale(1);
-    }
-    .book-demo-button, .results-button, .cta-button, .demo-button { transition: transform 0.3s var(--animation-timing-apple); will-change: transform;}
-    .book-demo-button:hover, .book-demo-button:focus-visible { background-color: #ddd; transform: translateY(-2px); outline: none; }
+        @keyframes moveGradient {
+            0% {
+                background-position: 0% 50%;
+            }
 
-    /* --- ✍️ Cinematic Text Reveal --- */
-    .sequential-lines-section {
-      padding: 80px 40px; background-color: var(--color-background-dark);
-      text-align: center; overflow: hidden;
-    }
-    .lines-container {
-      max-width: 900px; margin: 0 auto; position: relative;
-      min-height: 120px; display: flex; align-items: center; justify-content: center;
-    }
-    .sequential-line {
-      font-size: 2.8rem; line-height: 1.4; color: var(--color-text-muted);
-      font-weight: 500;
-      position: absolute; top: 50%; left: 0; right: 0;
-      transform: translateY(-50%);
-      visibility: hidden;
-      opacity: 0;
-    }
-    .sequential-line.is-active {
-        visibility: visible;
-        opacity: 1;
-    }
-    .sequential-line span {
-        display: inline-block;
-        opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.6s var(--animation-timing-apple), transform 0.6s var(--animation-timing-apple);
-    }
-    .sequential-line.is-active span {
-        opacity: 1;
-        transform: translateY(0);
-        transition-delay: var(--letter-in-delay);
-    }
-    .sequential-line.is-hiding span {
-        opacity: 0;
-        transform: translateY(-30px);
-        transition-delay: var(--letter-out-delay);
-    }
-    .sequential-line strong { color: var(--color-text-primary); font-weight: 700; }
+            50% {
+                background-position: 100% 50%;
+            }
 
-    /* --- 🔮 3D Interactive Cards --- */
-    .interactive-card { transform-style: preserve-3d; transition: transform 0.4s ease-out; }
-    .interactive-card::before {
-        content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
-        opacity: 0; transform: translateX(-150%) skewX(-25deg); transition: opacity 0.4s ease;
-    }
-    .interactive-card:hover::before { opacity: 1; animation: shine-effect 1.2s ease-in-out; }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
 
+        @keyframes scrollLeftAnimation {
+            0% {
+                transform: translateX(0);
+            }
 
-    /* --- UPDATED: Case Study Card Scroller --- */
-    .card-scroller-section {
-        padding: 80px 0;
-        overflow: hidden;
-    }
-    .card-scroller-section h2 {
-        text-align: center;
-        font-size: 2.2rem;
-        margin-bottom: 50px;
-        color: var(--color-text-primary);
-    }
-    .card-scroller {
-        width: 100%;
-        overflow: hidden;
-        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    }
-    .card-scroller-inner {
-        display: flex;
-        flex-wrap: nowrap;
-        width: fit-content;
-        animation: scrollLeftAnimation 90s linear infinite;
-    }
-    .card-scroller:hover .card-scroller-inner {
-        animation-play-state: paused;
-    }
-    .scroller-card-link {
-        display: block;
-        text-decoration: none;
-        color: inherit;
-        margin: 0 15px;
-    }
-    .alert-card {
-        border-radius: 25px;
-        padding: 30px;
-        display: flex;
-        flex-direction: column;
-        width: 350px;
-        min-height: 320px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        text-align: left;
-        align-items: flex-start;
-    }
-    .scroller-card-link:hover .alert-card {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-    }
-    .card-icon {
-      font-size: 1.8rem;
-      color: var(--color-accent);
-      margin-bottom: 20px;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: rgba(0, 150, 255, 0.1);
-      border-radius: 50%;
-    }
-    .alert-card h3 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: var(--color-text-primary);
-        margin: 0 0 10px 0;
-    }
-    .alert-card p {
-        font-size: .95rem;
-        color: var(--color-text-muted);
-        line-height: 1.6;
-        margin-bottom: 20px;
-    }
-    .card-cta {
-        margin-top: auto;
-        font-weight: bold;
-        color: var(--color-text-secondary);
-        opacity: 0.8;
-        transition: color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-    }
-    .scroller-card-link:hover .card-cta {
-        color: var(--color-text-primary);
-        opacity: 1;
-        transform: translateX(5px);
-    }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
 
-    /* --- UPDATED: 3D Concept Sphere --- */
-    .globe-placeholder {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-height: 400px;
-      perspective: 1000px;
-      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.05), transparent 70%), #050a1a;
-      border-radius: 20px;
-      box-shadow: inset 0 0 80px rgba(0,0,0,.8), 0 0 50px -15px rgba(0,150,255,.25);
-    }
-    .tag-sphere {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-    }
-    .tag-sphere .tag {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: var(--color-text-muted);
-      will-change: transform, opacity;
-      transition: color 0.3s ease;
-      user-select: none;
-      white-space: nowrap;
-    }
-    .tag-sphere .tag:hover {
-      color: var(--color-accent);
-    }
+        @keyframes btn-shine {
+            0% {
+                transform: translateX(-100%) skew(-20deg);
+            }
+
+            100% {
+                transform: translateX(200%) skew(-20deg);
+            }
+        }
+
+        /* --- Case Study Animations (Themed) --- */
+        @keyframes core-pulse-purple {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 var(--genesis-glow-color);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 30px rgba(168, 85, 247, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(168, 85, 247, 0);
+            }
+        }
+
+        @keyframes core-pulse-orange {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 var(--thermo-glow-color);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 30px rgba(255, 107, 59, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 107, 59, 0);
+            }
+        }
+
+        @keyframes core-pulse-blue {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 var(--stress-glow-color);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 30px rgba(59, 130, 246, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+            }
+        }
+
+        @keyframes core-pulse-green {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 var(--mech-glow-color);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 30px rgba(74, 222, 128, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+            }
+        }
+
+        @keyframes data-stream-flow {
+            0% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes pop-in {
+            0% {
+                transform: scale(0.95) translateY(30px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(-45deg, var(--color-background-dark), var(--color-background-medium), var(--color-background-dark), var(--color-background-light));
+            background-size: 400% 400%;
+            animation: moveGradient 30s ease infinite;
+            color: var(--color-text-primary);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        * {
+            cursor: none;
+        }
+
+        /* --- MODIFIED: New Cursor System --- */
+        #mouse-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1001;
+            transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+        }
+
+        #mouse-circle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--color-accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1000;
+            will-change: transform;
+            transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease, border-width 0.3s ease;
+        }
+
+        body.is-hovering #mouse-dot {
+            opacity: 0;
+        }
+
+        body.is-hovering #mouse-circle {
+            width: 50px;
+            height: 50px;
+            border-width: 1px;
+            opacity: 0.5;
+        }
+
+        body.is-clicking #mouse-dot {
+            width: 12px;
+            height: 12px;
+        }
+
+        body.is-clicking #mouse-circle {
+            width: 25px;
+            height: 25px;
+            opacity: 0.8;
+        }
+
+        /* --- End New Cursor System --- */
 
 
-    /* [The rest of the CSS is identical and minified for brevity] */
-    .visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);border:0}.email-input{padding:12px 15px;border:1px solid #555;border-radius:5px;background-color:#111;color:var(--color-text-primary);font-size:16px;width:300px}.email-input::placeholder{color:var(--color-text-placeholder)}.book-demo-button{background-color:var(--color-text-primary);color:var(--color-background-dark);border:none;padding:12px 30px;border-radius:5px;font-size:16px;font-weight:700}.logo-scroller-section{background-color:var(--color-background-dark);padding:40px 0;margin-top:50px;color:#ccc;overflow:hidden}.logo-scroller-section h3{text-align:center;margin-bottom:30px;font-size:.9rem;font-weight:400;color:#aaa;letter-spacing:.5px}.logo-scroller{width:100%;overflow:hidden;mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent)}.logo-scroller-inner{display:flex;flex-wrap:nowrap;width:fit-content;align-items:center;animation:scrollLeftAnimation 45s linear infinite}.logo-scroller:hover .logo-scroller-inner{animation-play-state:paused}.logo-item{display:flex;align-items:center;justify-content:center;padding:0 40px;height:50px;flex-shrink:0;white-space:nowrap;color:var(--color-text-secondary);font-size:1.1rem}.glass-card{background:rgba(30,30,35,.6);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,0.1);box-shadow:0 8px 30px rgba(0,0,0,.4);will-change:transform,opacity;position:relative;overflow:hidden}.features-globe-section{padding:100px 40px;background-color:var(--color-background-dark);overflow:hidden}.features-globe-container{max-width:1400px;margin:0 auto;display:flex;align-items:stretch;gap:50px}.features-column-left{flex:1 1 40%;display:flex;flex-direction:column;justify-content:center;gap:30px}.features-column-right{flex:1 1 60%;display:flex}.feature-card{border-radius:20px;padding:30px;color:var(--color-text-secondary);display:flex;flex-direction:column;opacity:0;transform:translateY(40px) scale(.95)}.features-column-right .feature-card{width:100%}.feature-card.is-visible{opacity:1;transform:translateY(0) scale(1)}.features-column-left .feature-card:nth-child(1).is-visible{transition-delay:.1s}.features-column-left .feature-card:nth-child(2).is-visible{transition-delay:.3s}.features-column-right .feature-card.is-visible{transition-delay:.2s}.feature-icon{font-size:1.8rem;color:var(--color-text-primary);margin-bottom:15px;width:fit-content}.feature-card h3{font-size:1.4rem;color:var(--color-text-primary);margin:0 0 10px 0;line-height:1.3}.feature-card p{font-size:.95rem;color:var(--color-text-muted);line-height:1.6;margin-bottom:0}.features-column-right .feature-card p{margin-bottom:30px}.features-column-right .feature-card .globe-placeholder{margin-top:auto}.results-section{background-color:var(--color-background-dark);padding:100px 40px;text-align:center;color:var(--color-text-primary);overflow:hidden}.results-title{font-size:2.8rem;font-weight:600;line-height:1.3;margin:0 auto 70px auto;max-width:700px}.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;max-width:1100px;margin:0 auto 70px auto}.result-item{position:relative;padding:0 20px;opacity:0;transform:translateY(40px);transition:opacity var(--transition-duration-long) var(--animation-timing-apple),transform var(--transition-duration-long) var(--animation-timing-apple);will-change:opacity,transform}.result-item:not(:first-child)::before{content:'';position:absolute;top:10%;bottom:10%;left:-20px;width:1px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.25),transparent)}.result-number{font-size:7rem;font-weight:600;line-height:1;margin-bottom:15px;color:var(--color-text-secondary);letter-spacing:-2px;display:inline-block;vertical-align:middle}.digit-roller{display:inline-block;height:7rem;line-height:7rem;overflow:hidden;vertical-align:middle;position:relative;width:4rem;text-align:center}.digit-roller-inner{display:inline-block;position:absolute;top:0;left:0;width:100%;text-align:center;transform:translateY(-100%);transition:transform 1.5s cubic-bezier(.23,1,.32,1);transition-delay:var(--digit-delay,0s)}.result-suffix{display:inline-block;font-size:3.5rem;font-weight:500;color:#a0b0c0;vertical-align:baseline;margin-left:5px}.result-description{font-size:1rem;color:var(--color-text-muted);line-height:1.5;max-width:250px;margin:0 auto}.result-item.is-visible{opacity:1;transform:translateY(0)}.result-item:nth-child(1).is-visible{transition-delay:.1s}.result-item:nth-child(2).is-visible{transition-delay:.2s}.result-item:nth-child(3).is-visible{transition-delay:.3s}.results-button{background-color:var(--color-text-primary);color:var(--color-background-dark);border:none;padding:14px 35px;border-radius:8px;font-size:1rem;font-weight:600;transition:background-color var(--transition-duration) ease,transform .2s ease}.results-button:hover,.results-button:focus-visible{background-color:#e0e0e0;transform:scale(1.03);outline:none}.final-cta-section{padding:120px 40px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(ellipse 120% 80% at 50% -30%,rgba(0,150,255,.25) 0,rgba(0,100,200,.1) 35%,transparent 60%),#01020a}.cta-content-container{max-width:750px;margin:0 auto;position:relative;z-index:1}.cta-title,.cta-button{opacity:0;transform:translateY(30px) scale(.98);transition:opacity .8s var(--animation-timing-apple),transform .8s var(--animation-timing-apple)}.cta-title{font-size:2.6rem;font-weight:600;color:var(--color-text-primary);line-height:1.3;margin-bottom:35px;text-shadow:0 0 10px rgba(255,255,255,.1)}.cta-button{display:inline-flex;align-items:center;gap:10px;background-color:var(--color-text-primary);color:var(--color-background-dark);border:none;padding:12px 28px;border-radius:8px;font-size:1rem;font-weight:600;text-decoration:none;transition-property:background-color,color,transform,box-shadow;transition-duration:var(--transition-duration);transition-timing-function:var(--animation-timing-fast);box-shadow:0 5px 15px rgba(255,255,255,.1);transition-delay:.2s}.cta-button:hover,.cta-button:focus-visible{background-color:#e0e0e0;transform:translateY(-3px) scale(1.02);box-shadow:0 8px 20px rgba(255,255,255,.15);outline:none}.cta-button i{font-size:.9em}.animate-in .cta-title,.animate-in .cta-button{opacity:1;transform:translateY(0) scale(1)}.site-footer{background-color:var(--color-background-dark);color:#a0a0a0;padding-top:60px;font-size:.9rem;position:relative;overflow:hidden}.footer-content{display:grid;grid-template-columns:1.5fr repeat(3,1fr) 1.5fr;gap:30px;max-width:1400px;margin:0 auto;padding:0 40px 50px 40px;position:relative;z-index:2}.footer-logo-column,.footer-links-column,.footer-contact-column{padding:0 10px}.footer-logo{font-size:1.8rem;font-weight:700;color:var(--color-text-primary);margin-bottom:20px;text-decoration:none;display:inline-block}.footer-social-icons a{color:#888;font-size:1.2rem;margin-right:15px;transition:color var(--transition-duration) var(--animation-timing-fast)}.footer-social-icons a:hover,.footer-social-icons a:focus-visible{color:var(--color-text-primary);outline:none}.footer-links-column h4{font-size:1rem;color:var(--color-text-primary);margin-bottom:15px;font-weight:600}.footer-links-column ul{list-style:none;padding:0;margin:0}.footer-links-column li{margin-bottom:10px}.footer-links-column a{color:#a0a0a0;text-decoration:none;transition:color var(--transition-duration) var(--animation-timing-fast)}.footer-links-column a:hover,.footer-links-column a:focus-visible{color:var(--color-text-primary);text-decoration:underline;outline:none}.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);text-align:center;padding:20px 40px;font-size:.8rem;color:#888;position:relative;z-index:2;background-color:var(--color-background-dark)}.footer-graphic{position:absolute;bottom:0;right:0;width:40%;height:100%;max-width:500px;background:linear-gradient(to top left,transparent 50%,rgba(255,255,255,.02) 50.5%,rgba(255,255,255,.02) 51.5%,transparent 52%),linear-gradient(to top left,transparent 60%,rgba(255,255,255,.015) 60.5%,rgba(255,255,255,.015) 61.5%,transparent 62%);pointer-events:none;z-index:1;opacity:.7}@media (max-width:992px){.features-globe-container{flex-direction:column;gap:40px;align-items:center}.features-column-left,.features-column-right{width:90%;max-width:600px}.features-column-right{order:-1}.footer-content{grid-template-columns:repeat(3,1fr);gap:25px}.footer-logo-column{grid-column:1/-1;text-align:center;margin-bottom:30px}.footer-contact-column{grid-column:1/-1;text-align:center}}@media (max-width:768px){header.scrolled{padding:15px 20px}header{padding:15px 20px;flex-direction:column;gap:10px}nav ul{display:none}.hero-title{font-size:2.5rem}.hero-subtitle{font-size:1rem}.input-area{flex-direction:column;align-items:center;width:90%}.email-input,.book-demo-button{width:100%;max-width:350px}.logo-item{padding:0 25px;height:40px}.card-scroller-section{padding:60px 0}.sequential-line{font-size:1.8rem}.features-globe-section{padding:60px 20px}.globe-placeholder{width:75%;max-width:280px}.results-section{padding:60px 20px}.results-title{font-size:2rem;margin-bottom:40px}.results-grid{gap:50px;grid-template-columns:1fr}.result-item:not(:first-child)::before{display:none}.result-number,.digit-roller{font-size:5rem;height:5rem;line-height:5rem}.digit-roller{width:2.8rem}.result-suffix{font-size:2.5rem}.final-cta-section{padding:80px 20px}.cta-title{font-size:2rem}.footer-content{grid-template-columns:1fr 1fr;padding:0 20px 40px 20px}}
-  </style>
+        /* --- 🚀 MODIFIED: Header Layout --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            /* This is key */
+            align-items: center;
+            padding: 30px 50px;
+            position: sticky;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 100;
+            transition: padding var(--transition-duration) ease, background-color var(--transition-duration) ease;
+            transform: translateY(-100%);
+            animation: pop-in 1s var(--animation-timing-apple) 0.5s forwards;
+            opacity: 0;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            /* Space between button and toggle */
+        }
+
+        header.scrolled {
+            padding: 15px 50px;
+            background-color: rgba(0, 0, 0, 0.85);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: var(--color-text-primary);
+            transition: transform 0.3s ease;
+            /* For magnetic */
+            flex-shrink: 0;
+            /* Prevent logo from shrinking */
+        }
+
+        /* This is the desktop nav */
+        nav.desktop-nav {
+            /* This will be centered because header is space-between */
+        }
+
+        nav.desktop-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav.desktop-nav ul li {
+            margin: 0 12.5px;
+        }
+
+        /* Use margin for spacing */
+        nav.desktop-nav ul li a {
+            text-decoration: none;
+            color: var(--color-text-secondary);
+            font-size: 16px;
+            transition: color var(--transition-duration) var(--animation-timing-fast), transform 0.3s ease;
+            padding: 5px;
+            /* Add padding for easier clicking */
+        }
+
+        nav.desktop-nav ul li a:hover,
+        nav.desktop-nav ul li a:focus-visible {
+            color: var(--color-text-primary);
+            outline: none;
+        }
+
+        .demo-button {
+            background-color: transparent;
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-text-primary);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color var(--transition-duration) var(--animation-timing-fast), color var(--transition-duration) var(--animation-timing-fast), transform 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            /* Prevent button from shrinking */
+        }
+
+        .demo-button::after,
+        .cta-button::after,
+        .results-button::after,
+        .book-demo-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-150%) skew(-20deg);
+            transition: transform 0s;
+        }
+
+        .demo-button:hover::after,
+        .cta-button:hover::after,
+        .results-button:hover::after,
+        .book-demo-button:hover::after {
+            transform: translateX(250%) skew(-20deg);
+            transition: transform 0.8s var(--animation-timing-apple);
+        }
+
+        .demo-button:hover,
+        .demo-button:focus-visible {
+            background-color: var(--color-text-primary);
+            color: var(--color-background-dark);
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .interactive-hover {
+            /* Class for all magnetic items */
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .mobile-nav-toggle {
+            display: none;
+        }
+
+        /* Hide toggle on desktop */
+        .mobile-nav {
+            display: none;
+        }
+
+        /* Hide mobile nav on desktop */
+        /* --- End Header Fix --- */
+
+
+        /* --- 🌌 Hero Canvas --- */
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- Hero Section Styles --- */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 85vh;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title,
+        .hero-subtitle,
+        .input-area {
+            opacity: 0;
+            transform: translateY(40px);
+            /* Start lower */
+            animation: pop-in 0.8s var(--animation-timing-apple) forwards;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            max-width: 900px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+            animation-delay: 0.8s;
+            /* Stagger */
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            max-width: 700px;
+            margin-bottom: 30px;
+            animation-delay: 1.0s;
+            /* Stagger */
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            animation-delay: 1.2s;
+            /* Stagger */
+        }
+
+        .book-demo-button,
+        .results-button,
+        .cta-button,
+        .demo-button {
+            transition: transform 0.3s var(--animation-timing-apple);
+            will-change: transform;
+        }
+
+        .book-demo-button:hover,
+        .book-demo-button:focus-visible {
+            background-color: #ddd;
+            transform: translateY(-2px) scale(1.03);
+            outline: none;
+        }
+
+        /* Added scale */
+
+        /* --- ✍️ Cinematic Text Reveal --- */
+        .sequential-lines-section {
+            padding: 80px 40px;
+            background-color: var(--color-background-dark);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .lines-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sequential-line {
+            font-size: 2.8rem;
+            line-height: 1.4;
+            color: var(--color-text-muted);
+            font-weight: 500;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .sequential-line.is-active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .sequential-line span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s var(--animation-timing-apple), transform 0.6s var(--animation-timing-apple);
+        }
+
+        .sequential-line.is-active span {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: var(--letter-in-delay);
+        }
+
+        .sequential-line.is-hiding span {
+            opacity: 0;
+            transform: translateY(-30px);
+            transition-delay: var(--letter-out-delay);
+        }
+
+        .sequential-line strong {
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--color-text-secondary), var(--color-text-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* --- 🔮 3D Interactive Cards --- */
+        .interactive-card {
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease-out;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .card-glow,
+        .interactive-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                    var(--product-glow, var(--color-spotlight)),
+                    transparent 60%);
+            opacity: 0;
+            filter: blur(30px);
+            z-index: -1;
+            transition: opacity 0.4s ease;
+        }
+
+        .interactive-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .interactive-card:hover .card-glow,
+        .interactive-card:hover::after {
+            opacity: 0.5;
+        }
+
+
+        /* --- Case Study Card Scroller --- */
+        .card-scroller-section {
+            padding: 80px 0;
+            overflow: hidden;
+        }
+
+        .card-scroller-section h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 50px;
+            color: var(--color-text-primary);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: pop-in 0.8s var(--animation-timing-apple) forwards;
+        }
+
+        .card-scroller {
+            width: 100%;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .card-scroller-inner {
+            display: flex;
+            flex-wrap: nowrap;
+            width: fit-content;
+            animation: scrollLeftAnimation 90s linear infinite;
+        }
+
+        .card-scroller:hover .card-scroller-inner {
+            animation-play-state: paused;
+        }
+
+        .scroller-card-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            margin: 0 15px;
+        }
+
+        .alert-card {
+            border-radius: 25px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            width: 350px;
+            min-height: 320px;
+            text-align: left;
+            align-items: flex-start;
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--color-border);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .2);
+        }
+
+        .card-icon {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            /* Color/BG set in-line */
+        }
+
+        .alert-card[style*="#f97316"] .card-icon {
+            background-color: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+        }
+
+        .alert-card[style*="#3b82f6"] .card-icon {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .alert-card[style*="#4ade80"] .card-icon {
+            background-color: rgba(74, 222, 128, 0.1);
+            color: #4ade80;
+        }
+
+        .alert-card[style*="#06b6d4"] .card-icon {
+            background-color: rgba(6, 182, 212, 0.1);
+            color: #06b6d4;
+        }
+
+        .alert-card[style*="#a855f7"] .card-icon {
+            background-color: rgba(168, 85, 247, 0.1);
+            color: #a855f7;
+        }
+
+        .alert-card[style*="#ec4899"] .card-icon {
+            background-color: rgba(236, 72, 153, 0.1);
+            color: #ec4899;
+        }
+
+        .alert-card[style*="#f59e0b"] .card-icon {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .alert-card[style*="#84cc16"] .card-icon {
+            background-color: rgba(132, 204, 22, 0.1);
+            color: #84cc16;
+        }
+
+        .alert-card[style*="#ef4444"] .card-icon {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .alert-card[style*="#14b8a6"] .card-icon {
+            background-color: rgba(20, 184, 166, 0.1);
+            color: #14b8a6;
+        }
+
+        .alert-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin: 0 0 10px 0;
+        }
+
+        .alert-card p {
+            font-size: .95rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-cta {
+            margin-top: auto;
+            font-weight: bold;
+            color: var(--color-text-secondary);
+            opacity: 0.8;
+            transition: color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .scroller-card-link:hover .card-cta {
+            color: var(--color-text-primary);
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        /* --- 3D Concept Sphere --- */
+        .globe-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 400px;
+            perspective: 1000px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.05), transparent 70%), #050a1a;
+            border-radius: 20px;
+            box-shadow: inset 0 0 80px rgba(0, 0, 0, .8), 0 0 50px -15px rgba(0, 150, 255, .25);
+        }
+
+        .tag-sphere {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        .tag-sphere .tag {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            will-change: transform, opacity;
+            transition: color 0.3s ease;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .tag-sphere .tag:hover {
+            color: var(--color-accent);
+        }
+
+        /* --- MODIFIED: Case Study Carousel Section --- */
+        .case-study-section {
+            padding: 100px 40px;
+            background-color: rgba(0, 0, 0, 0.4);
+            position: relative;
+            min-height: 600px;
+            /* Give it space to fade */
+        }
+
+        .case-study-carousel-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .case-study-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            /* FASTER animation */
+            transition: opacity 0.5s var(--animation-timing-apple), transform 0.5s var(--animation-timing-apple);
+        }
+
+        .case-study-slide.is-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .case-study-slide .section-title,
+        .case-study-slide .section-subheading {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s;
+            /* FASTER */
+        }
+
+        .case-study-slide.is-active .section-title,
+        .case-study-slide.is-active .section-subheading {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .case-study-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .case-study-flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1.5rem;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            transition-delay: 0.2s;
+            /* FASTER */
+        }
+
+        .case-study-slide.is-active .case-study-flow {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .study-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            min-height: 250px;
+            /* --- Uses .interactive-card styles --- */
+        }
+
+        .study-card-core {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+            border: none;
+            min-height: auto;
+        }
+
+        /* --- STYLES FOR PURPLE (Genesis) CASE STUDY --- */
+        #genesis-case-study .study-card h3 {
+            font-size: 1.2rem;
+            color: var(--genesis-accent-light);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1rem;
+        }
+
+        #genesis-case-study .study-card-problem h3 {
+            color: var(--text-muted-color);
+        }
+
+        #genesis-case-study .study-card-solution h3 {
+            color: var(--color-success);
+        }
+
+        #genesis-case-study .ai-core {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--genesis-accent-color) 0%, var(--background-dark) 70%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+
+        .case-study-slide.is-active #genesis-case-study .ai-core {
+            animation: core-pulse-purple 2s infinite;
+        }
+
+        #genesis-case-study .data-stream {
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            top: 50%;
+            left: -50%;
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, var(--genesis-accent-color), var(--genesis-accent-light), transparent);
+            background-size: 200% 100%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        #genesis-case-study .data-stream.out {
+            left: 50%;
+            background: linear-gradient(-90deg, var(--color-success), var(--genesis-accent-light), transparent);
+            background-size: 200% 100%;
+        }
+
+        .case-study-slide.is-active #genesis-case-study .data-stream {
+            opacity: 1;
+            animation: data-stream-flow 1.5s linear infinite;
+            animation-delay: 0.5s;
+        }
+
+        .case-study-slide.is-active #genesis-case-study .data-stream.out {
+            animation-delay: 1s;
+        }
+
+        /* --- STYLES FOR ORANGE (ThermoSolver) CASE STUDY --- */
+        #thermo-case-study .study-card h3 {
+            font-size: 1.2rem;
+            color: var(--thermo-accent-light);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1rem;
+        }
+
+        #thermo-case-study .study-card-problem h3 {
+            color: var(--text-muted-color);
+        }
+
+        #thermo-case-study .study-card-solution h3 {
+            color: var(--color-success);
+        }
+
+        #thermo-case-study .ai-core {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--thermo-accent-color) 0%, var(--background-dark) 70%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+
+        .case-study-slide.is-active #thermo-case-study .ai-core {
+            animation: core-pulse-orange 2s infinite;
+        }
+
+        #thermo-case-study .data-stream {
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            top: 50%;
+            left: -50%;
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, var(--thermo-accent-color), var(--thermo-accent-light), transparent);
+            background-size: 200% 100%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        #thermo-case-study .data-stream.out {
+            left: 50%;
+            background: linear-gradient(-90deg, var(--color-success), var(--thermo-accent-light), transparent);
+            background-size: 200% 100%;
+        }
+
+        .case-study-slide.is-active #thermo-case-study .data-stream {
+            opacity: 1;
+            animation: data-stream-flow 1.5s linear infinite;
+            animation-delay: 0.5s;
+        }
+
+        .case-study-slide.is-active #thermo-case-study .data-stream.out {
+            animation-delay: 1s;
+        }
+
+        /* --- STYLES FOR BLUE (StressMaster) CASE STUDY --- */
+        #stress-case-study .study-card h3 {
+            font-size: 1.2rem;
+            color: var(--stress-accent-light);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1rem;
+        }
+
+        #stress-case-study .study-card-problem h3 {
+            color: var(--text-muted-color);
+        }
+
+        #stress-case-study .study-card-solution h3 {
+            color: var(--color-success);
+        }
+
+        #stress-case-study .ai-core {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--stress-accent-color) 0%, var(--background-dark) 70%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+
+        .case-study-slide.is-active #stress-case-study .ai-core {
+            animation: core-pulse-blue 2s infinite;
+        }
+
+        #stress-case-study .data-stream {
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            top: 50%;
+            left: -50%;
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, var(--stress-accent-color), var(--stress-accent-light), transparent);
+            background-size: 200% 100%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        #stress-case-study .data-stream.out {
+            left: 50%;
+            background: linear-gradient(-90deg, var(--color-success), var(--stress-accent-light), transparent);
+            background-size: 200% 100%;
+        }
+
+        .case-study-slide.is-active #stress-case-study .data-stream {
+            opacity: 1;
+            animation: data-stream-flow 1.5s linear infinite;
+            animation-delay: 0.5s;
+        }
+
+        .case-study-slide.is-active #stress-case-study .data-stream.out {
+            animation-delay: 1s;
+        }
+
+        /* --- STYLES FOR GREEN (MechMotion) CASE STUDY --- */
+        #mech-case-study .study-card h3 {
+            font-size: 1.2rem;
+            color: var(--mech-accent-light);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1rem;
+        }
+
+        #mech-case-study .study-card-problem h3 {
+            color: var(--text-muted-color);
+        }
+
+        #mech-case-study .study-card-solution h3 {
+            color: var(--color-success);
+        }
+
+        #mech-case-study .ai-core {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--mech-accent-color) 0%, var(--background-dark) 70%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+
+        .case-study-slide.is-active #mech-case-study .ai-core {
+            animation: core-pulse-green 2s infinite;
+        }
+
+        #mech-case-study .data-stream {
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            top: 50%;
+            left: -50%;
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, var(--mech-accent-color), var(--mech-accent-light), transparent);
+            background-size: 200% 100%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        #mech-case-study .data-stream.out {
+            left: 50%;
+            background: linear-gradient(-90deg, var(--color-success), var(--mech-accent-light), transparent);
+            background-size: 200% 100%;
+        }
+
+        .case-study-slide.is-active #mech-case-study .data-stream {
+            opacity: 1;
+            animation: data-stream-flow 1.5s linear infinite;
+            animation-delay: 0.5s;
+        }
+
+        .case-study-slide.is-active #mech-case-study .data-stream.out {
+            animation-delay: 1s;
+        }
+
+        /* Shared Card Styles */
+        .study-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .study-card li {
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .study-card li i {
+            font-size: 1rem;
+            margin-right: 12px;
+            color: var(--text-muted-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        .study-card-solution li i {
+            color: var(--color-success);
+        }
+
+        .study-card li strong {
+            color: #fff;
+            margin-right: 8px;
+        }
+
+        /* --- END Case Study Section --- */
+
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0
+        }
+
+        .email-input {
+            padding: 12px 15px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #111;
+            color: var(--color-text-primary);
+            font-size: 16px;
+            width: 300px;
+            transition: transform 0.3s ease;
+        }
+
+        .email-input::placeholder {
+            color: var(--color-text-placeholder)
+        }
+
+        .book-demo-button {
+            background-color: var(--color-text-primary);
+            color: var(--color-background-dark);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 700;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-scroller-section {
+            background-color: var(--color-background-dark);
+            padding: 40px 0;
+            margin-top: 50px;
+            color: #ccc;
+            overflow: hidden
+        }
+
+        .logo-scroller-section h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: .9rem;
+            font-weight: 400;
+            color: #aaa;
+            letter-spacing: .5px
+        }
+
+        .logo-scroller {
+            width: 100%;
+            overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent)
+        }
+
+        .logo-scroller-inner {
+            display: flex;
+            flex-wrap: nowrap;
+            width: fit-content;
+            align-items: center;
+            animation: scrollLeftAnimation 45s linear infinite
+        }
+
+        .logo-scroller:hover .logo-scroller-inner {
+            animation-play-state: paused
+        }
+
+        .logo-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 40px;
+            height: 50px;
+            flex-shrink: 0;
+            white-space: nowrap;
+            color: var(--color-text-secondary);
+            font-size: 1.1rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo-item:hover {
+            opacity: 1;
+        }
+
+        .glass-card {
+            background: rgba(30, 30, 35, .6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .2);
+            will-change: transform, opacity;
+            position: relative;
+            overflow: hidden
+        }
+
+        .features-globe-section {
+            padding: 100px 40px;
+            background-color: var(--color-background-dark);
+            overflow: hidden
+        }
+
+        .features-globe-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: stretch;
+            gap: 50px
+        }
+
+        .features-column-left {
+            flex: 1 1 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 30px
+        }
+
+        .features-column-right {
+            flex: 1 1 60%;
+            display: flex
+        }
+
+        .feature-card {
+            border-radius: 20px;
+            padding: 30px;
+            color: var(--color-text-secondary);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(40px) scale(.95)
+        }
+
+        .features-column-right .feature-card {
+            width: 100%
+        }
+
+        .feature-card.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1)
+        }
+
+        .features-column-left .feature-card:nth-child(1).is-visible {
+            transition-delay: .1s
+        }
+
+        .features-column-left .feature-card:nth-child(2).is-visible {
+            transition-delay: .3s
+        }
+
+        .features-column-right .feature-card.is-visible {
+            transition-delay: .2s
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            color: var(--color-text-primary);
+            margin-bottom: 15px;
+            width: fit-content
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            color: var(--color-text-primary);
+            margin: 0 0 10px 0;
+            line-height: 1.3
+        }
+
+        .feature-card p {
+            font-size: .95rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: 0
+        }
+
+        .features-column-right .feature-card p {
+            margin-bottom: 30px
+        }
+
+        .features-column-right .feature-card .globe-placeholder {
+            margin-top: auto
+        }
+
+        .results-section {
+            background-color: var(--color-background-dark);
+            padding: 100px 40px;
+            text-align: center;
+            color: var(--color-text-primary);
+            overflow: hidden
+        }
+
+        .results-title {
+            font-size: 2.8rem;
+            font-weight: 600;
+            line-height: 1.3;
+            margin: 0 auto 70px auto;
+            max-width: 700px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .results-section.is-visible .results-title {
+            animation: pop-in 0.8s var(--animation-timing-apple) forwards;
+            animation-delay: 0.1s;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto 70px auto
+        }
+
+        .result-item {
+            position: relative;
+            padding: 0 20px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity var(--transition-duration-long) var(--animation-timing-apple), transform var(--transition-duration-long) var(--animation-timing-apple);
+            will-change: opacity, transform
+        }
+
+        .result-item:not(:first-child)::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            bottom: 10%;
+            left: -20px;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, .25), transparent)
+        }
+
+        .result-number {
+            font-size: 7rem;
+            font-weight: 600;
+            line-height: 1;
+            margin-bottom: 15px;
+            color: var(--color-text-secondary);
+            letter-spacing: -2px;
+            display: inline-block;
+            vertical-align: middle
+        }
+
+        .digit-roller {
+            display: inline-block;
+            height: 7rem;
+            line-height: 7rem;
+            overflow: hidden;
+            vertical-align: middle;
+            position: relative;
+            width: 4rem;
+            text-align: center
+        }
+
+        .digit-roller-inner {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            transform: translateY(-100%);
+            transition: transform 1.5s cubic-bezier(.23, 1, .32, 1);
+            transition-delay: var(--digit-delay, 0s)
+        }
+
+        .result-suffix {
+            display: inline-block;
+            font-size: 3.5rem;
+            font-weight: 500;
+            color: #a0b0c0;
+            vertical-align: baseline;
+            margin-left: 5px
+        }
+
+        .result-description {
+            font-size: 1rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            max-width: 250px;
+            margin: 0 auto
+        }
+
+        .result-item.is-visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .result-item:nth-child(1).is-visible {
+            transition-delay: .2s
+        }
+
+        .result-item:nth-child(2).is-visible {
+            transition-delay: .3s
+        }
+
+        .result-item:nth-child(3).is-visible {
+            transition-delay: .4s
+        }
+
+        .results-button {
+            background-color: var(--color-text-primary);
+            color: var(--color-background-dark);
+            border: none;
+            padding: 14px 35px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color var(--transition-duration) ease, transform .2s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            text-decoration: none;
+        }
+
+        .results-section.is-visible .results-button {
+            animation: pop-in 0.8s var(--animation-timing-apple) forwards;
+            animation-delay: 0.5s;
+        }
+
+        .results-button:hover,
+        .results-button:focus-visible {
+            background-color: #e0e0e0;
+            transform: scale(1.03);
+            outline: none
+        }
+
+        /* --- REMOVED: Final CTA Section --- */
+
+        .site-footer {
+            background-color: var(--color-background-dark);
+            color: #a0a0a0;
+            padding-top: 60px;
+            font-size: .9rem;
+            position: relative;
+            overflow: hidden
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 50px 40px;
+            position: relative;
+            z-index: 2
+        }
+
+        .footer-logo-column,
+        .footer-links-column,
+        .footer-contact-column {
+            padding: 0 10px
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 20px;
+            text-decoration: none;
+            display: inline-block
+        }
+
+        .footer-social-icons a {
+            color: #888;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            transition: color var(--transition-duration) var(--animation-timing-fast)
+        }
+
+        .footer-social-icons a:hover,
+        .footer-social-icons a:focus-visible {
+            color: var(--color-text-primary);
+            outline: none
+        }
+
+        .footer-links-column h4 {
+            font-size: 1rem;
+            color: var(--color-text-primary);
+            margin-bottom: 15px;
+            font-weight: 600
+        }
+
+        .footer-links-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0
+        }
+
+        .footer-links-column li {
+            margin-bottom: 10px
+        }
+
+        .footer-links-column a {
+            color: #a0a0a0;
+            text-decoration: none;
+            transition: color var(--transition-duration) var(--animation-timing-fast)
+        }
+
+        .footer-links-column a:hover,
+        .footer-links-column a:focus-visible {
+            color: var(--color-text-primary);
+            text-decoration: underline;
+            outline: none
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            padding: 20px 40px;
+            font-size: .8rem;
+            color: #888;
+            position: relative;
+            z-index: 2;
+            background-color: var(--color-background-dark)
+        }
+
+        .footer-graphic {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            max-width: 500px;
+            background: linear-gradient(to top left, transparent 50%, rgba(255, 255, 255, .02) 50.5%, rgba(255, 255, 255, .02) 51.5%, transparent 52%), linear-gradient(to top left, transparent 60%, rgba(255, 255, 255, .015) 60.5%, rgba(255, 255, 255, .015) 61.5%, transparent 62%);
+            pointer-events: none;
+            z-index: 1;
+            opacity: .7
+        }
+
+        @media (max-width:992px) {
+            .features-globe-container {
+                flex-direction: column;
+                gap: 40px;
+                align-items: center
+            }
+
+            .features-column-left,
+            .features-column-right {
+                width: 90%;
+                max-width: 600px
+            }
+
+            .features-column-right {
+                order: -1
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 25px
+            }
+
+            .footer-logo-column {
+                grid-column: 1/-1;
+                text-align: center;
+                margin-bottom: 30px
+            }
+
+            .footer-contact-column {
+                grid-column: 1/-1;
+                text-align: center
+            }
+
+            .case-study-flow {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .study-card-core {
+                margin: 2rem 0;
+                transform: rotate(90deg);
+            }
+
+            .features-grid,
+            .benefits-grid,
+            .case-study-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .desktop-nav {
+                display: none;
+            }
+
+            /* Hide desktop nav on tablet */
+        }
+
+        @media (max-width:768px) {
+            * {
+                cursor: auto !important;
+            }
+
+            .spotlight,
+            .spotlight-follower {
+                display: none;
+            }
+
+            body {
+                cursor: auto;
+            }
+
+            header.scrolled {
+                padding: 15px 20px
+            }
+
+            /* MODIFIED: Header layout */
+            header {
+                padding: 15px 20px;
+                flex-direction: row;
+                gap: 15px;
+                justify-content: space-between;
+                /* Ensures logo left, controls right */
+            }
+
+            .desktop-nav {
+                display: none;
+            }
+
+            /* Hide desktop nav */
+
+            .mobile-nav-toggle {
+                display: block;
+                background: transparent;
+                border: none;
+                padding: 0;
+                z-index: 1001;
+            }
+
+            .mobile-nav-toggle .burger-line {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background-color: #fff;
+                margin: 5px 0;
+                transition: all 0.3s ease;
+            }
+
+            /* ADDED: Mobile Nav Menu Styles */
+            .mobile-nav {
+                /* This is the fullscreen overlay */
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: #01020a;
+                z-index: 99;
+                /* Below header toggle */
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .mobile-nav.mobile-nav-open {
+                display: flex;
+            }
+
+            .mobile-nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .mobile-nav ul li {
+                margin-left: 0;
+            }
+
+            .mobile-nav ul li a {
+                font-size: 1.5rem;
+                text-decoration: none;
+                color: var(--color-text-secondary);
+                transition: color 0.3s ease;
+            }
+
+            .mobile-nav ul li a:hover {
+                color: var(--color-text-primary);
+            }
+
+            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(2) {
+                opacity: 0;
+            }
+
+            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            body.mobile-nav-open {
+                overflow: hidden;
+            }
+
+            /* END Mobile Nav */
+
+            .hero-title {
+                font-size: 2.5rem
+            }
+
+            .hero-subtitle {
+                font-size: 1rem
+            }
+
+            .input-area {
+                flex-direction: column;
+                align-items: center;
+                width: 90%
+            }
+
+            .email-input,
+            .book-demo-button {
+                width: 100%;
+                max-width: 350px
+            }
+
+            .logo-item {
+                padding: 0 25px;
+                height: 40px
+            }
+
+            .card-scroller-section {
+                padding: 60px 0
+            }
+
+            .sequential-line {
+                font-size: 1.8rem
+            }
+
+            .features-globe-section {
+                padding: 60px 20px
+            }
+
+            .globe-placeholder {
+                width: 75%;
+                max-width: 280px
+            }
+
+            .results-section {
+                padding: 60px 20px
+            }
+
+            .results-title {
+                font-size: 2rem;
+                margin-bottom: 40px
+            }
+
+            .results-grid {
+                gap: 50px;
+                grid-template-columns: 1fr
+            }
+
+            .result-item:not(:first-child)::before {
+                display: none
+            }
+
+            .result-number,
+            .digit-roller {
+                font-size: 5rem;
+                height: 5rem;
+                line-height: 5rem
+            }
+
+            .digit-roller {
+                width: 2.8rem
+            }
+
+            .result-suffix {
+                font-size: 2.5rem
+            }
+
+            .final-cta-section {
+                padding: 80px 20px
+            }
+
+            .cta-title {
+                font-size: 2rem
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                padding: 0 20px 40px 20px
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links-column {
+                margin-bottom: 20px;
+            }
+
+            .footer-graphic {
+                display: none;
+            }
+        }
+    </style>
 </head>
-<body>
-  {% include '_header.html' %}
 
-  <main>
-    <section class="hero-section" data-animation-container>
-        <canvas id="hero-canvas"></canvas>
-        <div class="hero-content">
-            <h1 class="hero-title">AI-Powered Solutions for the Complete Mechanical Stack</h1>
-            <p class="hero-subtitle">Unlock the full potential of your mechanical data with shivati_ai's comprehensive AI solutions for Industry 4.0.</p>
-            <div class="input-area">
-                <label for="email-hero" class="visually-hidden">Work Email</label>
-                <input type="email" id="email-hero" class="email-input" placeholder="What's your work email?">
-                <a href="/demo" class="book-demo-button" data-magnetic>Book demo</a>
+<body class="interactive-hover-area">
+    <div id="mouse-dot"></div>
+    <div id="mouse-circle"></div>
+
+    <header>
+        <a href="/" class="logo interactive-hover" data-magnetic>shivati_ai</a>
+
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="/" class="interactive-hover" data-magnetic>Home</a></li>
+                <li><a href="/product" style="color: #fff; font-weight: bold;" class="interactive-hover"
+                        data-magnetic>Products</a></li>
+                <li><a href="/about-us" class="interactive-hover" data-magnetic>Company</a></li>
+                <li><a href="/security/" class="interactive-hover" data-magnetic>Security</a></li>
+                <li><a href="/resources/" class="interactive-hover" data-magnetic>Resources</a></li>
+                <li><a href="/careers" class="interactive-hover" data-magnetic>Careers</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-right">
+            <a href="/demo" class="demo-button interactive-hover" data-magnetic>Request a Demo</a>
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+            </button>
+        </div>
+
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/product" style="color: #fff; font-weight: bold;">Products</a></li>
+                <li><a href="/about-us">Company</a></li>
+                <li><a href="/security/">Security</a></li>
+                <li><a href="/resources/">Resources</a></li>
+                <li><a href="/careers">Careers</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section" data-animation-container>
+            <canvas id="hero-canvas"></canvas>
+            <div class="hero-content">
+                <h1 class="hero-title">AI-Powered Solutions for the Complete Mechanical Stack</h1>
+                <p class="hero-subtitle">Unlock the full potential of your mechanical data with shivati_ai's
+                    comprehensive AI solutions for Industry 4.0.</p>
+                <div class="input-area">
+                    <label for="email-hero" class="visually-hidden">Work Email</label>
+                    <input type="email" id="email-hero" class="email-input interactive-hover"
+                        placeholder="What's your work email?">
+                    <a href="/demo" class="book-demo-button interactive-hover" data-magnetic>Book demo</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="logo-scroller-section">
+            <h3>Trusted by leading Quality, Service and Engineering teams</h3>
+            <div class="logo-scroller">
+                <div class="logo-scroller-inner">
+                    <div class="logo-item">Baxter</div>
+                    <div class="logo-item">DENSO</div>
+                    <div class="logo-item">PennEngineering</div>
+                    <div class="logo-item">Raytheon Technologies</div>
+                    <div class="logo-item">Newell Brands</div>
+                    <div class="logo-item">Great Dane</div>
+                    <div class="logo-item">Baxter</div>
+                    <div class="logo-item">DENSO</div>
+                    <div class="logo-item">PennEngineering</div>
+                    <div class="logo-item">Raytheon Technologies</div>
+                    <div class="logo-item">Newell Brands</div>
+                    <div class="logo-item">Great Dane</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card-scroller-section" data-animation-item>
+            <h2>See Our Products in Action</h2>
+            <div class="card-scroller">
+                <div class="card-scroller-inner">
+
+                    <a href="/thermosolver/" class="scroller-card-link"
+                        style="--product-color: #f97316; --product-glow: rgba(249, 115, 22, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-temperature-high card-icon"
+                                style="color:#f97316; background-color: rgba(249, 115, 22, 0.1);"></i>
+                            <h3>ThermoSolver™</h3>
+                            <p>Partnered with an EV leader to cut battery pack thermal failures by 25%, extending
+                                lifespan and enhancing safety under peak loads.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/stressmaster/" class="scroller-card-link"
+                        style="--product-color: #3b82f6; --product-glow: rgba(59, 130, 246, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-wave-square card-icon"
+                                style="color:#3b82f6; background-color: rgba(59, 130, 246, 0.1);"></i>
+                            <h3>StressMaster™</h3>
+                            <p>Helped a heavy machinery firm increase the fatigue life of critical suspension components
+                                by 40% through vibration analysis.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/mech-ai/" class="scroller-card-link"
+                        style="--product-color: #4ade80; --product-glow: rgba(74, 222, 128, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-robot card-icon"
+                                style="color:#4ade80; background-color: rgba(74, 222, 128, 0.1);"></i>
+                            <h3>MechMotion AI™</h3>
+                            <p>Identified a critical resonance frequency in a new powertrain design, preventing a costly
+                                recall for a major automotive OEM.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/fluid_flow_ai/" class="scroller-card-link"
+                        style="--product-color: #06b6d4; --product-glow: rgba(6, 182, 212, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-wind card-icon"
+                                style="color:#06b6d4; background-color: rgba(6, 182, 212, 0.1);"></i>
+                            <h3>FluidFlow AI™</h3>
+                            <p>Optimized the aerodynamics of a race car wing, reducing drag by 12% while maintaining
+                                downforce, leading to faster lap times.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/design_master/" class="scroller-card-link"
+                        style="--product-color: #a855f7; --product-glow: rgba(168, 85, 247, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-drafting-compass card-icon"
+                                style="color:#a855f7; background-color: rgba(168, 85, 247, 0.1);"></i>
+                            <h3>DesignGenesis AI™</h3>
+                            <p>Delivered a generative design for an aerospace bracket that reduced weight by 30% without
+                                compromising structural integrity.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/manufactaring_twin/" class="scroller-card-link"
+                        style="--product-color: #ec4899; --product-glow: rgba(236, 72, 153, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-industry card-icon"
+                                style="color:#ec4899; background-color: rgba(236, 72, 153, 0.1);"></i>
+                            <h3>ManufacTwin AI™</h3>
+                            <p>Implemented a digital twin for a production line, enabling predictive maintenance that
+                                reduced unplanned downtime by over 60%.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/robopilot_ai/" class="scroller-card-link"
+                        style="--product-color: #f59e0b; --product-glow: rgba(245, 158, 11, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-route card-icon"
+                                style="color:#f59e0b; background-color: rgba(245, 158, 11, 0.1);"></i>
+                            <h3>RoboPilot AI</h3>
+                            <p>Enabled autonomous navigation for warehouse AMRs, improving pick-and-place efficiency by
+                                35% in a dynamic environment.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/mat_si/" class="scroller-card-link"
+                        style="--product-color: #84cc16; --product-glow: rgba(132, 204, 22, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-atom card-icon"
+                                style="color:#84cc16; background-color: rgba(132, 204, 22, 0.1);"></i>
+                            <h3>MatSci AI</h3>
+                            <p>Discovered a novel alloy composition with 20% higher temperature resistance in 3 days, a
+                                process that traditionally takes 6 months.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/enginetune/" class="scroller-card-link"
+                        style="--product-color: #ef4444; --product-glow: rgba(239, 68, 68, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-tachometer-alt card-icon"
+                                style="color:#ef4444; background-color: rgba(239, 68, 68, 0.1);"></i>
+                            <h3>EngineTune AI</h3>
+                            <p>Reduced engine calibration time by 70% and optimized fuel maps to decrease NOx emissions
+                                by 15% simultaneously.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/mesh-mind/" class="scroller-card-link"
+                        style="--product-color: #14b8a6; --product-glow: rgba(20, 184, 166, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-cubes card-icon"
+                                style="color:#14b8a6; background-color: rgba(20, 184, 166, 0.1);"></i>
+                            <h3>MeshMind AI</h3>
+                            <p>Automated the FEA meshing process for a complex suspension assembly, cutting
+                                pre-processing time from 40 hours to 15 minutes.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/thermosolver/" class="scroller-card-link"
+                        style="--product-color: #f97316; --product-glow: rgba(249, 115, 22, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-temperature-high card-icon"
+                                style="color:#f97316; background-color: rgba(249, 115, 22, 0.1);"></i>
+                            <h3>ThermoSolver™</h3>
+                            <p>Partnered with an EV leader to cut battery pack thermal failures by 25%, extending
+                                lifespan and enhancing safety under peak loads.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/stressmaster/" class="scroller-card-link"
+                        style="--product-color: #3b82f6; --product-glow: rgba(59, 130, 246, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-wave-square card-icon"
+                                style="color:#3b82f6; background-color: rgba(59, 130, 246, 0.1);"></i>
+                            <h3>StressMaster™</h3>
+                            <p>Helped a heavy machinery firm increase the fatigue life of critical suspension components
+                                by 40% through vibration analysis.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/mech-ai/" class="scroller-card-link"
+                        style="--product-color: #4ade80; --product-glow: rgba(74, 222, 128, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-robot card-icon"
+                                style="color:#4ade80; background-color: rgba(74, 222, 128, 0.1);"></i>
+                            <h3>MechMotion AI™</h3>
+                            <p>Identified a critical resonance frequency in a new powertrain design, preventing a costly
+                                recall for a major automotive OEM.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/fluid_flow_ai/" class="scroller-card-link"
+                        style="--product-color: #06b6d4; --product-glow: rgba(6, 182, 212, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-wind card-icon"
+                                style="color:#06b6d4; background-color: rgba(6, 182, 212, 0.1);"></i>
+                            <h3>FluidFlow AI™</h3>
+                            <p>Optimized the aerodynamics of a race car wing, reducing drag by 12% while maintaining
+                                downforce, leading to faster lap times.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/design_master/" class="scroller-card-link"
+                        style="--product-color: #a855f7; --product-glow: rgba(168, 85, 247, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-drafting-compass card-icon"
+                                style="color:#a855f7; background-color: rgba(168, 85, 247, 0.1);"></i>
+                            <h3>DesignGenesis AI™</h3>
+                            <p>Delivered a generative design for an aerospace bracket that reduced weight by 30% without
+                                compromising structural integrity.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/manufactaring_twin/" class="scroller-card-link"
+                        style="--product-color: #ec4899; --product-glow: rgba(236, 72, 153, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-industry card-icon"
+                                style="color:#ec4899; background-color: rgba(236, 72, 153, 0.1);"></i>
+                            <h3>ManufacTwin AI™</h3>
+                            <p>Implemented a digital twin for a production line, enabling predictive maintenance that
+                                reduced unplanned downtime by over 60%.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/robopilot_ai/" class="scroller-card-link"
+                        style="--product-color: #f59e0b; --product-glow: rgba(245, 158, 11, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-route card-icon"
+                                style="color:#f59e0b; background-color: rgba(245, 158, 11, 0.1);"></i>
+                            <h3>RoboPilot AI</h3>
+                            <p>Enabled autonomous navigation for warehouse AMRs, improving pick-and-place efficiency by
+                                35% in a dynamic environment.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/mat_si/" class="scroller-card-link"
+                        style="--product-color: #84cc16; --product-glow: rgba(132, 204, 22, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-atom card-icon"
+                                style="color:#84cc16; background-color: rgba(132, 204, 22, 0.1);"></i>
+                            <h3>MatSci AI</h3>
+                            <p>Discovered a novel alloy composition with 20% higher temperature resistance in 3 days, a
+                                process that traditionally takes 6 months.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/enginetune/" class="scroller-card-link"
+                        style="--product-color: #ef4444; --product-glow: rgba(239, 68, 68, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-tachometer-alt card-icon"
+                                style="color:#ef4444; background-color: rgba(239, 68, 68, 0.1);"></i>
+                            <h3>EngineTune AI</h3>
+                            <p>Reduced engine calibration time by 70% and optimized fuel maps to decrease NOx emissions
+                                by 15% simultaneously.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/mesh-mind/" class="scroller-card-link"
+                        style="--product-color: #14b8a6; --product-glow: rgba(20, 184, 166, 0.4);">
+                        <div class="alert-card glass-card interactive-card">
+                            <div class="card-glow"></div>
+                            <i class="fas fa-cubes card-icon"
+                                style="color:#14b8a6; background-color: rgba(20, 184, 166, 0.1);"></i>
+                            <h3>MeshMind AI</h3>
+                            <p>Automated the FEA meshing process for a complex suspension assembly, cutting
+                                pre-processing time from 40 hours to 15 minutes.</p>
+                            <div class="card-cta interactive-hover">View Case Study <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="sequential-lines-section" data-animation-handler="startLineCycling">
+            <div class="lines-container">
+                <p class="sequential-line">Optimize thermal management</p>
+                <p class="sequential-line">Solve complex structural mechanics </p>
+                <p class="sequential-line">Accelerate generative design </p>
+                <p class="sequential-line">Unlock molecular simulation </p>
+            </div>
+        </section>
+
+        <section class="features-globe-section">
+            <div class="features-globe-container">
+                <div class="features-column-left">
+                    <div class="feature-card glass-card interactive-card" data-animation-item>
+                        <div class="card-glow"></div>
+                        <i class="fa-solid fa-magnifying-glass feature-icon"></i>
+                        <h3>Detect mechanical anomalies at the earliest sign</h3>
+                        <p>High-precision AI automatically catches and contextualizes mechanical anomalies as soon as a
+                            trend emerges.</p>
+                    </div>
+                    <div class="feature-card glass-card interactive-card" data-animation-item>
+                        <div class="card-glow"></div>
+                        <i class="fa-regular fa-clock feature-icon"></i>
+                        <h3>Engineer solutions, not get stuck in manual data analysis</h3>
+                        <p>Empower your team to engineer solutions instead of being stuck manually analyzing data.</p>
+                    </div>
+                </div>
+                <div class="features-column-right">
+                    <div class="feature-card glass-card interactive-card" data-animation-item>
+                        <div class="card-glow"></div>
+                        <i class="fa-solid fa-diagram-project feature-icon"></i>
+                        <h3>Break down silos across your organization</h3>
+                        <p>Enable your team to gain visibility and collaborate across geographic regions and
+                            departments.</p>
+                        <div class="globe-placeholder" data-animation-handler="initializeTagSphere">
+                            <div class="tag-sphere"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-section" data-animation-item>
+            <h2 class="results-title">Unlock Unprecedented Performance and Speed</h2>
+            <div class="results-grid">
+                <div class="result-item" data-animation-item data-animation-handler="animateResultNumber">
+                    <div class="result-number" data-target-value="40X"></div>
+                    <p class="result-description">faster design-to-validation cycles with AI simulation.</p>
+                </div>
+                <div class="result-item" data-animation-item data-animation-handler="animateResultNumber">
+                    <div class="result-number" data-target-value="30%"></div>
+                    <p class="result-description">lighter, stronger components via generative AI design.</p>
+                </div>
+                <div class="result-item" data-animation-item data-animation-handler="animateResultNumber">
+                    <div class="result-number" data-target-value="10X"></div>
+                    <p class="result-description">more complex problems solved with our quantum-inspired solvers.</p>
+                </div>
+            </div>
+            <a href="/demo" class="results-button interactive-hover" data-magnetic>
+                Start now →
+            </a>
+
+        </section>
+
+        <section class="product-section case-study-section" data-animation-item>
+            <div class="case-study-carousel-wrapper">
+
+                <div class="case-study-slide is-active" id="genesis-case-study">
+                    <h2 class="section-title">Real-World Genesis</h2>
+                    <p class="section-subheading">Our AI processes your constraints to deliver proven, optimized
+                        results. See the flow of data from problem to solution.</p>
+                    <div class="case-study-grid">
+                        <div class="case-study-flow">
+                            <div class="study-card study-card-problem interactive-card">
+                                <div class="card-glow" style="--product-glow-color: var(--genesis-glow-color);"></div>
+                                <div class="feature-item-content">
+                                    <h3><i class="fas fa-clipboard-list"></i> Problem Inputs</h3>
+                                    <ul>
+                                        <li><i class="fas fa-weight-hanging"></i><strong>Loads:</strong> 500N, 800N</li>
+                                        <li><i class="fas fa-compress-arrows-alt"></i><strong>Constraints:</strong> 3
+                                            Bolt Holes</li>
+                                        <li><i class="fas fa-ruler-combined"></i><strong>Space:</strong> 200x100x50mm
+                                        </li>
+                                        <li><i class="fas fa-cogs"></i><strong>Material:</strong> Ti-6Al-4V</li>
+                                        <li><i class="fas fa-bullseye"></i><strong>Goal:</strong> Max Stiffness</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="study-card-core">
+                                <div class="data-stream in"></div>
+                                <div class="ai-core"><i class="fas fa-brain"></i></div>
+                                <div class="data-stream out"></div>
+                            </div>
+                            <div class="study-card study-card-solution interactive-card">
+                                <div class="card-glow" style="--product-glow-color: var(--genesis-glow-color);"></div>
+                                <div class="feature-item-content">
+                                    <h3><i class="fas fa-check-circle"></i> Optimized Output</h3>
+                                    <ul>
+                                        <li><i class="fas fa-feather-alt"></i><strong>Weight:</strong> -45%</li>
+                                        <li><i class="fas fa-chart-line"></i><strong>Stiffness:</strong> +20%</li>
+                                        <li><i class="fas fa-shield-alt"></i><strong>Stress:</strong> -15% Max</li>
+                                        <li><i class="fas fa-hourglass-half"></i><strong>Time:</strong> 2 Days</li>
+                                        <li><i class="fas fa-file-export"></i><strong>Result:</strong> Validated STL
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study-slide" id="thermo-case-study">
+                    <h2 class="section-title">Real-World Thermal Analysis</h2>
+                    <p class="section-subheading">Our AI processes your constraints to deliver proven, optimized
+                        results. See the flow of data from problem to solution.</p>
+                    <div class="case-study-grid">
+                        <div class="case-study-flow">
+                            <div class="study-card study-card-problem interactive-card">
+                                <div class="card-glow" style="--product-glow-color: var(--thermo-glow-color);"></div>
+                                <div class="feature-item-content">
+                                    <h3><i class="fas fa-clipboard-list"></i> Problem Inputs</h3>
+                                    <ul>
+                                        <li><i class="fas fa-microchip"></i><strong>Component:</strong> CPU Heatsink
+                                        </li>
+                                        <li><i
+                                                class="fas fa-thermometer-three-quarters"></i><strong>Constraint:</strong>
+                                            Max Temp < 85°C</li>
+                                        <li><i class="fas fa-wind"></i><strong>Airflow:</strong> 10 CFM</li>
+                                        <li><i class="fas fa-ruler-combined"></i><strong>Space:</strong> 120x120x60mm
+                                        </li>
+                                        <li><i class="fas fa-weight-hanging"></i><strong>Goal:</strong> Minimize Mass
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="study-card-core">
+                                <div class="data-stream in"></div>
+                                <div class="ai-core"><i class="fas fa-brain"></i></div>
+                                <div class="data-stream out"></div>
+                            </div>
+                            <div class="study-card study-card-solution interactive-card">
+                                <div class="card-glow" style="--product-glow-color: var(--thermo-glow-color);"></div>
+                                <div class="feature-item-content">
+                                    <h3><i class="fas fa-check-circle"></i> Optimized Output</h3>
+                                    <ul>
+                                        <li><i class="fas fa-weight-hanging"></i><strong>Heatsink Mass:</strong> -35%
+                                        </li>
+                                        <li><i class="fas fa-thermometer-full"></i><strong>Max Temp:</strong> 82°C</li>
+                                        <li><i class="fas fa-chart-area"></i><strong>Thermal Resist:</strong> -18%</li>
+                                        <li><i class="fas fa-hourglass-half"></i><strong>Time:</strong> 2 Hours</li>
+                                        <li><i class="fas fa-file-export"></i><strong>Result:</strong> Validated STL
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study-slide" id="stress-case-study">
+                    <h2 class="section-title">Real-World Structural Analysis</h2>
+                    <p class="section-subheading">Our AI processes your constraints to deliver proven, optimized
+                        results. See the flow of data from problem to solution.</p>
+                    <div class="case-study-grid">
+                        <div class="case-study-flow">
+                            <div class="study-card study-card-problem interactive-card">
+                                <div class="card-glow" style="--product-glow-color: var(--stress-glow-color);"></div>
+                                <div class="feature-item-content">
+                                    <h3><i class="fas fa-clipboard-list"></i> Problem Inputs</h3>
+                                    <ul>
+                                        <li><i class="fas fa-weight-hanging"></i><strong>Load Cases:</strong> 3 (Static,
+                                            Impact)</li>
+                                        <li><i class="fas fa-compress-arrows-alt"></i><strong>Constraints:</strong> 4
+                                            Bolt Holes</li>
+                                        <li><i class="fas fa-ruler-combined"></i><strong>Space:</strong> 150x80x30mm
+                                        </li>
+                                        <li><i class="fas fa-cogs"></i><strong>Material:</strong> Aluminum 6061-T6</li>
+                                        <li><i class="fas fa-bullseye"></i><strong>Goal:</strong> Max Stiffness/Weight
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="study-card-core">
+                                <div class="data-stream in"></div>
+                                <div class="ai-core"><i class="fas fa-brain"></i></div>
+                                <div class="data-stream out"></div>
+                            </div>
+                            <div class="study-card study-card-solution interactive-card">
+                                <div class="card-glow" style="--product-glow-color: var(--stress-glow-color);"></div>
+                                <div class="feature-item-content">
+                                    <h3><i class="fas fa-check-circle"></i> Optimized Output</h3>
+                                    <ul>
+                                        <li><i class="fas fa-feather-alt"></i><strong>Weight:</strong> -28%</li>
+                                        <li><i class="fas fa-chart-line"></i><strong>Stiffness:</strong> +15%</li>
+                                        <li><i class="fas fa-exclamation-triangle"></i><strong>Max Stress:</strong> -10%
+                                        </li>
+                                        <li><i class="fas fa-hourglass-half"></i><strong>Time:</strong> 2.5 Hours</li>
+                                        <li><i class="fas fa-file-export"></i><strong>Result:</strong> Validated .STL
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study-slide" id="mech-case-study">
+                    <h2 class="section-title">Real-World Dynamics</h2>
+                    <p class="section-subheading">Our AI processes your constraints to deliver proven, optimized
+                        results. See the flow of data from problem to solution.</p>
+                    <div class="case-study-grid">
+                        <div class="case-study-flow">
+                            <div class="study-card study-card-problem interactive-card">
+                                <div class="card-glow" style="--product-glow-color: var(--mech-glow-color);"></div>
+                                <div class="feature-item-content">
+                                    <h3><i class="fas fa-clipboard-list"></i> Problem Inputs</h3>
+                                    <ul>
+                                        <li><i class="fas fa-robot"></i><strong>System:</strong> Robotic Arm</li>
+                                        <li><i class="fas fa-tasks"></i><strong>Task:</strong> Pick & Place Cycle</li>
+                                        <li><i class="fas fa-exclamation-triangle"></i><strong>Constraint:</strong> Max
+                                            Actuator Torque</li>
+                                        <li><i class="fas fa-hourglass-half"></i><strong>Goal 1:</strong> Minimize Cycle
+                                            Time</li>
+                                        <li><i class="fas fa-wave-square"></i><strong>Goal 2:</strong> Minimize
+                                            Vibration</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="study-card-core">
+                                <div class="data-stream in"></div>
+                                <div class="ai-core"><i class="fas fa-brain"></i></div>
+                                <div class="data-stream out"></div>
+                            </div>
+                            <div class="study-card study-card-solution interactive-card">
+                                <div class="card-glow" style="--product-glow-color: var(--mech-glow-color);"></div>
+                                <div class="feature-item-content">
+                                    <h3><i class="fas fa-check-circle"></i> Optimized Output</h3>
+                                    <ul>
+                                        <li><i class="fas fa-shipping-fast"></i><strong>Cycle Time:</strong> -18%</li>
+                                        <li><i class="fas fa-wave-square"></i><strong>Vibration:</strong> -30%
+                                            (Settling)</li>
+                                        <li><i class="fas fa-cogs"></i><strong>Torque:</strong> 95% of Max (Optimized)
+                                        </li>
+                                        <li><i class="fas fa-hourglass-half"></i><strong>Time:</strong> 3 Hours</li>
+                                        <li><i class="fas fa-file-export"></i><strong>Result:</strong> Optimized Motion
+                                            Profile</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-logo-column">
+                <a href="/" class="footer-logo interactive-hover" data-magnetic>shivati_ai</a>
+                <div class="footer-social-icons">
+                    <a href="#" aria-label="LinkedIn" class="interactive-hover" data-magnetic><i
+                            class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="Twitter" class="interactive-hover" data-magnetic><i
+                            class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-links-column">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="/product" class="interactive-hover" data-magnetic>Overview</a></li>
+                    <li><a href="/thermosolver/" class="interactive-hover" data-magnetic>ThermoSolver</a></li>
+                    <li><a href="/stressmaster/" class="interactive-hover" data-magnetic>StressMaster</a></li>
+                    <li><a href="/mech-ai/" class="interactive-hover" data-magnetic>MechMotion AI</a></li>
+                    <li><a href="/fluid_flow_ai/" class="interactive-hover" data-magnetic>FluidFlow AI</a></li>
+                    <li><a href="/design_master/" class="interactive-hover" data-magnetic>DesignGenesis AI</a></li>
+                    <li><a href="/manufactaring_twin/" class="interactive-hover" data-magnetic>ManufacTwin AI</a></li>
+                    <li><a href="/robopilot_ai/" class="interactive-hover" data-magnetic>RoboPilot AI</a></li>
+                    <li><a href="/mat_si/" class="interactive-hover" data-magnetic>MatSci AI</a></li>
+                    <li><a href="/enginetune/" class="interactive-hover" data-magnetic>EngineTune AI</a></li>
+                    <li><a href="/mesh-mind/" class="interactive-hover" data-magnetic>MeshMind AI</a></li>
+                </ul>
+            </div>
+            <div class="footer-links-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about-us" class="interactive-hover" data-magnetic>About Us</a></li>
+                    <li><a href="/careers" class="interactive-hover" data-magnetic>Careers</a></li>
+                    <li><a href="#" class="interactive-hover" data-magnetic>Blog</a></li>
+                    <li><a href="/resources/" class="interactive-hover" data-magnetic>Resources</a></li>
+                </ul>
+            </div>
+            <div class="footer-links-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#" class="interactive-hover" data-magnetic>Terms of Service</a></li>
+                    <li><a href="#" class="interactive-hover" data-magnetic>Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact-column" id="contact-sales">
+                <h4>Contact</h4>
+                <p><a href="mailto:contact@shivati_ai.com" class="interactive-hover"
+                        data-magnetic>contact@shivati_ai.com</a></p>
+                <p>Sales: <a href="mailto:sales@shivati_ai.com" class="interactive-hover"
+                        data-magnetic>sales@shivati_ai.com</a></p>
             </div>
         </div>
-    </section>
-
-    <section class="logo-scroller-section">
-      <h3>Trusted by leading Quality, Service and Engineering teams</h3>
-      <div class="logo-scroller">
-        <div class="logo-scroller-inner">
-          <div class="logo-item">Baxter</div> <div class="logo-item">DENSO</div> <div class="logo-item">PennEngineering</div> <div class="logo-item">Raytheon Technologies</div> <div class="logo-item">Newell Brands</div> <div class="logo-item">Great Dane</div>
-          <div class="logo-item">Baxter</div> <div class="logo-item">DENSO</div> <div class="logo-item">PennEngineering</div> <div class="logo-item">Raytheon Technologies</div> <div class="logo-item">Newell Brands</div> <div class="logo-item">Great Dane</div>
+        <div class="footer-bottom">
+            <p>© <span id="copyright-year">2025</span> shivati_ai Inc. All rights reserved.</p>
         </div>
-      </div>
-    </section>
+        <div class="footer-graphic"></div>
+    </footer>
 
-    <section class="card-scroller-section">
-      <h2>See Our Products in Action</h2>
-      <div class="card-scroller">
-        <div class="card-scroller-inner">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
 
-          <a href="/product#thermosolver-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-temperature-high card-icon"></i>
-              <h3>ThermoSolver™</h3>
-              <p>Partnered with an EV leader to cut battery pack thermal failures by 25%, extending lifespan and enhancing safety under peak loads.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
-          <a href="/product#stressmaster-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-wave-square card-icon"></i>
-              <h3>StressMaster™</h3>
-              <p>Helped a heavy machinery firm increase the fatigue life of critical suspension components by 40% through vibration analysis.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
-          <a href="/product#mechmotion-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-cogs card-icon"></i>
-              <h3>MechMotion AI™</h3>
-              <p>Identified a critical resonance frequency in a new powertrain design, preventing a costly recall for a major automotive OEM.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
-          <a href="/product#fluidflow-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-wind card-icon"></i>
-              <h3>FluidFlow AI™</h3>
-              <p>Optimized the aerodynamics of a race car wing, reducing drag by 12% while maintaining downforce, leading to faster lap times.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
-          <a href="/product#designgenesis-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-drafting-compass card-icon"></i>
-              <h3>DesignGenesis AI™</h3>
-              <p>Delivered a generative design for an aerospace bracket that reduced weight by 30% without compromising structural integrity.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
-          <a href="/product#manufactwin-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-industry card-icon"></i>
-              <h3>ManufacTwin AI™</h3>
-              <p>Implemented a digital twin for a production line, enabling predictive maintenance that reduced unplanned downtime by over 60%.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            const body = document.body;
 
-          <!-- Duplicate set for infinite scroll -->
-          <a href="/product#thermosolver-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-temperature-high card-icon"></i>
-              <h3>ThermoSolver™</h3>
-              <p>Partnered with an EV leader to cut battery pack thermal failures by 25%, extending lifespan and enhancing safety under peak loads.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
-          <a href="/product#stressmaster-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-wave-square card-icon"></i>
-              <h3>StressMaster™</h3>
-              <p>Helped a heavy machinery firm increase the fatigue life of critical suspension components by 40% through vibration analysis.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
-          <a href="/product#mechmotion-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-cogs card-icon"></i>
-              <h3>MechMotion AI™</h3>
-              <p>Identified a critical resonance frequency in a new powertrain design, preventing a costly recall for a major automotive OEM.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
-          <a href="/product#fluidflow-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-wind card-icon"></i>
-              <h3>FluidFlow AI™</h3>
-              <p>Optimized the aerodynamics of a race car wing, reducing drag by 12% while maintaining downforce, leading to faster lap times.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
-          <a href="/product#designgenesis-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-drafting-compass card-icon"></i>
-              <h3>DesignGenesis AI™</h3>
-              <p>Delivered a generative design for an aerospace bracket that reduced weight by 30% without compromising structural integrity.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
-          <a href="/product#manufactwin-section" class="scroller-card-link">
-            <div class="alert-card glass-card interactive-card">
-              <i class="fas fa-industry card-icon"></i>
-              <h3>ManufacTwin AI™</h3>
-              <p>Implemented a digital twin for a production line, enabling predictive maintenance that reduced unplanned downtime by over 60%.</p>
-              <div class="card-cta">View Case Study <i class="fas fa-arrow-right"></i></div>
-            </div>
-          </a>
+            // --- Mobile Nav Toggle ---
+            const navToggle = document.querySelector('.mobile-nav-toggle');
+            const mobileNav = document.querySelector('.mobile-nav'); // Select the correct nav
 
-        </div>
-      </div>
-    </section>
-
-    <section class="sequential-lines-section" data-animation-handler="startLineCycling">
-      <div class="lines-container">
-        <p class="sequential-line">Uncover masked issues before they cause customer dissatisfaction.</p>
-        <p class="sequential-line">Identify root causes faster and prevent recurring problems.</p>
-        <p class="sequential-line">Reduce warranty claims and enhance your user experience.</p>
-        <p class="sequential-line">Predict potential failures and optimize maintenance schedules.</p>
-      </div>
-    </section>
-
-    <section class="features-globe-section">
-      <div class="features-globe-container">
-        <div class="features-column-left">
-          <div class="feature-card glass-card interactive-card" data-animation-item>
-            <i class="fa-solid fa-magnifying-glass feature-icon"></i>
-            <h3>Detect issues at the earliest sign</h3>
-            <p>High-precision AI automatically catches and contextualizes issues as soon as a trend emerges.</p>
-          </div>
-          <div class="feature-card glass-card interactive-card" data-animation-item>
-            <i class="fa-regular fa-clock feature-icon"></i>
-            <h3>Spend time solving, not searching</h3>
-            <p>Empower your team to solve complex problems instead of being stuck manually analyzing data.</p>
-          </div>
-        </div>
-        <div class="features-column-right">
-          <div class="feature-card glass-card interactive-card" data-animation-item>
-            <i class="fa-solid fa-diagram-project feature-icon"></i>
-            <h3>Break down silos across your organization</h3>
-            <p>Enable your team to gain visibility and collaborate across geographic regions and departments.</p>
-            <div class="globe-placeholder" data-animation-handler="initializeTagSphere">
-              <div class="tag-sphere"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="results-section">
-      <h2 class="results-title">Impactful results that reduce the cost of poor quality</h2>
-      <div class="results-grid">
-        <div class="result-item" data-animation-item data-animation-handler="animateResultNumber">
-          <div class="result-number" data-target-value="16%"></div>
-          <p class="result-description">reduction in warranty & service operational cost</p>
-        </div>
-        <div class="result-item" data-animation-item data-animation-handler="animateResultNumber">
-          <div class="result-number" data-target-value="30%"></div>
-          <p class="result-description">increase in detection-to-issue countermeasure speed</p>
-        </div>
-        <div class="result-item" data-animation-item data-animation-handler="animateResultNumber">
-          <div class="result-number" data-target-value="27%"></div>
-          <p class="result-description">decrease in downtime leading to improved customer satisfaction</p>
-        </div>
-      </div>
-      <button class="results-button" data-magnetic>Start now →</button>
-    </section>
-
-    <section class="final-cta-section" data-animation-container>
-      <div class="cta-content-container">
-        <h2 class="cta-title">Start enhancing your products integrity & profitability today</h2>
-        <a href="#" class="cta-button" data-magnetic>
-          Get started <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-    </section>
-  </main>
-
-  {% include '_footer.html' %}
-
-  <script>
-    document.addEventListener('DOMContentLoaded',function(){const e=document.querySelectorAll('.interactive-card');e.forEach(t=>{const a=6;t.addEventListener('mousemove',c=>{const o=t.getBoundingClientRect(),s=c.clientX-o.left,n=c.clientY-o.top,{width:d,height:l}=o,i=a*(n/l-.5)*-2,r=a*(s/d-.5)*2;t.style.transition='transform 0.1s ease-out',t.style.transform=`perspective(1500px) rotateX(${i}deg) rotateY(${r}deg) scale3d(1.05, 1.05, 1.05)`}),t.addEventListener('mouseleave',()=>{t.style.transition='transform 0.4s ease-out',t.style.transform='perspective(1500px) rotateX(0) rotateY(0) scale3d(1, 1, 1)'})});const t=document.querySelector('.globe-placeholder');t&&window.addEventListener('scroll',()=>{const e=t.getBoundingClientRect(),a=-.1,c=(window.innerHeight/2-(e.top+e.height/2))*a;t.style.transform=`translateY(${c}px)`},{passive:!0});const a=document.querySelector('header');window.addEventListener('scroll',()=>{a.classList.toggle('scrolled',window.scrollY>50)},{passive:!0});const c=new IntersectionObserver((e,t)=>{e.forEach(e=>{if(e.isIntersecting){e.target.hasAttribute('data-animation-container')&&e.target.classList.add('animate-in'),e.target.hasAttribute('data-animation-item')&&e.target.classList.add('is-visible');const a=e.target.dataset.animationHandler;a&&'function'==typeof window[a]&&window[a](e.target),t.unobserve(e.target)}})},{threshold:.2});document.querySelectorAll('[data-animation-container], [data-animation-item], [data-animation-handler]').forEach(e=>{c.observe(e)});let s=null;window.startLineCycling=e=>{if(s)clearInterval(s);const t=Array.from(e.querySelectorAll('.sequential-line'));if(t.length){t.forEach(e=>{if(e.dataset.lettersWrapped)return;const a=e.textContent.trim();e.innerHTML='';const c=a.split('');c.forEach((t,a)=>{const o=document.createElement('span');o.textContent=' '===t?'\xa0':t,o.style.setProperty('--letter-in-delay',`${.04*a}s`),o.style.setProperty('--letter-out-delay',`${.03*(c.length-a-1)}s`),e.appendChild(o)}),e.dataset.lettersWrapped=!0});let a=0;const c=()=>{const e=0===a?t.length-1:a-1,o=t[e],s=t[a];o.classList.add('is-hiding'),setTimeout(()=>{o.classList.remove('is-active','is-hiding'),s.classList.add('is-active')},600),a=(a+1)%t.length};t[0].classList.add('is-active'),s=setInterval(c,4e3)}},window.animateResultNumber=e=>{const t=e.querySelector('.result-number');if(!t||t.classList.contains('has-animated'))return;const a=t.dataset.targetValue||'0',c=a.replace(/[0-9]/g,''),o=parseInt(a,10);t.innerHTML='',String(o).split('').forEach((e,a)=>{const o=document.createElement('span');o.className='digit-roller';const s=document.createElement('span');s.className='digit-roller-inner','0123456789'.repeat(5).split('').forEach(e=>{const t=document.createElement('div');t.textContent=e,s.appendChild(t)}),o.appendChild(s),t.appendChild(o);const n='0123456789'.repeat(5).lastIndexOf(e),d=-(n/50)*100;s.style.setProperty('--digit-delay',`${.1*a}s`),setTimeout(()=>{s.style.transform=`translateY(${d}%)`},100)}),c&&(()=>{const e=document.createElement('span');e.className='result-suffix',e.textContent=c,t.appendChild(e)})(),t.classList.add('has-animated')};const o=document.getElementById('hero-canvas');if(o&&!('ontouchstart'in window||navigator.maxTouchPoints>0)){const e=o.getContext('2d');let t=[];const a=()=>{o.width=o.offsetWidth,o.height=o.offsetHeight},c=()=>{t=[];const e=Math.floor(o.width*o.height/2e4);for(let a=0;a<e;a++)t.push({x:Math.random()*o.width,y:Math.random()*o.height,vx:.5*(Math.random()-.5),vy:.5*(Math.random()-.5),size:1.5*Math.random()+.5})},s=()=>{if(!o.width||!o.height)return;e.clearRect(0,0,o.width,o.height),t.forEach(t=>{t.x+=t.vx,t.y+=t.vy,(t.x<0||t.x>o.width)&&(t.vx*=-1),(t.y<0||t.y>o.height)&&(t.vy*=-1),e.beginPath(),e.arc(t.x,t.y,t.size,0,2*Math.PI),e.fillStyle='rgba(0, 150, 255, 0.5)',e.fill()});for(let a=0;a<t.length;a++)for(let c=a;c<t.length;c++){const n=Math.hypot(t[a].x-t[c].x,t[a].y-t[c].y);n<100&&(e.beginPath(),e.moveTo(t[a].x,t[a].y),e.lineTo(t[c].x,t[c].y),e.strokeStyle=`rgba(0, 150, 255, ${1-n/100})`,e.stroke())}};let n;const d=()=>{s(),n=requestAnimationFrame(d)},l=()=>{cancelAnimationFrame(n),a(),c(),d()};l(),window.addEventListener('resize',l)}
-
-    // --- ✨ RE-ENGINEERED: 3D Animated Tag Sphere Logic ---
-    window.initializeTagSphere = (container) => {
-        if (container.querySelector('.tag-sphere').children.length > 0) return;
-
-        const sphere = container.querySelector('.tag-sphere');
-        const texts = [
-            'Transformation', 'Simulation', 'AI/ML', 'Optimization',
-            'Analytics', 'Digital Twin', 'Concept', 'Innovation',
-            'Automation', 'Integration', 'Data Science', 'CAE', 'CAD',
-            'Industry 4.0', 'Predictive', 'Generative Design'
-        ];
-        let tagElements = [];
-        let radius;
-
-        let angleX = 0;
-        let angleY = 0;
-        let targetAngleX = 0;
-        let targetAngleY = 0;
-        const passiveRotationSpeed = 0.0005;
-
-        const updateRadius = () => {
-            radius = Math.min(sphere.offsetWidth, sphere.offsetHeight) * 0.45;
-        };
-
-        const createTags = () => {
-            sphere.innerHTML = '';
-            tagElements = [];
-            texts.forEach((text, i) => {
-                const tag = document.createElement('span');
-                tag.className = 'tag';
-                tag.innerText = text;
-
-                const phi = Math.acos(-1 + (2 * i) / (texts.length - 1));
-                const theta = Math.sqrt(texts.length * Math.PI) * phi;
-
-                tagElements.push({
-                    element: tag,
-                    phi,
-                    theta
+            if (navToggle && mobileNav) {
+                navToggle.addEventListener('click', () => {
+                    mobileNav.classList.toggle('mobile-nav-open'); // Toggle the mobile nav
+                    document.body.classList.toggle('mobile-nav-open');
+                    const isExpanded = mobileNav.classList.contains('mobile-nav-open'); // Check the mobile nav
+                    navToggle.setAttribute('aria-expanded', isExpanded);
                 });
-                sphere.appendChild(tag);
+            }
+
+            // --- Spotlight Cursor Logic ---
+            const spotlight = document.querySelector('.spotlight');
+            const spotlightFollower = document.querySelector('.spotlight-follower');
+            let followerX = 0, followerY = 0;
+            let targetX = 0, targetY = 0;
+            const smoothing = 0.1;
+
+            const handleHoverStart = () => body.classList.add('is-hovering');
+            const handleHoverEnd = () => body.classList.remove('is-hovering');
+
+            function updateSpotlight() {
+                followerX += (targetX - followerX) * smoothing;
+                followerY += (targetY - followerY) * smoothing;
+                if (spotlightFollower) {
+                    spotlightFollower.style.transform = `translate(-50%, -50%) translate(${followerX}px, ${followerY}px)`;
+                }
+                requestAnimationFrame(updateSpotlight);
+            }
+
+            if (!isTouchDevice) {
+                updateSpotlight();
+                document.body.style.cursor = 'none';
+            } else {
+                if (spotlight) spotlight.style.display = 'none';
+                if (spotlightFollower) spotlightFollower.style.display = 'none';
+                document.body.style.cursor = 'auto';
+                document.querySelectorAll('[data-magnetic]').forEach(el => el.removeAttribute('data-magnetic'));
+                document.querySelectorAll('*').forEach(el => el.style.cursor = 'auto');
+            }
+
+            window.addEventListener('mousemove', e => {
+                if (body.classList.contains('modal-open')) return;
+
+                if (spotlight) {
+                    spotlight.style.transform = `translate(-50%, -50%) translate(${e.clientX}px, ${e.clientY}px)`;
+                }
+                targetX = e.clientX;
+                targetY = e.clientY;
             });
-        };
 
-        const updatePositions = () => {
-            targetAngleX += passiveRotationSpeed;
+            document.querySelectorAll('a, button, .interactive-hover, [data-magnetic]').forEach(el => {
+                el.addEventListener('mouseenter', handleHoverStart);
+                el.addEventListener('mouseleave', handleHoverEnd);
 
-            angleX += (targetAngleX - angleX) * 0.02;
-            angleY += (targetAngleY - angleY) * 0.02;
-
-            const sinX = Math.sin(angleX);
-            const cosX = Math.cos(angleX);
-            const sinY = Math.sin(angleY);
-            const cosY = Math.cos(angleY);
-
-            tagElements.forEach(tag => {
-                const { element, phi, theta } = tag;
-
-                // Spherical to Cartesian
-                const initialX = Math.sin(phi) * Math.cos(theta);
-                const initialY = Math.sin(phi) * Math.sin(theta);
-                const initialZ = Math.cos(phi);
-
-                // Rotate around Y-axis
-                let x = initialX * cosX + initialZ * sinX;
-                let z = -initialX * sinX + initialZ * cosX;
-
-                // Rotate around X-axis
-                let y = initialY * cosY - z * sinY;
-                z = initialY * sinY + z * cosY;
-
-                const scale = (z + 2) / 3;
-                const opacity = (z + 1.5) / 2.5;
-                const finalX = x * radius;
-                const finalY = y * radius;
-                const finalZ = z * radius;
-
-                element.style.transform = `translate3d(-50%, -50%, 0) translate3d(${finalX}px, ${finalY}px, ${finalZ}px) scale(${scale})`;
-                element.style.opacity = opacity;
+                if (!isTouchDevice && el.hasAttribute('data-magnetic')) {
+                    el.addEventListener('mousemove', function (e) {
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width / 2;
+                        const y = e.clientY - rect.top - rect.height / 2;
+                        el.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
+                    });
+                    el.addEventListener('mouseleave', function () {
+                        el.style.transform = 'translate(0, 0)';
+                    });
+                }
             });
 
-            requestAnimationFrame(updatePositions);
-        };
 
-        container.addEventListener('mousemove', e => {
-            const rect = container.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            targetAngleX = (e.clientX - centerX) * 0.001;
-            targetAngleY = (e.clientY - centerY) * 0.001;
+            // --- Card Tilt Logic ---
+            const cards = document.querySelectorAll('.interactive-card');
+            cards.forEach(card => {
+                if (isTouchDevice) return;
+
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const tiltX = (y - rect.height / 2) / (rect.height / 2);
+                    const tiltY = (x - rect.width / 2) / (rect.width / 2);
+                    const rotateX = -6 * tiltX;
+                    const rotateY = 6 * tiltY;
+
+                    card.style.setProperty('--rotate-x', `${rotateX}deg`);
+                    card.style.setProperty('--rotate-y', `${rotateY}deg`);
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03) translateY(-5px)`;
+
+                    const glow = card.querySelector('.card-glow');
+                    if (glow) {
+                        // This logic checks if the card is in the purple section, otherwise uses the card's --product-glow or a default
+                        let glowColorVar = 'var(--color-spotlight)'; // Default
+                        if (card.closest('#genesis-case-study')) {
+                            glowColorVar = 'var(--genesis-glow-color)';
+                        } else if (card.closest('#thermo-case-study')) {
+                            glowColorVar = 'var(--thermo-glow-color)';
+                        } else if (card.closest('#stress-case-study')) {
+                            glowColorVar = 'var(--stress-glow-color)';
+                        } else if (card.closest('#mech-case-study')) {
+                            glowColorVar = 'var(--mech-glow-color)';
+                        } else if (getComputedStyle(card.closest('.scroller-card-link')).getPropertyValue('--product-glow')) {
+                            glowColorVar = getComputedStyle(card.closest('.scroller-card-link')).getPropertyValue('--product-glow');
+                        }
+
+                        glow.style.background = `radial-gradient(circle at ${x}px ${y}px, ${glowColorVar.trim()} 0%, transparent 60%)`;
+                        glow.style.opacity = '1';
+                    }
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.setProperty('--rotate-x', '0deg');
+                    card.style.setProperty('--rotate-y', '0deg');
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1) translateY(0)';
+
+                    const glow = card.querySelector('.card-glow');
+                    if (glow) {
+                        glow.style.opacity = '0';
+                    }
+                });
+            });
+
+            // --- Intersection Observer Logic ---
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+
+                        if (entry.target.classList.contains('product-card-amazing')) {
+                            setTimeout(() => {
+                                entry.target.classList.add('is-visible');
+                            }, index * 100);
+                        } else {
+                            entry.target.classList.add('is-visible');
+                        }
+
+                        const handler = entry.target.dataset.animationHandler;
+                        if (handler && typeof window[handler] === 'function') {
+                            window[handler](entry.target);
+                        }
+
+                        if (entry.target.classList.contains('case-study-section')) {
+                            // This is now handled by the carousel JS
+                        }
+
+                        if (!entry.target.classList.contains('sequential-lines-section')) {
+                            observer.unobserve(entry.target);
+                        }
+                    }
+                });
+            };
+
+            const cardObserver = new IntersectionObserver(observerCallback, observerOptions);
+            document.querySelectorAll('[data-animation-container], [data-animation-item], [data-animation-handler], .product-card-amazing, .case-study-section, .results-section').forEach(el => {
+                cardObserver.observe(el);
+            });
+
+            // --- Hero Animation Trigger ---
+            const hero = document.querySelector('.hero-section');
+            if (hero) {
+                setTimeout(() => {
+                    hero.classList.add('animate-in');
+                }, 100);
+            }
+
+            // --- Header Scroll Logic ---
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                if (header) header.classList.toggle('scrolled', window.scrollY > 50);
+            }, { passive: true });
+
+            // --- Copyright Year Logic ---
+            const yearSpan = document.getElementById('copyright-year');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+
+            // --- Cinematic Text Logic ---
+            let lineCycleInterval = null;
+            window.startLineCycling = (container) => {
+                if (lineCycleInterval) clearInterval(lineCycleInterval);
+                const lines = Array.from(container.querySelectorAll('.sequential-line'));
+                if (!lines.length) return;
+
+                lines.forEach(line => {
+                    if (line.dataset.lettersWrapped) return;
+                    const text = line.textContent.trim();
+                    line.innerHTML = '';
+                    const letters = text.split('');
+                    letters.forEach((letter, i) => {
+                        const span = document.createElement('span');
+                        span.textContent = letter === ' ' ? '\xa0' : letter;
+                        span.style.setProperty('--letter-in-delay', `${0.04 * i}s`);
+                        span.style.setProperty('--letter-out-delay', `${0.03 * (letters.length - i - 1)}s`);
+                        line.appendChild(span);
+                    });
+                    line.dataset.lettersWrapped = 'true';
+                });
+
+                let currentIndex = 0;
+                const cycleLines = () => {
+                    const prevIndex = currentIndex === 0 ? lines.length - 1 : currentIndex - 1;
+                    const prevLine = lines[prevIndex];
+                    const currentLine = lines[currentIndex];
+
+                    prevLine.classList.add('is-hiding');
+                    setTimeout(() => {
+                        prevLine.classList.remove('is-active', 'is-hiding');
+                        currentLine.classList.add('is-active');
+                    }, 600);
+
+                    currentIndex = (currentIndex + 1) % lines.length;
+                };
+                lines[0].classList.add('is-active');
+                lineCycleInterval = setInterval(cycleLines, 4000);
+            };
+
+            // --- Number Animation Logic ---
+            window.animateResultNumber = (container) => {
+                const target = container.querySelector('.result-number');
+                if (!target || target.classList.contains('has-animated')) return;
+
+                const targetValue = target.dataset.targetValue || '0';
+                const suffix = targetValue.replace(/[0-9]/g, '');
+                const num = parseInt(targetValue, 10);
+
+                target.innerHTML = '';
+
+                String(num).split('').forEach((digitStr, index) => {
+                    const roller = document.createElement('span');
+                    roller.className = 'digit-roller';
+                    const inner = document.createElement('span');
+                    inner.className = 'digit-roller-inner';
+
+                    '0123456789'.repeat(5).split('').forEach(d => {
+                        const div = document.createElement('div');
+                        div.textContent = d;
+                        inner.appendChild(div);
+                    });
+
+                    roller.appendChild(inner);
+                    target.appendChild(roller);
+
+                    const finalDigitIndex = '0123456789'.repeat(5).lastIndexOf(digitStr);
+                    const translateY = -(finalDigitIndex / 50) * 100;
+
+                    inner.style.setProperty('--digit-delay', `${0.1 * index}s`);
+                    setTimeout(() => {
+                        inner.style.transform = `translateY(${translateY}%)`;
+                    }, 100);
+                });
+
+                if (suffix) {
+                    const suffixEl = document.createElement('span');
+                    suffixEl.className = 'result-suffix';
+                    suffixEl.textContent = suffix;
+                    target.appendChild(suffixEl);
+                }
+
+                target.classList.add('has-animated');
+            };
+
+            // --- Hero Canvas Logic ---
+            const canvas = document.getElementById('hero-canvas');
+            if (canvas && !isTouchDevice) {
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+
+                const resize = () => {
+                    canvas.width = canvas.offsetWidth;
+                    canvas.height = canvas.offsetHeight;
+                };
+
+                const createParticles = () => {
+                    particles = [];
+                    const count = Math.floor(canvas.width * canvas.height / 20000);
+                    for (let i = 0; i < count; i++) {
+                        particles.push({
+                            x: Math.random() * canvas.width,
+                            y: Math.random() * canvas.height,
+                            vx: (Math.random() - 0.5) * 0.5,
+                            vy: (Math.random() - 0.5) * 0.5,
+                            size: Math.random() * 1.5 + 0.5
+                        });
+                    }
+                };
+
+                const draw = () => {
+                    if (!canvas.width || !canvas.height) return;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                    particles.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(0, 150, 255, 0.5)';
+                        ctx.fill();
+                    });
+
+                    for (let i = 0; i < particles.length; i++) {
+                        for (let j = i; j < particles.length; j++) {
+                            const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                            if (dist < 100) {
+                                ctx.beginPath();
+                                ctx.moveTo(particles[i].x, particles[i].y);
+                                ctx.lineTo(particles[j].x, particles[j].y);
+                                ctx.strokeStyle = `rgba(0, 150, 255, ${1 - dist / 100})`;
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                };
+
+                let animationFrame;
+                const loop = () => {
+                    draw();
+                    animationFrame = requestAnimationFrame(loop);
+                };
+
+                const setup = () => {
+                    cancelAnimationFrame(animationFrame);
+                    resize();
+                    createParticles();
+                    loop();
+                };
+
+                setup();
+                window.addEventListener('resize', setup);
+            }
+
+            // --- 3D Animated Tag Sphere Logic ---
+            window.initializeTagSphere = (container) => {
+                if (!container) return;
+                const sphere = container.querySelector('.tag-sphere');
+                if (!sphere || sphere.children.length > 0) return;
+
+                const texts = [
+                    'Transformation', 'Simulation', 'AI/ML', 'Optimization',
+                    'Analytics', 'Digital Twin', 'Concept', 'Innovation',
+                    'Automation', 'Integration', 'Data Science', 'CAE', 'CAD',
+                    'Industry 4.0', 'Predictive', 'Generative Design'
+                ];
+                let tagElements = [];
+                let radius;
+
+                let angleX = 0;
+                let angleY = 0;
+                let targetAngleX = 0;
+                let targetAngleY = 0;
+                const passiveRotationSpeed = 0.0005;
+
+                const updateRadius = () => {
+                    radius = Math.min(sphere.offsetWidth, sphere.offsetHeight) * 0.45;
+                };
+
+                const createTags = () => {
+                    sphere.innerHTML = '';
+                    tagElements = [];
+                    texts.forEach((text, i) => {
+                        const tag = document.createElement('span');
+                        tag.className = 'tag';
+                        tag.innerText = text;
+
+                        const phi = Math.acos(-1 + (2 * i) / (texts.length - 1));
+                        const theta = Math.sqrt(texts.length * Math.PI) * phi;
+
+                        tagElements.push({
+                            element: tag,
+                            phi,
+                            theta
+                        });
+                        sphere.appendChild(tag);
+                    });
+                };
+
+                const updatePositions = () => {
+                    targetAngleX += passiveRotationSpeed;
+
+                    angleX += (targetAngleX - angleX) * 0.02;
+                    angleY += (targetAngleY - angleY) * 0.02;
+
+                    const sinX = Math.sin(angleX);
+                    const cosX = Math.cos(angleX);
+                    const sinY = Math.sin(angleY);
+                    const cosY = Math.cos(angleY);
+
+                    tagElements.forEach(tag => {
+                        const { element, phi, theta } = tag;
+
+                        const initialX = Math.sin(phi) * Math.cos(theta);
+                        const initialY = Math.sin(phi) * Math.sin(theta);
+                        const initialZ = Math.cos(phi);
+
+                        let x = initialX * cosX + initialZ * sinX;
+                        let z = -initialX * sinX + initialZ * cosX;
+
+                        let y = initialY * cosY - z * sinY;
+                        z = initialY * sinY + z * cosY;
+
+                        const scale = (z + 2) / 3;
+                        const opacity = (z + 1.5) / 2.5;
+                        const finalX = x * radius;
+                        const finalY = y * radius;
+                        const finalZ = z * radius;
+
+                        element.style.transform = `translate3d(-50%, -50%, 0) translate3d(${finalX}px, ${finalY}px, ${finalZ}px) scale(${scale})`;
+                        element.style.opacity = opacity;
+                    });
+
+                    requestAnimationFrame(updatePositions);
+                };
+
+                container.addEventListener('mousemove', e => {
+                    if (isTouchDevice) return;
+                    const rect = container.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    targetAngleX = (e.clientX - centerX) * 0.001;
+                    targetAngleY = (e.clientY - centerY) * 0.001;
+                });
+
+                const resizeObserver = new ResizeObserver(() => {
+                    updateRadius();
+                });
+                resizeObserver.observe(sphere);
+
+                updateRadius();
+                createTags();
+                updatePositions();
+            };
+
+            // --- MODIFIED: Case Study Carousel Logic ---
+            const carousel = document.querySelector('.case-study-carousel-wrapper');
+            if (carousel) {
+                const slides = carousel.querySelectorAll('.case-study-slide');
+                let currentSlide = 0;
+
+                function showSlide(index) {
+                    slides.forEach((slide, i) => {
+                        slide.classList.toggle('is-active', i === index);
+                    });
+                }
+
+                setInterval(() => {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    showSlide(currentSlide);
+                }, 4000); // 4 seconds
+
+            }
+
         });
-
-        const resizeObserver = new ResizeObserver(() => {
-            updateRadius();
-        });
-        resizeObserver.observe(sphere);
-
-        updateRadius();
-        createTags();
-        updatePositions();
-    };
-
-    document.getElementById('copyright-year').textContent=(new Date).getFullYear()
-  });
-  </script>
+    </script>
 </body>
-</html>
 
+</html>
+});
+}
+
+setInterval(() => {
+currentSlide = (currentSlide + 1) % slides.length;
+showSlide(currentSlide);
+}, 4000); // 4 seconds
+
+}
+
+});
+</script>
+</body>
+
+</html>

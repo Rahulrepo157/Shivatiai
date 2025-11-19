@@ -11,9 +11,20 @@
     
     <style>
         /* --- Base Styles & Animations --- */
-        @keyframes moveGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        @keyframes moveGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes pop-in { 0% { transform: scale(0.95) translateY(30px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+        @keyframes check-anim { 0% { stroke-dashoffset: 80; } 100% { stroke-dashoffset: 0; } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }
+        
+        /* --- ADDED: Case Study Animations --- */
+        @keyframes core-pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 var(--product-glow-color); }
+            70% { transform: scale(1); box-shadow: 0 0 0 30px rgba(0, 150, 255, 0); } /* Use product glow */
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 150, 255, 0); }
+        }
+        @keyframes data-stream-flow {
+            0% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
@@ -24,8 +35,10 @@
              --product-glow-color: rgba(0, 150, 255, 0.4); /* Blue Glow */
 
              /* General Theme Variables */
-             --link-color: #74ebd5; /* General links */
-             --highlight-color: #4dabf7; /* Blue for general highlights like final CTA */
+             --color-error: #ff4d4d; 
+             --color-success: #00ff8c; 
+             --link-color: #74ebd5; 
+             --highlight-color: #4dabf7; 
              --text-color: #e0e0e0;
              --text-muted-color: #a0a0a0;
              --background-dark: #01020a;
@@ -34,6 +47,7 @@
              --card-bg: rgba(30, 30, 35, 0.6);
              --card-border: rgba(255, 255, 255, 0.1);
              --card-blur: 15px;
+             --color-accent: var(--product-accent-color); 
          }
 
         html { scroll-behavior: smooth; }
@@ -46,14 +60,35 @@
             animation: moveGradient 30s ease infinite;
             color: var(--text-color);
             overflow-x: hidden;
+            cursor: none; 
         }
         
-        /* ADDED: Prevent scroll when mobile nav is open */
-        body.mobile-nav-open {
+        * { cursor: none; }
+
+        body.mobile-nav-open, body.modal-open {
             overflow: hidden;
         }
 
-        /* --- Header Styles (Consistent) --- */
+        #mouse-dot {
+            position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+            background-color: var(--product-accent-color); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none;
+            z-index: 1001;
+            transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+        }
+        #mouse-circle {
+            position: fixed; top: 0; left: 0; width: 30px; height: 30px;
+            border: 2px solid var(--product-accent-color); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none;
+            z-index: 1000; will-change: transform;
+            transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease, border-width 0.3s ease;
+        }
+        body.is-hovering #mouse-dot { opacity: 0; }
+        body.is-hovering #mouse-circle { width: 50px; height: 50px; border-width: 1px; opacity: 0.5; }
+        body.is-clicking #mouse-dot { width: 12px; height: 12px; }
+        body.is-clicking #mouse-circle { width: 25px; height: 25px; opacity: 0.8; }
+
+
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 50px; position: sticky; top: 0;
@@ -61,24 +96,21 @@
             -webkit-backdrop-filter: blur(10px); z-index: 100;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        /* FIXED: Logo is now a link */
         .logo { font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
         nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
         nav ul li { margin-left: 25px; position: relative; }
         nav ul li a { text-decoration: none; color: #ddd; font-size: 16px; transition: color 0.3s ease; cursor: pointer; padding: 5px 0; }
         nav ul li a:hover, nav ul li a.active-product-link { color: var(--product-accent-light); }
-        /* FIXED: Demo button is now a link */
         .demo-button { background-color: transparent; color: #fff; border: 1px solid #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: all 0.3s ease; text-decoration: none; }
         .demo-button:hover { background-color: #fff; color: #000; transform: translateY(-2px); }
 
-        /* --- ADDED: Mobile Nav Toggle Button --- */
         .mobile-nav-toggle {
-            display: none; /* Hidden on desktop */
+            display: none; 
             background: transparent;
             border: none;
             cursor: pointer;
             padding: 10px;
-            z-index: 1001; /* Above header */
+            z-index: 1001; 
         }
         .mobile-nav-toggle .burger-line {
             display: block;
@@ -89,35 +121,34 @@
             transition: all 0.3s ease;
         }
 
-
-        /* --- General Section Styling --- */
-        section {
-            padding: 100px 40px;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-        .content-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
+        section { padding: 100px 40px; position: relative; overflow: hidden; z-index: 1; }
+        .content-wrapper { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
         .section-title {
              font-size: 2.5rem;
              color: #fff;
              text-align: center;
              margin-bottom: 60px;
              text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-              opacity: 0; transform: translateY(30px); /* Animation */
-              transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+             opacity: 0; transform: translateY(30px); 
+             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+         }
+         /* ADDED: Section Subheading */
+         .section-subheading {
+            font-size: 1.1rem;
+            color: var(--text-muted-color);
+            text-align: center;
+            max-width: 600px;
+            margin: -40px auto 60px auto; /* Negative top margin to pull it up */
+            line-height: 1.6;
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
         }
-         section.animate-in .section-title {
+         section.animate-in .section-title,
+         section.animate-in .section-subheading { /* ADDED Subheading */
              opacity: 1;
              transform: translateY(0);
-        }
+         }
 
-        /* --- Product Hero Section --- */
         .product-hero {
             min-height: 70vh;
             display: flex;
@@ -166,11 +197,10 @@
             transform: translateY(0);
         }
 
-        /* --- General CTA Button Style (Adaptable) --- */
         .cta-button {
             display: inline-flex; align-items: center; gap: 10px;
             background: linear-gradient(90deg, var(--product-accent-color), var(--product-accent-light));
-            color: #fff; /* White text for good contrast */
+            color: #fff; 
             border: none; padding: 14px 35px; border-radius: 8px;
             cursor: pointer; font-size: 1rem; font-weight: bold; text-decoration: none;
             transition: all 0.3s ease;
@@ -178,25 +208,18 @@
              opacity: 0; transform: translateY(30px);
         }
         
-        /* FIXED: Hero-specific button animation */
         .product-hero .cta-button {
             transition: opacity 1s ease-out 0.7s, transform 1s ease-out 0.7s, background 0.3s ease, box-shadow 0.3s ease;
         }
 
         .cta-button:hover {
             transform: translateY(-3px) scale(1.03);
-            background: linear-gradient(90deg, var(--product-accent-light), #88caff); /* Lighter gradient */
+            background: linear-gradient(90deg, var(--product-accent-light), #88caff); 
             box-shadow: 0 6px 20px rgba(0, 150, 255, 0.5);
         }
         .cta-button i { font-size: 1em; }
 
-        /* --- Two Column Section (Problem/Solution) --- */
-        .two-column {
-            display: flex;
-            align-items: center;
-            gap: 60px;
-            flex-wrap: wrap;
-        }
+        .two-column { display: flex; align-items: center; gap: 60px; flex-wrap: wrap; }
         .text-column {
             flex: 1;
             min-width: 300px;
@@ -217,24 +240,13 @@
             border-left: 4px solid var(--product-accent-color);
             padding-left: 15px;
         }
-        .two-column h3 {
-            font-size: 1.3rem;
-            color: #eee;
-            margin-top: 30px;
-            margin-bottom: 10px;
-        }
-        .two-column p {
-            color: #bbb;
-            line-height: 1.7;
-            margin-bottom: 15px;
-            font-size: 1rem;
-        }
+        .two-column h3 { font-size: 1.3rem; color: #eee; margin-top: 30px; margin-bottom: 10px; }
+        .two-column p { color: #bbb; line-height: 1.7; margin-bottom: 15px; font-size: 1rem; }
          .animate-in .text-column, .animate-in .visual-column {
              opacity: 1;
              transform: translateY(0);
-        }
+         }
 
-        /* Visual Placeholder - NOW a chart container */
         .visual-placeholder {
             width: 100%; max-width: 500px;
             background-color: rgba(0, 150, 255, 0.05); border-radius: 15px;
@@ -244,7 +256,6 @@
         .placeholder-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.6; }
         .visual-placeholder span { font-size: 0.9rem; font-style: italic; }
 
-        /* --- Features Section --- */
         .features-section { background-color: rgba(0,0,0, 0.2); }
         .features-grid {
             display: grid;
@@ -258,10 +269,25 @@
             opacity: 0; transform: translateY(40px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
             transition-delay: var(--stagger-delay);
+            /* --- ADDED for 3D hover --- */
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
          .animate-in .feature-item { opacity: 1; transform: translateY(0); }
 
-        .feature-item:hover { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); transform: translateY(-5px); }
+        /* ADDED: Card Glow */
+        .card-glow {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, var(--product-glow-color) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+        .feature-item:hover .card-glow, .benefit-card:hover .card-glow, .study-card:hover .card-glow { opacity: 1; }
+        .feature-item-content { position: relative; z-index: 2; } /* Content must be above glow */
+
         .feature-item i {
             font-size: 2rem;
             color: var(--product-accent-light);
@@ -271,14 +297,7 @@
         .feature-item h3 { font-size: 1.2rem; color: #fff; margin-bottom: 10px; }
         .feature-item p { font-size: 0.95rem; color: #bbb; line-height: 1.6; }
 
-        /* --- How it Works Section --- */
-        .steps-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 30px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
+        .steps-container { display: flex; justify-content: space-between; gap: 30px; margin-top: 40px; flex-wrap: wrap; }
         .step-item {
             flex: 1;
             min-width: 250px;
@@ -305,21 +324,147 @@
         .step-item h3 { font-size: 1.2rem; color: #fff; margin-bottom: 10px; margin-top: 20px; }
         .step-item p { font-size: 0.95rem; color: #bbb; line-height: 1.6; }
 
-        /* --- Benefits Section --- */
+        /* --- ADDED: Case Study Section --- */
+        .case-study-section { background-color: rgba(0,0,0, 0.4); } /* Darker bg */
+        .case-study-grid {
+            display: grid;
+            grid-template-columns: 1fr; 
+            gap: 2rem;
+        }
+        .case-study-flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1.5rem;
+            align-items: center;
+            opacity: 0; transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: var(--stagger-delay);
+        }
+        .animate-in .case-study-flow {
+            opacity: 1; transform: translateY(0);
+        }
+        .study-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            min-height: 250px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: all 0.2s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        .study-card h3 {
+            font-size: 1.2rem;
+            color: var(--product-accent-light);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1rem;
+        }
+        .study-card-problem h3 { color: var(--text-muted-color); }
+        .study-card-solution h3 { color: var(--color-success); }
+        
+        .study-card-core {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+            border: none;
+            min-height: auto;
+        }
+        .ai-core {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--product-accent-color) 0%, var(--background-dark) 70%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+        .animate-in .ai-core {
+            animation: core-pulse 2s infinite;
+        }
+        
+        .data-stream {
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            top: 50%;
+            left: -50%;
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, var(--product-accent-color), var(--product-accent-light), transparent);
+            background-size: 200% 100%;
+            opacity: 0;
+            z-index: 1;
+        }
+        .data-stream.out {
+            left: 50%;
+            background: linear-gradient(-90deg, var(--color-success), var(--product-accent-light), transparent);
+            background-size: 200% 100%;
+        }
+        
+        .animate-in .data-stream {
+            opacity: 1;
+            animation: data-stream-flow 1.5s linear infinite;
+            animation-delay: 0.5s; 
+        }
+        .animate-in .data-stream.out {
+            animation-delay: 1s; 
+        }
+
+        .study-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .study-card li {
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        .study-card li i {
+            font-size: 1rem;
+            margin-right: 12px;
+            color: var(--text-muted-color);
+            width: 20px;
+            text-align: center;
+        }
+        .study-card-solution li i {
+            color: var(--color-success);
+        }
+        .study-card li strong {
+            color: #fff;
+            margin-right: 8px;
+        }
+        /* --- END Case Study Section --- */
+
          .benefits-section { background-color: rgba(0,0,0, 0.2); }
          .benefits-grid {
              display: grid;
              grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
              gap: 30px;
-        }
+         }
          .benefit-card {
              background: transparent;
              border-left: 3px solid var(--product-accent-color);
              padding: 20px 25px;
-              opacity: 0; transform: translateY(40px);
-              transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-              transition-delay: var(--stagger-delay);
-        }
+             opacity: 0; transform: translateY(40px);
+             transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
+             transition-delay: var(--stagger-delay);
+             /* --- ADDED for 3D hover --- */
+             position: relative;
+             transform-style: preserve-3d;
+             perspective: 1000px;
+         }
+         .benefit-card-content { position: relative; z-index: 2; } /* Content above glow */
          .animate-in .benefit-card { opacity: 1; transform: translateY(0); }
 
          .benefit-card i { font-size: 1.8rem; color: var(--product-accent-light); margin-bottom: 15px; display: block;}
@@ -327,7 +472,6 @@
          .benefit-card p { font-size: 0.9rem; color: #bbb; line-height: 1.5; }
 
 
-        /* --- Final CTA Section (Using general highlight color) --- */
         .final-cta-section { padding: 120px 40px; text-align: center; position: relative; overflow: hidden; z-index: 2; background: radial-gradient( ellipse 120% 80% at 50% -30%, rgba(0, 150, 255, 0.2) 0%, rgba(0, 100, 200, 0.08) 35%, rgba(0, 50, 100, 0.0) 60% ), var(--background-dark); }
         .cta-content-container { max-width: 750px; margin: 0 auto; position: relative; z-index: 3; }
         .cta-title { font-size: 2.6rem; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 35px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1); opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
@@ -340,14 +484,12 @@
          .final-cta-section .cta-button:hover {
              background: linear-gradient(90deg, #74c0fc, #a5d8ff);
              box-shadow: 0 6px 20px rgba(77, 171, 247, 0.4);
-        }
+         }
          section.animate-in .cta-title, section.animate-in .cta-button { opacity: 1; transform: translateY(0); }
 
-        /* --- Footer Styles (Consistent) --- */
         .site-footer { background-color: #000000; color: var(--text-muted-color); padding-top: 60px; font-size: 0.9rem; position: relative; overflow: hidden; margin-top: 0 !important; }
         .footer-content { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr; gap: 30px; max-width: 1400px; margin: 0 auto; padding: 0 40px 50px 40px; position: relative; z-index: 2; }
         .footer-logo-column, .footer-links-column, .footer-contact-column { padding: 0 10px; }
-        /* FIXED: Footer logo is now a link */
         .footer-logo { font-size: 1.8rem; font-weight: bold; color: #fff; margin-bottom: 20px; text-decoration: none; }
         .footer-social-icons a { color: #888; font-size: 1.2rem; margin-right: 15px; transition: color 0.3s ease; } .footer-social-icons a:hover { color: #fff; }
         .footer-links-column h4 { font-size: 1rem; color: #fff; margin-bottom: 15px; font-weight: 600; }
@@ -359,29 +501,116 @@
         .footer-graphic { position: absolute; bottom: 0; right: 0; width: 40%; height: 100%; max-width: 500px; background: linear-gradient( to top left, transparent 50%, rgba(255, 255, 255, 0.02) 50.5%, rgba(255, 255, 255, 0.02) 51.5%, transparent 52% ), linear-gradient( to top left, transparent 60%, rgba(255, 255, 255, 0.015) 60.5%, rgba(255, 255, 255, 0.015) 61.5%, transparent 62% ), linear-gradient( to top left, transparent 68%, rgba(255, 255, 255, 0.01) 68.5%, rgba(255, 255, 255, 0.01) 69.5%, transparent 70% ); background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none; z-index: 1; opacity: 0.7; }
 
 
-        /* --- Responsive --- */
+        #demo-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(15px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        body.modal-open #demo-modal-overlay { opacity: 1; pointer-events: auto; }
+        
+        #demo-modal-content {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            width: 100%; max-width: 550px;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.4s var(--animation-timing-apple);
+            perspective: 2000px;
+        }
+        body.modal-open #demo-modal-content { transform: scale(1); }
+        
+        #modal-close-btn {
+            position: absolute;
+            top: 1.5rem; right: 2rem;
+            background: none; border: none;
+            color: var(--text-muted-color); font-size: 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 1002;
+        }
+        #modal-close-btn:hover { color: #fff; transform: rotate(90deg); }
+
+        .form-wizard { padding: 2.5rem 3rem; }
+        .form-header h1 { text-align: center; margin: 0 0 2rem 0; font-size: 1.8rem; transition: opacity 0.3s ease; }
+        [data-animate-text] span { display: inline-block; opacity: 0; transform: translateY(20px) scale(0.8); animation: pop-in 0.4s var(--animation-timing-apple) forwards; animation-delay: var(--delay); }
+        .form-steps-container { position: relative; height: 280px; transition: transform 0.8s var(--animation-timing-apple); transform-style: preserve-3d; }
+        .form-step { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .form-group { position: relative; margin-bottom: 0.5rem; transition: transform 0.2s ease; }
+        .form-group.shake { animation: shake 0.5s ease-in-out; }
+        .form-group::after { content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background-color: var(--color-accent); transition: all 0.3s var(--animation-timing-apple); transform: translateX(-50%); }
+        .form-group input:focus ~::after, .form-group textarea:focus ~::after { width: 100%; }
+        .form-group input, .form-group textarea { width: 100%; padding: 1rem; border: none; border-bottom: 1px solid var(--card-border); border-radius: 0; box-sizing: border-box; background: rgba(0, 0, 0, 0.2); color: var(--text-color); font-size: 1rem; transition: border-color var(--transition-duration), box-shadow var(--transition-duration); }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: rgba(0,0,0,0); }
+        .form-group label { position: absolute; top: 1rem; color: var(--text-muted-color); pointer-events: none; transition: all 0.2s ease; left: 0; }
+        .form-group input:focus + label, .form-group input:not(:placeholder-shown) + label, .form-group textarea:focus + label, .form-group textarea:not(:placeholder-shown) + label { top: -0.6rem; left: 0; font-size: 0.8rem; color: var(--color-accent); background: #182238; padding: 0 0.3rem; }
+        .validation-icon { position: absolute; right: 1rem; top: 1rem; animation: pop-in 0.3s ease; }
+        .validation-icon.fa-check { color: var(--color-success); }
+        .validation-icon.fa-times { color: var(--color-error); }
+        .error-message { color: var(--color-error); font-size: 0.8rem; height: 0; opacity: 0; padding-left: 0.3rem; transition: all 0.3s ease; overflow: hidden; margin-bottom: 1rem; }
+        .error-message.is-visible { height: 1.2rem; opacity: 1; }
+        .button-group { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem; position: absolute; bottom: 0; width: 100%;}
+        .btn { width: 100%; padding: 0.8rem; background-color: var(--color-accent); color: #fff; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; transition: all 0.3s; will-change: transform; position: relative; overflow: hidden; }
+        .btn:active { transform: scale(0.97); transition-duration: 0.1s; }
+        .btn .btn-text { position: relative; z-index: 2; }
+        .btn::after { content: ''; position: absolute; top: 0; left: 0; width: 50%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent); transform: translateX(-150%) skew(-20deg); transition: transform 0s; }
+        .btn:hover::after { transform: translateX(250%) skew(-20deg); transition: transform 0.8s var(--animation-timing-apple); }
+        .btn:hover { background-color: var(--product-accent-light); }
+        .btn.is-loading { color: transparent; pointer-events: none; }
+        .btn.is-loading .btn-text { color: transparent; }
+        .btn.is-loading::after { content: ''; position: absolute; top: 50%; left: 50%; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px; border: 3px solid rgba(255, 255, 255, 0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; transform: none; transition: none; }
+        .btn-secondary { background: none; border: 1px solid var(--card-border); color: var(--text-muted-color); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+        .success-message { text-align: center; animation: pop-in 0.5s ease; padding-top: 4rem; }
+        .success-icon { width: 80px; height: 80px; margin: 0 auto 1.5rem; }
+        .success-icon .circle { stroke: var(--color-accent); }
+        .success-icon .checkmark { stroke: #fff; stroke-dasharray: 80; stroke-dashoffset: 80; animation: check-anim 0.5s 0.3s ease-out forwards; }
+        .success-message h1 { font-size: 2rem; margin-bottom: 1rem; }
+        .interactive-hover { transition: transform 0.1s ease-out; }
+
+
+        .form-wizard:hover ~ #mouse-dot, 
+        .form-wizard:hover ~ #mouse-circle {
+            opacity: 0 !important;
+        }
+        input, textarea, button, .btn, label, a, #modal-close-btn {
+            cursor: auto !important; 
+        }
+        input, textarea {
+            cursor: text !important;
+        }
+        button, .btn, label, a, #modal-close-btn {
+            cursor: pointer !important;
+        }
+
+
          @media (max-width: 992px) {
              .two-column { flex-direction: column-reverse; }
              .text-column, .visual-column { max-width: 100%; }
              .features-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
              .benefits-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
              .steps-container { justify-content: center; }
+             /* ADDED */
+             .case-study-flow { grid-template-columns: 1fr; gap: 0; } 
+             .study-card-core { margin: 2rem 0; transform: rotate(90deg); }
              
-             /* FIXED: Footer Grid */
              .footer-content { 
-                grid-template-columns: 1fr 1fr; /* 2 columns */
-                gap: 40px;
-            }
-            .footer-logo-column {
-                grid-column: 1 / 2; /* Logo top-left */
-                text-align: left;
-                margin-bottom: 0; /* Reset margin */
-            }
-            .footer-contact-column {
-                grid-column: 2 / 3; /* Contact top-right */
-                text-align: left;
-                margin-bottom: 0; /* Reset margin */
-            }
+                 grid-template-columns: 1fr 1fr; 
+                 gap: 40px;
+             }
+             .footer-logo-column {
+                 grid-column: 1 / 2; 
+                 text-align: left;
+                 margin-bottom: 0; 
+             }
+             .footer-contact-column {
+                 grid-column: 2 / 3; 
+                 text-align: left;
+                 margin-bottom: 0; 
+             }
          }
 
          @media (max-width: 768px) {
@@ -389,55 +618,52 @@
              .section-title { font-size: 2rem; margin-bottom: 40px; }
              header { padding: 15px 20px; position: static; background-color: #000; backdrop-filter: none; border-bottom: none; }
              
-             /* --- ADDED: Mobile Nav Rules --- */
              .mobile-nav-toggle {
-                display: block; /* Show burger button */
+                 display: block; 
              }
              
              nav {
-                display: none; /* Hide the nav container by default */
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background-color: #01020a;
-                z-index: 1000;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-            
-            nav.mobile-nav-open {
-                display: flex; /* Show the mobile menu */
-            }
-        
-            nav.mobile-nav-open ul {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 30px;
-            }
-            nav.mobile-nav-open ul li {
-                margin-left: 0;
-            }
-            nav.mobile-nav-open ul li a {
-                font-size: 1.5rem; /* Larger text for mobile */
-            }
-        
-            /* Animate burger to 'X' */
-            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(2) {
-                opacity: 0;
-            }
-            body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-            /* --- End Mobile Nav Rules --- */
+                 display: none; 
+                 position: fixed;
+                 top: 0;
+                 left: 0;
+                 width: 100%;
+                 height: 100vh;
+                 background-color: #01020a;
+                 z-index: 1000;
+                 flex-direction: column;
+                 justify-content: center;
+                 align-items: center;
+             }
+             
+             nav.mobile-nav-open {
+                 display: flex; 
+             }
+     
+             nav.mobile-nav-open ul {
+                 display: flex;
+                 flex-direction: column;
+                 align-items: center;
+                 gap: 30px;
+             }
+             nav.mobile-nav-open ul li {
+                 margin-left: 0;
+             }
+             nav.mobile-nav-open ul li a {
+                 font-size: 1.5rem; 
+             }
+     
+             body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(1) {
+                 transform: translateY(8px) rotate(45deg);
+             }
+             body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(2) {
+                 opacity: 0;
+             }
+             body.mobile-nav-open .mobile-nav-toggle .burger-line:nth-child(3) {
+                 transform: translateY(-8px) rotate(-45deg);
+             }
 
-             nav ul { display: none; } /* Hide main nav by default */
+             nav ul { display: none; } 
              .product-hero { padding-top: 80px; padding-bottom: 60px; min-height: 60vh;}
              .product-hero h1 { font-size: 2.8rem; }
              .product-hero .tagline { font-size: 1.2rem; }
@@ -446,7 +672,7 @@
              .two-column h2 { font-size: 1.5rem; }
              .two-column h3 { font-size: 1.1rem; }
              .two-column p { font-size: 0.95rem; }
-             .features-grid, .benefits-grid { grid-template-columns: 1fr; gap: 25px; }
+             .features-grid, .benefits-grid, .case-study-grid { grid-template-columns: 1fr; gap: 25px; } /* ADDED */
              .step-item { min-width: 100%; }
              .final-cta-section { padding: 80px 20px; }
              .cta-title { font-size: 2rem; }
@@ -455,33 +681,38 @@
              .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; text-align: center; margin-bottom: 30px; }
              .footer-links-column { text-align: center; }
              .footer-graphic { width: 60%; opacity: 0.5; }
+             #demo-modal-content { width: 90vw; }
+             .form-wizard { padding: 2rem 1.5rem; }
+             .form-steps-container { height: 300px; }
          }
 
-          @media (max-width: 480px) {
+         @media (max-width: 480px) {
              .product-hero h1 { font-size: 2.2rem; }
              .product-hero .tagline { font-size: 1rem; }
              .step-number { font-size: 3rem; top: 0; }
              .step-item h3 { margin-top: 30px; }
              .footer-content { grid-template-columns: 1fr; } .footer-links-column { margin-bottom: 20px; } .footer-graphic { display: none; }
-          }
+         }
 
     </style>
     </head>
-    <body>
+    <body class="interactive-hover-area">
+        <div id="mouse-dot"></div>
+        <div id="mouse-circle"></div>
 
         <header>
-            <a href="/" class="logo">shivati_ai</a>
+            <a href="/" class="logo interactive-hover">shivati_ai</a>
             <nav>
                  <ul>
-                     <li><a href="/">Home</a></li>
-                     <li><a href="/product" class="active-product-link">Product</a></li>
-                     <li><a href="/about-us">Company</a></li>
-                     <li><a href="/security/">Security</a></li>
-                     <li><a href="/resources/">Resources</a></li>
-                     <li><a href="/careers">Careers</a></li>
+                     <li><a href="/" class="interactive-hover">Home</a></li>
+                     <li><a href="/product" class="active-product-link interactive-hover">Product</a></li>
+                     <li><a href="/about-us" class="interactive-hover">Company</a></li>
+                     <li><a href="/security/" class="interactive-hover">Security</a></li>
+                     <li><a href="/resources/" class="interactive-hover">Resources</a></li>
+                     <li><a href="/careers" class="interactive-hover">Careers</a></li>
                  </ul>
             </nav>
-            <a href="/demo?product=EngineTune" class="demo-button">Request a Demo</a>
+            <a href="#" class="demo-button open-demo-modal interactive-hover" data-product="EngineTune AI">Request a Demo</a>
             
             <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span class="burger-line"></span>
@@ -496,7 +727,7 @@
                 <h1>EngineTune AI</h1>
                 <p class="tagline">Precision Optimization for Modern Powertrains.</p>
                 <p class="intro-text">EngineTune AI analyzes combustion and calibration data to optimize performance, emissions, and fuel economy.</p>
-                <a href="/demo?product=EngineTune" class="cta-button">Explore EngineTune AI <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="cta-button open-demo-modal interactive-hover" data-product="EngineTune AI">Explore EngineTune AI <i class="fas fa-arrow-right"></i></a>
             </div>
         </section>
 
@@ -521,10 +752,10 @@
             <div class="content-wrapper">
                 <h2 class="section-title">Core Capabilities</h2>
                 <div class="features-grid">
-                    <div class="feature-item" data-delay="0.1s"> <i class="fas fa-gas-pump"></i> <h3>Fuel Economy Optimization</h3> <p>Identify and apply calibration settings that maximize MPG/KWh without compromising drivability.</p> </div>
-                    <div class="feature-item" data-delay="0.2s"> <i class="fas fa-leaf"></i> <h3>Emissions Reduction (NOx, CO2)</h3> <p>Model and predict emissions output to find the sweet spot that meets strict regulatory targets.</p> </div>
-                    <div class="feature-item" data-delay="0.3s"> <i class="fas fa-bolt"></i> <h3>Performance Tuning</h3> <p>Optimize ignition timing, fuel injection, and boost pressure for maximum torque and horsepower.</p> </div>
-                    <div class="feature-item" data-delay="0.4s"> <i class="fas fa-chart-line"></i> <h3>Combustion Analysis</h3> <p>Analyze combustion data (like heat release and knock) to ensure engine health and stability.</p> </div>
+                    <div class="feature-item interactive-card" data-delay="0.1s"> <div class="card-glow"></div> <div class="feature-item-content"> <i class="fas fa-gas-pump"></i> <h3>Fuel Economy Optimization</h3> <p>Identify and apply calibration settings that maximize MPG/KWh without compromising drivability.</p> </div> </div>
+                    <div class="feature-item interactive-card" data-delay="0.2s"> <div class="card-glow"></div> <div class="feature-item-content"> <i class="fas fa-leaf"></i> <h3>Emissions Reduction (NOx, CO2)</h3> <p>Model and predict emissions output to find the sweet spot that meets strict regulatory targets.</p> </div> </div>
+                    <div class="feature-item interactive-card" data-delay="0.3s"> <div class="card-glow"></div> <div class="feature-item-content"> <i class="fas fa-bolt"></i> <h3>Performance Tuning</h3> <p>Optimize ignition timing, fuel injection, and boost pressure for maximum torque and horsepower.</p> </div> </div>
+                    <div class="feature-item interactive-card" data-delay="0.4s"> <div class="card-glow"></div> <div class="feature-item-content"> <i class="fas fa-chart-line"></i> <h3>Combustion Analysis</h3> <p>Analyze combustion data (like heat release and knock) to ensure engine health and stability.</p> </div> </div>
                 </div>
             </div>
         </section>
@@ -540,71 +771,166 @@
              </div>
          </section>
 
-        <section class="product-section benefits-section">
+         <section class="product-section case-study-section">
+             <div class="content-wrapper">
+                 <h2 class="section-title">Real-World Calibration</h2>
+                 <p class="section-subheading">Our AI processes your test data to deliver proven, optimized results. See the flow from data to calibration.</p>
+                 
+                 <div class="case-study-grid">
+                     <div class="case-study-flow" data-delay="0.1s">
+                         
+                         <div class="study-card study-card-problem interactive-card">
+                             <div class="card-glow"></div>
+                             <div class="feature-item-content">
+                                 <h3><i class="fas fa-clipboard-list"></i> Problem Inputs</h3>
+                                 <ul>
+                                     <li><i class="fas fa-database"></i><strong>Data:</strong> 500 Dyno Runs</li>
+                                     <li><i class="fas fa-leaf"></i><strong>Constraint:</strong> NOx < 0.4 g/km</li>
+                                     <li><i class="fas fa-gas-pump"></i><strong>Goal 1:</strong> Max Fuel Economy</li>
+                                     <li><i class="fas fa-bolt"></i><strong>Goal 2:</strong> Max Torque (Mid-Range)</li>
+                                     <li><i class="fas fa-cogs"></i><strong>Engine:</strong> 2.0L Turbo I4</li>
+                                 </ul>
+                             </div>
+                         </div>
+                         
+                         <div class="study-card-core">
+                             <div class="data-stream in"></div>
+                             <div class="ai-core"><i class="fas fa-brain"></i></div>
+                             <div class="data-stream out"></div>
+                         </div>
+                         
+                         <div class="study-card study-card-solution interactive-card">
+                             <div class="card-glow"></div>
+                             <div class="feature-item-content">
+                                 <h3><i class="fas fa-check-circle"></i> Optimized Output</h3>
+                                 <ul>
+                                     <li><i class="fas fa-gas-pump"></i><strong>Fuel Economy:</strong> +8%</li>
+                                     <li><i class="fas fa-leaf"></i><strong>NOx Levels:</strong> -15% (Compliant)</li>
+                                     <li><i class="fas fa-chart-line"></i><strong>Torque:</strong> +12% (Mid-Range)</li>
+                                     <li><i class="fas fa-hourglass-half"></i><strong>Time:</strong> 4 Hours</li>
+                                     <li><i class="fas fa-file-export"></i><strong>Result:</strong> Validated .CAL Map</li>
+                                 </ul>
+                             </div>
+                         </div>
+                         
+                     </div>
+                 </div>
+             </div>
+         </section>
+         <section class="product-section benefits-section">
              <div class="content-wrapper">
                  <h2 class="section-title">Benefits & Use Cases</h2>
                  <div class="benefits-grid">
-                     <div class="benefit-card" data-delay="0.1s"> <i class="fas fa-clock"></i> <h3>Drastic R&D Speed-Up</h3> <p>Reduce calibration time from months to days, freeing up valuable engineering resources.</p> </div>
-                     <div class="benefit-card" data-delay="0.2s"> <i class="fas fa-dollar-sign"></i> <h3>Lower Testing Costs</h3> <p>Minimize expensive dynamometer and on-road testing by getting the calibration right the first time.</p> </div>
-                     <div class="benefit-card" data-delay="0.3s"> <i class="fas fa-bullseye"></i> <h3>Achieve Conflicting Targets</h3> <p>Find optimal trade-offs between competing goals like performance, economy, and emissions.</p> </div>
-                     <div class="benefit-card" data-delay="0.4s"> <i class="fas fa-car"></i> <h3>Passenger Vehicle OEMs</h3> <p>Optimize gasoline and diesel engines for mass-market vehicles to meet emissions and fuel standards.</p> </div>
-                     <div class="benefit-card" data-delay="0.5s"> <i class="fas fa-truck"></i> <h3>Commercial & Heavy-Duty</h3> <p>Tune heavy-duty diesel engines for maximum fuel efficiency and long-haul durability.</p> </div>
-                     <div class="benefit-card" data-delay="0.6s"> <i class="fas fa-flag-checkered"></i> <h3>Motorsport Teams</h3> <p>Extract every last bit of performance from race engines while managing fuel and reliability constraints.</p> </div>
+                     <div class="benefit-card interactive-card" data-delay="0.1s"> <div class="card-glow"></div> <div class="benefit-card-content"> <i class="fas fa-clock"></i> <h3>Drastic R&D Speed-Up</h3> <p>Reduce calibration time from months to days, freeing up valuable engineering resources.</p> </div> </div>
+                     <div class="benefit-card interactive-card" data-delay="0.2s"> <div class="card-glow"></div> <div class="benefit-card-content"> <i class="fas fa-dollar-sign"></i> <h3>Lower Testing Costs</h3> <p>Minimize expensive dynamometer and on-road testing by getting the calibration right the first time.</p> </div> </div>
+                     <div class="benefit-card interactive-card" data-delay="0.3s"> <div class="card-glow"></div> <div class="benefit-card-content"> <i class="fas fa-bullseye"></i> <h3>Achieve Conflicting Targets</h3> <p>Find optimal trade-offs between competing goals like performance, economy, and emissions.</p> </div> </div>
+                     <div class="benefit-card interactive-card" data-delay="0.4s"> <div class="card-glow"></div> <div class="benefit-card-content"> <i class="fas fa-car"></i> <h3>Passenger Vehicle OEMs</h3> <p>Optimize gasoline and diesel engines for mass-market vehicles to meet emissions and fuel standards.</p> </div> </div>
+                     <div class="benefit-card interactive-card" data-delay="0.5s"> <div class="card-glow"></div> <div class="benefit-card-content"> <i class="fas fa-truck"></i> <h3>Commercial & Heavy-Duty</h3> <p>Tune heavy-duty diesel engines for maximum fuel efficiency and long-haul durability.</p> </div> </div>
+                     <div class="benefit-card interactive-card" data-delay="0.6s"> <div class="card-glow"></div> <div class="benefit-card-content"> <i class="fas fa-flag-checkered"></i> <h3>Motorsport Teams</h3> <p>Extract every last bit of performance from race engines while managing fuel and reliability constraints.</p> </div> </div>
                  </div>
              </div>
          </section>
 
         <section class="final-cta-section" id="request-demo"> <div class="cta-content-container animate-in">
              <h2 class="cta-title">Ready to Optimize Your Powertrain Calibration?</h2>
-             <a href="/demo?product=EngineTune" class="cta-button"> Get Started with EngineTune AI <i class="fas fa-paper-plane"></i> </a>
+             <a href="#" class="cta-button open-demo-modal interactive-hover" data-product="EngineTune AI"> Get Started with EngineTune AI <i class="fas fa-paper-plane"></i> </a>
          </div>
         </section>
     </main>
 
+        <div id="demo-modal-overlay">
+            <div id="demo-modal-content">
+                <button id="modal-close-btn" class="interactive-hover" title="Close">&times;</button>
+                <div class="form-wizard" id="form-wizard">
+                    <div class="form-header">
+                        <h1 id="form-title"></h1>
+                    </div>
+                    <div class="form-steps-container" id="steps-container">
+                        <div class="form-step" id="step-1">
+                            <div class="form-group" id="name-group">
+                                <input type="text" id="name" name="name" required placeholder=" " class="interactive-hover">
+                                <label for="name">Name</label>
+                                <i class="validation-icon"></i>
+                            </div>
+                            <div class="error-message" id="name-error"></div>
+                            <div class="form-group" id="email-group">
+                                <input type="email" id="email" name="email" required placeholder=" " class="interactive-hover">
+                                <label for="email">Work Email</label>
+                                <i class="validation-icon"></i>
+                            </div>
+                            <div class="error-message" id="email-error"></div>
+                            <div class="button-group">
+                                <button type="button" class="btn next-btn interactive-hover"><span class="btn-text">Next</span></button>
+                            </div>
+                        </div>
+                        <div class="form-step" id="step-2">
+                             <div class="form-group">
+                                <textarea id="message" name="message" rows="5" placeholder=" " class="interactive-hover"></textarea>
+                                <label for="message">What is your primary goal?</label>
+                            </div>
+                            <div class="button-group">
+                                <button type="button" class="btn btn-secondary prev-btn interactive-hover"><span class="btn-text">Previous</span></button>
+                                <button type="submit" class="btn interactive-hover" id="submitBtn"><span class="btn-text">Submit Request</span></button>
+                            </div>
+                        </div>
+                        <div class="form-step" id="success-step">
+                            <div class="success-message">
+                                <div class="success-icon">
+                                    <svg viewBox="0 0 100 100"><circle class="circle" cx="50" cy="50" r="45" fill="none" stroke-width="5"/><polyline class="checkmark" points="25,55 45,70 75,35" fill="none" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </div>
+                                <h1 data-animate-text>Request Sent!</h1>
+                                <p>Our team will contact you shortly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="product" name="product">
         <footer class="site-footer">
              <div class="footer-content">
                  <div class="footer-logo-column">
-                     <a href="/" class="footer-logo">shivati_ai</a>
+                     <a href="/" class="footer-logo interactive-hover">shivati_ai</a>
                      <div class="footer-social-icons">
-                         <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                         <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                         <a href="#" aria-label="LinkedIn" class="interactive-hover"><i class="fab fa-linkedin-in"></i></a>
+                         <a href="#" aria-label="Twitter" class="interactive-hover"><i class="fab fa-twitter"></i></a>
                      </div>
                  </div>
                  <div class="footer-links-column">
                      <h4>Product</h4>
                      <ul>
-                         <li><a href="/product">Overview</a></li>
-                         <li><a href="#enginetune" class="active-product-link">EngineTune AI</a></li>
-                         <li><a href="#">MatSci AI</a></li>
-                         <li><a href="#">RoboPilot AI</a></li>
-                         <li><a href="#">ManufacTwin AI</a></li>
-                         <li><a href="#">DesignGenesis AI</a></li>
-                         <li><a href="#">FluidFlow AI</a></li>
-                         <li><a href="#">MechMotion AI</a></li>
-                         <li><a href="#">StressMaster</a></li>
-                         <li><a href="#">ThermoSolver</a></li>
+                         <li><a href="/product" class="interactive-hover">Overview</a></li>
+                         <li><a href="/enginetune/" class="active-product-link interactive-hover">EngineTune AI</a></li>
+                         <li><a href="/mat_si/" class="interactive-hover">MatSci AI</a></li>
+                         <li><a href="/robopilot_ai/" class="interactive-hover">RoboPilot AI</a></li>
+                         <li><a href="/manufactaring_twin/" class="interactive-hover">ManufacTwin AI</a></li>
+                         <li><a href="/design_master/" class="interactive-hover">DesignGenesis AI</a></li>
+                         <li><a href="/fluid_flow_ai/" class="interactive-hover">FluidFlow AI</a></li>
+                         <li><a href="/mech-ai/" class="interactive-hover">MechMotion AI</a></li>
+                         <li><a href="/stressmaster/" class="interactive-hover">StressMaster</a></li>
+                         <li><a href="/thermosolver/" class="interactive-hover">ThermoSolver</a></li>
                      </ul>
                  </div>
                  <div class="footer-links-column">
                      <h4>Company</h4>
                      <ul>
-                         <li><a href="/about/">About Us</a></li>
-                         <li><a href="/careers">Careers</a></li>
-                         <li><a href="#">Blog</a></li>
-                         <li><a href="#">Resources</a></li>
+                         <li><a href="/about-us" class="interactive-hover">About Us</a></li>
+                         <li><a href="/careers" class="interactive-hover">Careers</a></li>
+                         <li><a href="#" class="interactive-hover">Blog</a></li>
+                         <li><a href="/resources/" class="interactive-hover">Resources</a></li>
                      </ul>
                  </div>
                  <div class="footer-links-column">
                      <h4>Legal</h4>
                      <ul>
-                         <li><a href="#">Terms of Service</a></li>
-                         <li><a href="#">Privacy Policy</a></li>
+                         <li><a href="#" class="interactive-hover">Terms of Service</a></li>
+                         <li><a href="#" class="interactive-hover">Privacy Policy</a></li>
                      </ul>
                  </div>
                  <div class="footer-contact-column" id="contact-sales">
                      <h4>Contact</h4>
-                     <p><a href="mailto:contact@shivati_ai.com">contact@shivati_ai.com</a></p>
-                     <p>Sales: <a href="mailto:sales@shivati_ai.com">sales@shivati_ai.com</a></p>
+                     <p><a href="mailto:contact@shivati_ai.com" class="interactive-hover">contact@shivati_ai.com</a></p>
+                     <p>Sales: <a href="mailto:sales@shivati_ai.com" class="interactive-hover">sales@shivati_ai.com</a></p>
                  </div>
              </div>
              <div class="footer-bottom">
@@ -615,12 +941,13 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+                const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                const body = document.body;
 
-                // --- Consolidated Intersection Observer for Scroll Animations ---
                  const observerOptions = {
                      root: null,
                      rootMargin: '0px',
-                     threshold: 0.1 // Trigger when 10% is visible
+                     threshold: 0.1 
                  };
 
                  const observerCallback = (entries, observer) => {
@@ -628,37 +955,38 @@
                          if (entry.isIntersecting) {
                              const target = entry.target;
 
-                             const itemsToStagger = target.querySelectorAll('.feature-item, .step-item, .benefit-card, .text-column, .visual-column');
+                             // --- MODIFIED: Added .case-study-flow ---
+                             const itemsToStagger = target.querySelectorAll('.feature-item, .step-item, .benefit-card, .text-column, .visual-column, .case-study-flow');
                              if (itemsToStagger.length > 0) {
                                  itemsToStagger.forEach((item, itemIndex) => {
                                      const delay = item.getAttribute('data-delay') || `${(itemIndex * 0.08) + 0.1}s`;
                                      item.style.transitionDelay = delay;
                                  });
                              }
-                              target.classList.add('animate-in');
-                              if (!target.classList.contains('product-hero')) {
+                             target.classList.add('animate-in');
+                             if (!target.classList.contains('product-hero')) {
                                  observer.unobserve(target);
-                              }
+                             }
                          }
                      });
                  };
 
                  const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
-                 document.querySelectorAll('.product-hero, .product-section .content-wrapper, .features-section .content-wrapper, .how-it-works-section .content-wrapper, .benefits-section .content-wrapper, .final-cta-section .cta-content-container').forEach(el => {
+                 // --- MODIFIED: Added .case-study-section ---
+                 document.querySelectorAll('.product-hero, .product-section .content-wrapper, .features-section .content-wrapper, .how-it-works-section .content-wrapper, .case-study-section .content-wrapper, .benefits-section .content-wrapper, .final-cta-section .cta-content-container').forEach(el => {
                      if (el.classList.contains('product-hero') && isElementInViewport(el)) {
-                          el.classList.add('animate-in');
-                          const heroElements = el.querySelectorAll('.hero-content h1, .hero-content .tagline, .hero-content .intro-text, .hero-content .cta-button');
-                          heroElements.forEach((item, index) => {
-                              // Apply delays based on their transition settings in CSS
-                              const style = window.getComputedStyle(item);
-                              let delay = style.getPropertyValue('transition-delay');
-                              if (!delay || delay === '0s') {
-                                delay = `${index * 0.2 + 0.1}s`; 
-                                item.style.transitionDelay = delay;
-                              }
-                          });
+                           el.classList.add('animate-in');
+                           const heroElements = el.querySelectorAll('.hero-content h1, .hero-content .tagline, .hero-content .intro-text, .hero-content .cta-button');
+                           heroElements.forEach((item, index) => {
+                               const style = window.getComputedStyle(item);
+                               let delay = style.getPropertyValue('transition-delay');
+                               if (!delay || delay === '0s') {
+                                 delay = `${index * 0.2 + 0.1}s`; 
+                                 item.style.transitionDelay = delay;
+                               }
+                           });
                      } else {
-                         scrollObserver.observe(el);
+                          scrollObserver.observe(el);
                      }
                  });
 
@@ -673,103 +1001,348 @@
 
                  const yearSpan = document.getElementById('copyright-year');
                  if (yearSpan) {
-                     yearSpan.textContent = new Date().getFullYear(); // Dynamically sets to current year
+                     yearSpan.textContent = new Date().getFullYear(); 
                  }
                  
-                // --- 5. ADDED: Mobile Nav Toggle ---
-                const navToggle = document.querySelector('.mobile-nav-toggle');
-                const nav = document.querySelector('nav');
-                
-                if (navToggle && nav) {
-                    navToggle.addEventListener('click', () => {
-                        nav.classList.toggle('mobile-nav-open');
-                        // Toggle body class to prevent scrolling when menu is open
-                        document.body.classList.toggle('mobile-nav-open'); 
-                        
-                        // Toggle ARIA attribute for accessibility
-                        const isExpanded = nav.classList.contains('mobile-nav-open');
-                        navToggle.setAttribute('aria-expanded', isExpanded);
-                    });
-                }
+                 const navToggle = document.querySelector('.mobile-nav-toggle');
+                 const nav = document.querySelector('nav');
                  
-                // --- 6. ADDED: Chart.js Initialization ---
-                const chartCanvas = document.getElementById('speedComparisonChart');
-                if (chartCanvas) {
-                    const ctx = chartCanvas.getContext('2d');
-                    
-                    // Get theme colors from CSS variables
-                    const styles = getComputedStyle(document.documentElement);
-                    const accentColor = styles.getPropertyValue('--product-accent-color').trim();
-                    const textColor = styles.getPropertyValue('--text-color').trim();
-                    const gridColor = 'rgba(255, 255, 255, 0.1)';
+                 if (navToggle && nav) {
+                     navToggle.addEventListener('click', () => {
+                         nav.classList.toggle('mobile-nav-open');
+                         document.body.classList.toggle('mobile-nav-open'); 
+                         const isExpanded = nav.classList.contains('mobile-nav-open');
+                         navToggle.setAttribute('aria-expanded', isExpanded);
+                     });
+                 }
+                 
+                 const chartCanvas = document.getElementById('speedComparisonChart');
+                 if (chartCanvas) {
+                     const ctx = chartCanvas.getContext('2d');
+                     
+                     const styles = getComputedStyle(document.documentElement);
+                     const accentColor = styles.getPropertyValue('--product-accent-color').trim();
+                     const textColor = styles.getPropertyValue('--text-color').trim();
+                     const gridColor = 'rgba(255, 255, 255, 0.1)';
 
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Fuel Economy (MPG)', 'NOx Emissions (g/km)', 'Performance (HP)'],
-                            datasets: [
-                                {
-                                    label: 'Baseline Calibration',
-                                    data: [28, 0.5, 300], // "Random" baseline data
-                                    backgroundColor: 'rgba(255, 99, 132, 0.6)', // A standard red
-                                    borderColor: 'rgba(255, 99, 132, 1)',
-                                    borderWidth: 1
-                                },
-                                {
-                                    label: 'EngineTune AI Optimized',
-                                    data: [31, 0.3, 305], // "Random" optimized data
-                                    backgroundColor: accentColor, // Themed color!
-                                    borderColor: accentColor,
-                                    borderWidth: 1
-                                }
-                            ]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: true,
-                            plugins: {
-                                legend: {
-                                    labels: {
-                                        color: textColor // Dark mode text
-                                    }
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'AI-Driven Calibration Improvement',
-                                    color: textColor,
-                                    font: {
-                                        size: 16
-                                    }
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    beginAtZero: false,
-                                    title: {
-                                        display: true,
-                                        text: 'Metric Value',
-                                        color: textColor
-                                    },
-                                    ticks: {
-                                        color: textColor // Dark mode text
-                                    },
-                                    grid: {
-                                        color: gridColor // Dark mode grid
-                                    }
-                                },
-                                x: {
-                                    ticks: {
-                                        color: textColor // Dark mode text
-                                    },
-                                    grid: {
-                                        color: 'transparent' // No vertical grid
-                                    }
-                                }
+                     new Chart(ctx, {
+                         type: 'bar',
+                         data: {
+                             labels: ['Fuel Economy (MPG)', 'NOx Emissions (g/km)', 'Performance (HP)'],
+                             datasets: [
+                                 {
+                                     label: 'Baseline Calibration',
+                                     data: [28, 0.5, 300], 
+                                     backgroundColor: 'rgba(255, 99, 132, 0.6)', 
+                                     borderColor: 'rgba(255, 99, 132, 1)',
+                                     borderWidth: 1
+                                 },
+                                 {
+                                     label: 'EngineTune AI Optimized',
+                                     data: [31, 0.3, 305], 
+                                     backgroundColor: accentColor, 
+                                     borderColor: accentColor,
+                                     borderWidth: 1
+                                 }
+                             ]
+                         },
+                         options: {
+                             responsive: true,
+                             maintainAspectRatio: true,
+                             plugins: {
+                                 legend: {
+                                     labels: {
+                                         color: textColor 
+                                     }
+                                 },
+                                 title: {
+                                     display: true,
+                                     text: 'AI-Driven Calibration Improvement',
+                                     color: textColor,
+                                     font: {
+                                         size: 16
+                                     }
+                                 }
+                             },
+                             scales: {
+                                 y: {
+                                     beginAtZero: false,
+                                     title: {
+                                         display: true,
+                                         text: 'Metric Value',
+                                         color: textColor
+                                     },
+                                     ticks: {
+                                         color: textColor 
+                                     },
+                                     grid: {
+                                         color: gridColor 
+                                     }
+                                 },
+                                 x: {
+                                     ticks: {
+                                         color: textColor 
+                                     },
+                                     grid: {
+                                         color: 'transparent' 
+                                     }
+                                 }
+                             }
+                         }
+                     });
+                 }
+
+
+                // ---
+                // --- ADDED: ALL CURSOR, INTERACTIVE CARD, & MODAL JAVASCRIPT ---
+                // ---
+
+                // --- 1. Precision Cursor Logic ---
+                const mouseDot = document.getElementById('mouse-dot');
+                const mouseCircle = document.getElementById('mouse-circle');
+                let mouseX = 0, mouseY = 0, circleX = 0, circleY = 0;
+                const lerp = (a, b, n) => (1 - n) * a + n * b;
+                
+                const rebindHoverListeners = () => {
+                    document.querySelectorAll('a, button, .interactive-hover, .interactive-card, .slider-handle').forEach(el => {
+                        el.removeEventListener('mouseenter', handleHoverStart);
+                        el.removeEventListener('mouseleave', handleHoverEnd);
+                        el.addEventListener('mouseenter', handleHoverStart);
+                        el.addEventListener('mouseleave', handleHoverEnd);
+                    });
+                }
+                const handleHoverStart = () => body.classList.add('is-hovering');
+                const handleHoverEnd = () => body.classList.remove('is-hovering');
+
+                if (!isTouchDevice) {
+                    window.addEventListener('mousemove', e => {
+                        mouseX = e.clientX;
+                        mouseY = e.clientY;
+                        if (mouseDot) mouseDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+                    });
+                    const updateCursor = () => {
+                        circleX = lerp(circleX, mouseX, 0.15);
+                        circleY = lerp(circleY, mouseY, 0.15);
+                        if (mouseCircle) mouseCircle.style.transform = `translate(${circleX}px, ${circleY}px)`;
+                        requestAnimationFrame(updateCursor);
+                    };
+                    updateCursor();
+                    window.addEventListener('mousedown', () => body.classList.add('is-clicking'));
+                    window.addEventListener('mouseup', () => body.classList.remove('is-clicking'));
+                    rebindHoverListeners(); // Initial bind
+                } else {
+                    if (mouseDot) mouseDot.style.display = 'none';
+                    if (mouseCircle) mouseCircle.style.display = 'none';
+                    body.style.cursor = 'auto';
+                    document.querySelectorAll('*').forEach(el => el.style.cursor = 'auto');
+                }
+
+                // --- ADDED: Interactive "Spotlight" Cards ---
+                const initInteractiveCards = (selector) => {
+                    if (isTouchDevice) return;
+                    const elements = document.querySelectorAll(selector);
+                    elements.forEach(el => {
+                        const glow = el.querySelector('.card-glow');
+                        el.addEventListener('mousemove', (e) => {
+                            const rect = el.getBoundingClientRect();
+                            const x = e.clientX - rect.left;
+                            const y = e.clientY - rect.top;
+                            const rotateX = (y / rect.height - 0.5) * -10; // Reduced rotation
+                            const rotateY = (x / rect.width - 0.5) * 10;
+                            el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px)`;
+                            if (glow) {
+                                glow.style.background = `radial-gradient(circle at ${x}px ${y}px, var(--product-glow-color) 0%, transparent 60%)`;
+                                glow.style.opacity = '1';
                             }
+                        });
+                        el.addEventListener('mouseleave', () => {
+                            el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+                            if (glow) glow.style.opacity = '0';
+                        });
+                    });
+                };
+                initInteractiveCards('.interactive-card'); // Activate for all cards
+
+                // --- 9. Modal Logic ---
+                const modalOverlay = document.getElementById('demo-modal-overlay');
+                const modalContent = document.getElementById('demo-modal-content');
+                const openModalBtns = document.querySelectorAll('.open-demo-modal');
+                const closeModalBtn = document.getElementById('modal-close-btn');
+                const hiddenProductInput = document.getElementById('product');
+
+                const openModal = (productName) => {
+                    if (hiddenProductInput) hiddenProductInput.value = productName;
+                    body.classList.add('modal-open');
+                    currentStep = 0; 
+                    if(typeof updateFormSteps === 'function') updateFormSteps(); 
+                    rebindHoverListeners();
+                };
+
+                const closeModal = () => {
+                    body.classList.remove('modal-open');
+                };
+
+                openModalBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const product = btn.dataset.product || 'General Inquiry';
+                        openModal(product);
+                    });
+                });
+                if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+                if(modalOverlay) modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+
+                // --- 10. Modal Form Logic ---
+                const stepsContainer = document.getElementById('steps-container');
+                const formTitle = document.getElementById('form-title');
+                const nextBtns = document.querySelectorAll('.next-btn');
+                const prevBtns = document.querySelectorAll('.prev-btn');
+                const submitBtn = document.getElementById('submitBtn');
+                let currentStep = 0;
+                const stepTitles = ["Request a Demo", "What are your goals?", "Success!"];
+
+                const animateText = (selector) => {
+                    if (!modalContent) return;
+                    const textElement = modalContent.querySelector(selector);
+                    if (textElement && !textElement.dataset.animated) {
+                        textElement.dataset.animated = 'true';
+                        const text = textElement.textContent;
+                        textElement.innerHTML = '';
+                        text.split('').forEach((char, index) => {
+                            const span = document.createElement('span');
+                            span.textContent = char === ' ' ? '\u00A0' : char;
+                            span.style.setProperty('--delay', `${index * 0.05 + 0.3}s`);
+                            textElement.appendChild(span);
+                        });
+                    }
+                };
+
+                const updateFormSteps = () => {
+                    if (!modalContent || !stepsContainer) return;
+                    
+                    const wizardWidth = modalContent.offsetWidth;
+                    const translateZValue = wizardWidth / 2;
+                    
+                    const step1 = modalContent.querySelector('#step-1');
+                    const step2 = modalContent.querySelector('#step-2');
+                    const successStep = modalContent.querySelector('#success-step');
+
+                    if (step1) step1.style.transform = `rotateY(0deg) translateZ(${translateZValue}px)`;
+                    if (step2) step2.style.transform = `rotateY(180deg) translateZ(${translateZValue}px)`;
+                    if (successStep) successStep.style.transform = `rotateY(-90deg) translateZ(${translateZValue}px)`;
+                    
+                    let angle = (currentStep === 1) ? -180 : (currentStep === 2) ? 90 : 0;
+                    stepsContainer.style.transform = `translateZ(-${translateZValue}px) rotateY(${angle}deg)`;
+                    
+                    if (formTitle) {
+                        if (currentStep < 2) {
+                            formTitle.textContent = `${stepTitles[currentStep]} for ${hiddenProductInput.value.replace('™', '')}`;
+                        } else {
+                            formTitle.textContent = stepTitles[currentStep];
                         }
+                        formTitle.dataset.animated = 'false';
+                        animateText('#form-title');
+                    }
+                    if (currentStep === 2) animateText('#success-step [data-animate-text]');
+                };
+
+                nextBtns.forEach(btn => btn.addEventListener('click', () => { currentStep++; updateFormSteps(); }));
+                prevBtns.forEach(btn => btn.addEventListener('click', () => { currentStep--; updateFormSteps(); }));
+
+                const nameInput = document.getElementById('name');
+                const emailInput = document.getElementById('email');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                const showInlineError = (inputId, message) => {
+                    if (!modalContent) return;
+                    const errorDiv = modalContent.querySelector(`#${inputId}-error`);
+                    const groupDiv = modalContent.querySelector(`#${inputId}-group`);
+                    if (errorDiv) { errorDiv.textContent = message; errorDiv.classList.add('is-visible'); }
+                    if (groupDiv) { groupDiv.classList.add('shake'); setTimeout(() => groupDiv.classList.remove('shake'), 500); }
+                };
+                
+                const clearInlineError = (inputId) => {
+                    if (!modalContent) return;
+                    const errorDiv = modalContent.querySelector(`#${inputId}-error`);
+                    if (errorDiv) errorDiv.classList.remove('is-visible');
+                };
+                
+                const validateInput = (input, condition, errorId, clear) => {
+                    if (!input) return;
+                    const icon = input.parentElement.querySelector('.validation-icon');
+                    if (!icon) return;
+                    icon.className = 'validation-icon fas';
+                    if (input.value) {
+                        if (condition) { icon.classList.add('fa-check'); if (clear) clearInlineError(errorId); }
+                        else { icon.classList.add('fa-times'); }
+                    } else { icon.className = 'validation-icon'; if (clear) clearInlineError(errorId); }
+                };
+                
+                if(nameInput) nameInput.addEventListener('input', () => validateInput(nameInput, nameInput.value.length >= 2, 'name', true));
+                if(emailInput) emailInput.addEventListener('input', () => validateInput(emailInput, emailRegex.test(emailInput.value), 'email', true));
+                
+                if (submitBtn) {
+                    submitBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        clearInlineError('name'); clearInlineError('email');
+                        
+                        const name = (nameInput.value || '').trim();
+                        const email = (emailInput.value || '').trim();
+                        const product = (hiddenProductInput.value || '').trim();
+                        const messageInput = modalContent.querySelector('#message');
+                        const message = (messageInput ? messageInput.value : '').trim();
+                        
+                        let isValid = true;
+                        if (!name || name.length < 2) { showInlineError('name', 'Name must be at least 2 characters.'); validateInput(nameInput, false); isValid = false; }
+                        if (!email || !emailRegex.test(email)) { showInlineError('email', 'Please enter a valid work email.'); validateInput(emailInput, false); isValid = false; }
+                        
+                        if (!isValid) {
+                            currentStep = 0;
+                            updateFormSteps();
+                            if (!name) { showInlineError('name', 'Name must be at least 2 characters.'); validateInput(nameInput, false); }
+                            if (!email) { showInlineError('email', 'Please enter a valid work email.'); validateInput(emailInput, false); }
+                            return;
+                        }
+                        
+                        submitBtn.classList.add('is-loading');
+
+                        const formData = {
+                            name: name,
+                            email: email,
+                            product: product,
+                            message: message
+                        };
+
+                        fetch('/submit_demo', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log("Data successfully sent to server.");
+                                submitBtn.classList.remove('is-loading');
+                                currentStep = 2; // Go to success
+                                updateFormSteps();
+                            } else {
+                                console.error("Server returned an error.");
+                                submitBtn.classList.remove('is-loading');
+                                alert("An error occurred. Please try again.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Network error:', error);
+                            submitBtn.classList.remove('is-loading');
+                            alert("Could not connect to the server. Please try again.");
+                        });
                     });
                 }
 
+                // Initial call to bind listeners
+                rebindHoverListeners();
 
             }); // end DOMContentLoaded
         </script>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>shivati_ai - Terms of Service</title>
+    <style>
+        :root {
+          --color-background-dark: #000000;
+          --color-background-medium: #050a1a;
+          --color-background-light: #0a0514;
+          --color-accent: #0096FF;
+          --color-text-primary: #ffffff;
+          --color-text-secondary: #e0e0e0;
+          --color-border: rgba(255, 255, 255, 0.2);
+          --transition-duration: 0.3s;
+        }
+        @keyframes moveGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background: linear-gradient(-45deg, var(--color-background-dark), var(--color-background-medium), var(--color-background-dark), var(--color-background-light));
+          background-size: 400% 400%;
+          animation: moveGradient 30s ease infinite;
+          color: var(--color-text-primary);
+          min-height: 100vh;
+        }
+
+        #hero-canvas {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+          opacity: 0.5;
+        }
+        
+        /* This will style your included header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        main.content-container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 2.5rem 3rem;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .content-container h1 {
+            font-size: 2.5rem;
+            color: var(--color-text-primary);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 1rem;
+        }
+        
+        .content-container h2 {
+            font-size: 1.8rem;
+            color: var(--color-text-primary);
+            margin-top: 2.5rem;
+            border-bottom: 1px solid rgba(0, 150, 255, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        .content-container p,
+        .content-container li {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--color-text-secondary);
+        }
+        
+        .content-container a {
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: color var(--transition-duration);
+        }
+        
+        .content-container a:hover {
+            color: var(--color-success);
+            text-decoration: underline;
+        }
+        
+        .content-container ul {
+            padding-left: 20px;
+        }
+        
+        .content-container ul li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="hero-canvas"></canvas>
+    {% include '_header.html' %}
+
+    <main class="content-container">
+        <h1>Terms of Service</h1>
+        <p><strong>Last Updated: [Date]</strong></p>
+
+        <p>Welcome to [shivati_ai]! These Terms of Service ("Terms") govern your access to and use of the website at [Your Website URL] (the "Site"), owned and operated by [Your Company's Legal Name] ("[shivati_ai]," "we," "us," or "our").</p>
+        <p>By accessing or using the Site, you agree to be bound by these Terms. If you do not agree to these Terms, do not use the Site.</p>
+
+        <h2>1. Use of the Site</h2>
+        <p>You are granted a limited, non-exclusive, non-transferable license to access and use the Site for informational purposes and to request demonstrations of our products.</p>
+
+        <h2>2. Prohibited Conduct</h2>
+        <p>You agree not to:</p>
+        <ul>
+            <li>Use the Site for any illegal purpose or in violation of any local, state, national, or international law.</li>
+            <li>Reverse-engineer, decompile, disassemble, or otherwise attempt to discover the source code or underlying algorithms of the Site or any of our products (including but not limited to ThermoSolver™, StressMaster™, QuantumSolver™, etc.).</li>
+            <li>Scrape, data-mine, or harvest any information from the Site without our express written permission.</li>
+            <li>Interfere with the security or proper functioning of the Site.</li>
+        </ul>
+
+        <h2>3. Intellectual Property</h2>
+        <p>All content, text, graphics, logos, and software on this Site, including the design, concepts, and underlying principles of our AI and quantum models, are the exclusive property of [shivati_ai] or its licensors and are protected by copyright, trademark, and other intellectual property laws. You may not copy, reproduce, or distribute any content from the Site without our prior written consent.</p>
+
+        <h2>4. Demo Requests</h2>
+        <p>If you request a demo, you agree to provide information that is accurate, current, and complete. You consent to us contacting you via the email address you provide for purposes related to your request and for other marketing communications (in accordance with our Privacy Policy).</p>
+
+        <h2>5. Disclaimers</h2>
+        <p>The Site and all information on it are provided "as is" and "as available" without any warranties of any kind. We do not warrant that the Site will be uninterrupted or error-free. Any information provided about our products is for informational purposes only and does not constitute a binding offer or guarantee of specific results.</p>
+
+        <h2>6. Limitation of Liability</h2>
+        <p>To the fullest extent permitted by law, [shivati_ai] shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, resulting from your access to or use of the Site.</p>
+
+        <h2>7. Governing Law</h2>
+        <p>These Terms shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law principles.</p>
+
+        <h2>8. Changes to Terms</h2>
+        <p>We reserve the right to modify these Terms at any time. We will post the revised Terms on the Site and update the "Last Updated" date. Your continued use of the Site after such changes constitutes your acceptance of the new Terms.</p>
+
+        <h2>9. Contact Us</h2>
+        <p>If you have any questions about these Terms, please contact us at <a href="mailto:[Your Contact Email]">[Your Contact Email]</a>.</p>
+    </main>
+
+    {% include '_footer.html' %}
+    
+    <script>
+    // Particle background script
+    document.addEventListener('DOMContentLoaded', function() {
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        const canvas = document.getElementById('hero-canvas');
+        if (canvas && !isTouchDevice) {
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const setup = () => {
+                canvas.width = window.innerWidth;
+                canvas.height = document.body.scrollHeight; // Fill entire page height
+                particles = [];
+                const particleCount = Math.floor(canvas.width * canvas.height / 25000);
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, size: Math.random() * 1.5 + 1 });
+                }
+            };
+            const animate = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.vx; p.y += p.vy;
+                    p.vx *= 0.98; p.vy *= 0.98;
+                    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(0, 150, 255, 0.5)';
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            };
+            setup(); animate();
+            window.addEventListener('resize', setup);
+        }
+    });
+    </script>
+</body>
+</html>

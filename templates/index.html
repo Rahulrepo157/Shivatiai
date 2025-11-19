@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engine Data Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            display: flex;
+        }
+        .sidebar {
+            width: 320px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            background-color: #ffffff;
+            border-right: 1px solid #dee2e6;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .content {
+            margin-left: 320px; /* Same as sidebar width */
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        .filter-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        .filter-group input[type="text"],
+        .filter-group select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        .filter-group input[type="text"] + input[type="text"] {
+            margin-top: 5px;
+        }
+        .pagination {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px 0;
+        }
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 8px 14px;
+            text-decoration: none;
+            border: 1px solid #dee2e6;
+            margin: 0 3px;
+            border-radius: 4px;
+            color: #007bff;
+        }
+        .pagination span.current {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .pagination a:hover {
+            background-color: #f1f1f1;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-clear {
+            display: block;
+            text-align: center;
+            width: 100%;
+            padding: 10px 0;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        .btn-clear:hover {
+            background-color: #5a6268;
+        }
+        .plot-container {
+            border: 1px solid #dee2e6;
+            background: #ffffff;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <aside class="sidebar">
+            <h2>Dashboard Filters</h2>
+            <form method="GET" action="/">
+                
+                <button type="submit" class="btn">Apply Filters</button>
+                <a href="/" class="btn-clear">Clear All Filters</a>
+                
+                <hr style="margin: 20px 0;">
+
+                <h3>Categorical Filters</h3>
+                {% for col, options in categorical_filters.items() %}
+                <div class="filter-group">
+                    <label for="{{ col }}">{{ col }}</label>
+                    <select name="{{ col }}" id="{{ col }}" multiple size="5">
+                        {% for opt in options %}
+                            <option value="{{ opt }}" 
+                                    {% if opt in current_filters.get(col, []) %}selected{% endif %}>
+                                {{ opt }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endfor %}
+
+                <h3>Numeric Filters</h3>
+                {% for col in numeric_cols %}
+                <div class="filter-group">
+                    <label>{{ col }}</label>
+                    <input type="text" name="{{ col }}_min" placeholder="Min Value" 
+                           value="{{ current_filters.get(col + '_min', '') }}">
+                           
+                    <input type="text" name="{{ col }}_max" placeholder="Max Value" 
+                           value="{{ current_filters.get(col + '_max', '') }}">
+                </div>
+                {% endfor %}
+                
+                <button type="submit" class="btn" style="margin-top: 20px;">Apply Filters</button>
+                
+            </form>
+        </aside>
+
+        <main class="content">
+
+            <div class="pagination">
+                {% if prev_page %}
+                    {# This Jinja block creates a copy of all current filters and updates the page number #}
+                    {% set url_params = query_params.to_dict(flat=False) %}
+                    {% do url_params.update({'page': prev_page}) %}
+                    <a href="{{ url_for('index', **url_params) }}">&laquo; Previous</a>
+                {% endif %}
+
+                <span class="current">Page {{ page }} of {{ total_pages }}</span>
+
+                {% if next_page %}
+                    {% set url_params = query_params.to_dict(flat=False) %}
+                    {% do url_params.update({'page': next_page}) %}
+                    <a href="{{ url_for('index', **url_params) }}">Next &raquo;</a>
+                {% endif %}
+            </div>
+
+            <div class="plots-container">
+                {% for plot in plots %}
+                    <div class="plot-container">
+                        {{ plot | safe }}
+                    </div>
+                {% endfor %}
+            </div>
+
+        </main>
+    </div>
+</body>
+</html>
