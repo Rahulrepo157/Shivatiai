@@ -1,0 +1,95 @@
+:root {
+    /* ENHANCEMENT: Define a smoother, custom easing curve for animations */
+    --animation-timing-apple: cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Added from other files for footer consistency */
+     --text-color: #e0e0e0;
+     --text-muted-color: #a0a0a0;
+     --background-dark: #01020a;
+     --card-border: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes moveGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(-45deg, #000000, #050a1a, #000000, #0a0514);
+    background-size: 400% 400%;
+    animation: moveGradient 30s ease infinite;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    position: sticky;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly less opaque for a softer look */
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for definition */
+}
+
+/* FIXED: Logo is now a link and styled correctly */
+.logo { 
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #fff; 
+    text-decoration: none; 
+}
+nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
+nav ul li { margin-left: 25px; }
+nav ul li a { text-decoration: none; color: #ddd; font-size: 16px; transition: color 0.3s ease; }
+nav ul li a:hover { color: #fff; }
+
+/* FIXED: Demo button is now a link */
+.demo-button {
+    background-color: transparent; color: #fff; border: 1px solid #fff; padding: 10px 20px;
+    border-radius: 5px; cursor: pointer; font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    text-decoration: none; /* Added */
+}
+.demo-button:hover { background-color: #fff; color: #000; transform: translateY(-2px); }
+
+/* --- ADDED: Footer Styles --- */
+.site-footer { background-color: #000000; color: var(--text-muted-color); padding-top: 60px; font-size: 0.9rem; position: relative; overflow: hidden; margin-top: 0 !important; }
+.footer-content { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr; gap: 30px; max-width: 1400px; margin: 0 auto; padding: 0 40px 50px 40px; position: relative; z-index: 2; }
+.footer-logo-column, .footer-links-column, .footer-contact-column { padding: 0 10px; }
+.footer-logo { font-size: 1.8rem; font-weight: bold; color: #fff; margin-bottom: 20px; text-decoration: none; }
+.footer-social-icons a { color: #888; font-size: 1.2rem; margin-right: 15px; transition: color 0.3s ease; } .footer-social-icons a:hover { color: #fff; }
+.footer-links-column h4 { font-size: 1rem; color: #fff; margin-bottom: 15px; font-weight: 600; }
+.footer-links-column ul { list-style: none; padding: 0; margin: 0; } .footer-links-column li { margin-bottom: 10px; }
+.footer-links-column a { color: var(--text-muted-color); text-decoration: none; transition: color 0.3s ease; } .footer-links-column a:hover { color: #fff; text-decoration: underline; }
+.footer-links-column a.active-product-link { color: var(--product-accent-light); font-weight: bold; }
+.footer-contact-column h4 { font-size: 1rem; color: #fff; margin-bottom: 15px; font-weight: 600; } .footer-contact-column p { margin-bottom: 10px; } .footer-contact-column a { color: var(--text-muted-color); text-decoration: none; transition: color 0.3s ease; } .footer-contact-column a:hover { color: #fff; text-decoration: underline; }
+.footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center; padding: 20px 40px; font-size: 0.8rem; color: #888; position: relative; z-index: 2; background-color: #000; }
+.footer-graphic { position: absolute; bottom: 0; right: 0; width: 40%; height: 100%; max-width: 500px; background: linear-gradient( to top left, transparent 50%, rgba(255, 255, 255, 0.02) 50.5%, rgba(255, 255, 255, 0.02) 51.5%, transparent 52% ), linear-gradient( to top left, transparent 60%, rgba(255, 255, 255, 0.015) 60.5%, rgba(255, 255, 255, 0.015) 61.5%, transparent 62% ), linear-gradient( to top left, transparent 68%, rgba(255, 255, 255, 0.01) 68.5%, rgba(255, 255, 255, 0.01) 69.5%, transparent 70% ); background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none; z-index: 1; opacity: 0.7; }
+/* --- End Footer Styles --- */
+
+
+@media (max-width: 768px) {
+    header { padding: 15px 20px; flex-direction: column; gap: 15px; }
+    nav ul { margin: 0; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    nav ul li { margin: 5px 10px; }
+    
+    /* ADDED: Footer responsive styles */
+    .footer-content { grid-template-columns: 1fr 1fr; padding: 0 20px 40px 20px; }
+    .footer-logo-column, .footer-contact-column { grid-column: 1 / -1; text-align: center; }
+    .footer-links-column { text-align: center; }
+    .footer-graphic { width: 60%; opacity: 0.5; }
+}
+
+/* ADDED: Footer responsive styles for smaller screens */
+@media (max-width: 480px) {
+    .footer-content { grid-template-columns: 1fr; } 
+    .footer-links-column { margin-bottom: 20px; } 
+    .footer-graphic { display: none; }
+}

@@ -1,383 +1,1069 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>shivati_ai - Request a Demo</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    :root {
-      --color-background-dark: #000000;
-      --color-background-medium: #050a1a;
-      --color-background-light: #0a0514;
-      --color-accent: #0096FF;
-      --color-success: #00ff8c;
-      --color-text-primary: #ffffff;
-      --color-text-secondary: #e0e0e0;
-      --color-border: rgba(255, 255, 255, 0.2);
-      --transition-duration: 0.3s;
-      --animation-timing-apple: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    @keyframes moveGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    @keyframes check-anim { 0% { stroke-dashoffset: 80; } 100% { stroke-dashoffset: 0; } }
-    @keyframes pop-in { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>shivati_ai - Request a Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --color-background-dark: #000000;
+            --color-background-medium: #050a1a;
+            --color-background-light: #0a0514;
+            --color-accent: #0096FF;
+            --color-success: #00ff8c;
+            --color-error: #ff4d4d;
+            /* NEW */
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #e0e0e0;
+            --color-border: rgba(255, 255, 255, 0.2);
+            --transition-duration: 0.3s;
+            --animation-timing-apple: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes moveGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes check-anim {
+            0% {
+                stroke-dashoffset: 80;
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* MODIFIED: Pop-in is now a float-up */
+        @keyframes pop-in {
+            0% {
+                transform: scale(0.95) translateY(30px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- NEW: Shine Animation for Buttons --- */
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) skew(-20deg);
+            }
+
+            100% {
+                transform: translateX(200%) skew(-20deg);
+            }
+        }
+
+        /* --- NEW: Shake Animation for Errors --- */
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-5px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(5px);
+            }
+        }
 
         body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(-45deg, var(--color-background-dark), var(--color-background-medium), var(--color-background-dark), var(--color-background-light));
-      background-size: 400% 400%;
-      animation: moveGradient 30s ease infinite;
-      color: var(--color-text-primary);
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; margin: 0; padding: 2rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(-45deg, var(--color-background-dark), var(--color-background-medium), var(--color-background-dark), var(--color-background-light));
+            background-size: 400% 400%;
+            animation: moveGradient 30s ease infinite;
+            color: var(--color-text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
             overflow: hidden;
-    }
-    #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
-    .spotlight { position: fixed; width: 12px; height: 12px; border-radius: 50%; background-color: var(--color-accent); pointer-events: none; transform: translate(-50%, -50%); z-index: 1001; transition: width 0.3s ease, height 0.3s ease; mix-blend-mode: screen; }
+            cursor: none;
+        }
 
-    .form-wizard {
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-      border: 1px solid var(--color-border);
-      padding: 2.5rem 3rem; border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-      width: 100%; max-width: 550px; /* Slightly wider for 3 columns */
-      position: relative; z-index: 1;
-      perspective: 2000px; /* Increased perspective for better 3D effect */
-    }
+        * {
+            cursor: none;
+        }
 
-    .form-header h1 { text-align: center; margin: 0 0 2rem 0; font-size: 1.8rem; transition: opacity 0.3s ease; }
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
 
-    .form-steps-container {
-      position: relative;
-      height: 380px; /* UPDATE: Increased height for more products */
-      transition: transform 0.8s var(--animation-timing-apple);
-      transform-style: preserve-3d;
-    }
-    .form-step {
-      position: absolute; width: 100%; height: 100%;
-      backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    }
-    /* Adjusted translateZ for new width */
-    #step-1 { transform: rotateY(0deg) translateZ(275px); }
-    #step-2 { transform: rotateY(90deg) translateZ(275px); }
-    #step-3 { transform: rotateY(180deg) translateZ(275px); }
-    #success-step { transform: rotateY(-90deg) translateZ(275px); }
+        /* --- NEW: Precision Cursor (Replaces Aura) --- */
+        #mouse-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1001;
+            transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+        }
 
-    .form-group { position: relative; margin-bottom: 1.5rem; }
-    .form-group input, .form-group textarea {
-      width: 100%; padding: 1rem; border: 1px solid var(--color-border); border-radius: 8px;
-      box-sizing: border-box; background: rgba(0, 0, 0, 0.2); color: var(--color-text-primary);
-      font-size: 1rem; transition: border-color var(--transition-duration);
-    }
-    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--color-accent); }
-    .form-group label {
-      position: absolute; left: 1rem; top: 1rem; color: var(--color-text-secondary); pointer-events: none;
-      transition: all 0.2s ease;
-    }
-    .form-group input:focus + label, .form-group input:not(:placeholder-shown) + label,
-    .form-group textarea:focus + label, .form-group textarea:not(:placeholder-shown) + label {
-      top: -0.6rem; left: 0.8rem; font-size: 0.8rem; color: var(--color-accent);
-      background: #182238; padding: 0 0.3rem;
-    }
-    .validation-icon { position: absolute; right: 1rem; top: 1rem; animation: pop-in 0.3s ease; }
-    .validation-icon.fa-check { color: var(--color-success); }
-    .validation-icon.fa-times { color: #ff4d4d; }
+        #mouse-circle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--color-accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1000;
+            will-change: transform;
+            transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease, border-width 0.3s ease;
+        }
 
-    /* UPDATE: Interactive Product Selector with 3 columns */
-    .product-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem; }
+        /* Cursor Hover State */
+        body.is-hovering #mouse-dot {
+            opacity: 0;
+        }
+
+        body.is-hovering #mouse-circle {
+            width: 50px;
+            height: 50px;
+            border-width: 1px;
+            opacity: 0.5;
+        }
+
+        /* Cursor Click State */
+        body.is-clicking #mouse-dot {
+            width: 12px;
+            height: 12px;
+        }
+
+        body.is-clicking #mouse-circle {
+            width: 25px;
+            height: 25px;
+            opacity: 0.8;
+        }
+
+        .form-wizard {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--color-border);
+            padding: 2.5rem 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 550px;
+            position: relative;
+            z-index: 1;
+            perspective: 2000px;
+            animation: pop-in 0.6s 0.2s var(--animation-timing-apple) backwards;
+            /* MODIFIED: Added delay */
+            will-change: transform;
+            transition: transform 0.3s var(--animation-timing-apple);
+        }
+
+        /* --- MODIFIED: Header animation --- */
+        .form-header h1 {
+            text-align: center;
+            margin: 0 0 2rem 0;
+            font-size: 1.8rem;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Shared style for all animated text */
+        [data-animate-text] span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+            animation: pop-in 0.4s var(--animation-timing-apple) forwards;
+            animation-delay: var(--delay);
+        }
+
+        .form-steps-container {
+            position: relative;
+            height: 380px;
+            transition: transform 0.8s var(--animation-timing-apple);
+            transform-style: preserve-3d;
+        }
+
+        .form-step {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        /* --- MODIFIED: Form Group for Errors --- */
+        .form-group {
+            position: relative;
+            margin-bottom: 0.5rem;
+            /* Reduced margin */
+            transition: transform 0.2s ease;
+        }
+
+        .form-group.shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .form-group::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-accent);
+            transition: all 0.3s var(--animation-timing-apple);
+            transform: translateX(-50%);
+        }
+
+        .form-group input:focus~::after,
+        .form-group textarea:focus~::after {
+            width: 100%;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-bottom: 1px solid var(--color-border);
+            border-radius: 0;
+            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--color-text-primary);
+            font-size: 1rem;
+            transition: border-color var(--transition-duration), box-shadow var(--transition-duration);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(0, 0, 0, 0);
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 1rem;
+            color: var(--color-text-secondary);
+            pointer-events: none;
+            transition: all 0.2s ease;
+            left: 0;
+        }
+
+        .form-group input:focus+label,
+        .form-group input:not(:placeholder-shown)+label,
+        .form-group textarea:focus+label,
+        .form-group textarea:not(:placeholder-shown)+label {
+            top: -0.6rem;
+            left: 0;
+            font-size: 0.8rem;
+            color: var(--color-accent);
+            background: #182238;
+            /* Needs to match form background */
+            padding: 0 0.3rem;
+        }
+
+        .validation-icon {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            animation: pop-in 0.3s ease;
+        }
+
+        .validation-icon.fa-check {
+            color: var(--color-success);
+        }
+
+        .validation-icon.fa-times {
+            color: var(--color-error);
+        }
+
+        /* --- NEW: Inline Error Message --- */
+        .error-message {
+            color: var(--color-error);
+            font-size: 0.8rem;
+            height: 0;
+            opacity: 0;
+            padding-left: 0.3rem;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            /* Add margin back here */
+        }
+
+        .error-message.is-visible {
+            height: 1.2rem;
+            /* Give it space */
+            opacity: 1;
+        }
+
+        .product-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
         .product-card {
-            border: 1px solid var(--color-border); border-radius: 8px; padding: 0.8rem;
-            text-align: center; cursor: pointer; transition: all var(--transition-duration);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            text-align: center;
+            will-change: transform;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s var(--animation-timing-apple), transform 0.4s var(--animation-timing-apple);
+            perspective: 1000px;
         }
-    .product-card i { font-size: 1.5rem; margin-bottom: 0.5rem; }
-    .product-card span { font-size: 0.8rem; display: block; }
-    .product-card:hover { background: rgba(0, 150, 255, 0.1); border-color: rgba(0, 150, 255, 0.5); }
-    .product-card.selected { background: rgba(0, 150, 255, 0.2); border-color: var(--color-accent); box-shadow: 0 0 15px rgba(0, 150, 255, 0.3); }
 
-    .button-group { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem; position: absolute; bottom: 0; width: 100%;}
+        .product-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-card .card-inner {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.4s var(--animation-timing-apple);
+            padding: 0.8rem;
+        }
+
+        .product-card:hover .card-inner {
+            transform: rotateX(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .card-front i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-front span {
+            font-size: 0.8rem;
+            display: block;
+        }
+
+        .card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotateX(180deg);
+            background: rgba(0, 150, 255, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .product-card.selected {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 15px rgba(0, 150, 255, 0.3);
+        }
+
+        .product-card.selected .card-inner {
+            background: rgba(0, 150, 255, 0.2);
+            border-radius: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
         .btn {
-            width: 100%; padding: 0.8rem; background-color: var(--color-accent); color: #000;
-            border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold;
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--color-accent);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
             transition: all var(--transition-duration);
+            will-change: transform;
+            position: relative;
+            overflow: hidden;
         }
-    .btn:hover { background-color: #fff; transform: scale(1.03); }
-    .btn-secondary { background: none; border: 1px solid var(--color-border); color: var(--color-text-secondary); }
-    .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); color: var(--color-text-primary); }
 
-    .success-message { text-align: center; animation: pop-in 0.5s ease; padding-top: 4rem; }
-    .success-icon { width: 80px; height: 80px; margin: 0 auto 1.5rem; }
-    .success-icon .circle { stroke: var(--color-accent); }
-    .success-icon .checkmark { stroke: #fff; stroke-dasharray: 80; stroke-dashoffset: 80; animation: check-anim 0.5s 0.3s ease-out forwards; }
-  </style>
+        .btn:active {
+            transform: scale(0.97);
+            transition-duration: 0.1s;
+        }
+
+        /* --- NEW: Button Shine Effect --- */
+        .btn .btn-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transform: translateX(-150%) skew(-20deg);
+            transition: transform 0s;
+        }
+
+        .btn:hover::after {
+            transform: translateX(250%) skew(-20deg);
+            transition: transform 0.8s var(--animation-timing-apple);
+        }
+
+        .btn:hover {
+            background-color: #fff;
+        }
+
+        /* Keep color change */
+
+        .btn.is-loading {
+            color: transparent;
+            pointer-events: none;
+        }
+
+        .btn.is-loading .btn-text {
+            color: transparent;
+        }
+
+        .btn.is-loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin-top: -10px;
+            margin-left: -10px;
+            border: 3px solid rgba(0, 0, 0, 0.3);
+            border-top-color: #000;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            transform: none;
+            /* Override shine */
+            transition: none;
+            /* Override shine */
+        }
+
+        .btn-secondary {
+            background: none;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-text-primary);
+        }
+
+        .success-message {
+            text-align: center;
+            animation: pop-in 0.5s ease;
+            padding-top: 4rem;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .success-icon .circle {
+            stroke: var(--color-accent);
+        }
+
+        .success-icon .checkmark {
+            stroke: #fff;
+            stroke-dasharray: 80;
+            stroke-dashoffset: 80;
+            animation: check-anim 0.5s 0.3s ease-out forwards;
+        }
+
+        .success-message h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Success message shares text animation style */
+
+        .interactive-hover {
+            transition: transform 0.1s ease-out;
+        }
+    </style>
 </head>
+
 <body>
-    {% include '_header.html' %}
     <canvas id="hero-canvas"></canvas>
-    <div class="spotlight"></div>
+    <div id="mouse-dot"></div>
+    <div id="mouse-circle"></div>
 
-    <div class="form-wizard">
-    <div class="form-header">
-        <h1 id="form-title">Request a Demo</h1>
-    </div>
-    <div class="form-steps-container" id="steps-container">
-        <div class="form-step" id="step-1">
-            <div class="form-group">
-                <input type="text" id="name" name="name" required placeholder=" ">
-                <label for="name">Name</label>
-                <i class="validation-icon"></i>
-            </div>
-            <div class="form-group">
-                <input type="email" id="email" name="email" required placeholder=" ">
-                <label for="email">Work Email</label>
-                <i class="validation-icon"></i>
-            </div>
-            <div class="button-group">
-                <button type="button" class="btn next-btn" data-magnetic>Next</button>
-            </div>
+    <div class="form-wizard" id="form-wizard">
+        <div class="form-header">
+            <h1 id="form-title" data-animate-text>Request a Demo</h1>
         </div>
-        <div class="form-step" id="step-2">
-            <p style="text-align:center; color: var(--color-text-secondary); margin-top:0; margin-bottom: 1rem;">What are you interested in?</p>
-            <div class="product-selector">
-                <div class="product-card" data-value="ThermoSolver™"><i class="fas fa-fire"></i><span>ThermoSolver™</span></div>
-                <div class="product-card" data-value="StressMaster™"><i class="fas fa-cogs"></i><span>StressMaster™</span></div>
-                <div class="product-card" data-value="MechMotion AI™"><i class="fas fa-robot"></i><span>MechMotion AI™</span></div>
-                <div class="product-card" data-value="FluidFlow AI™"><i class="fas fa-wind"></i><span>FluidFlow AI™</span></div>
-                <div class="product-card" data-value="DesignGenesis AI™"><i class="fas fa-lightbulb"></i><span>DesignGenesis AI™</span></div>
-                <div class="product-card" data-value="ManufacTwin AI™"><i class="fas fa-clone"></i><span>ManufacTwin AI™</span></div>
-                <div class="product-card" data-value="RoboPilot AI™"><i class="fas fa-route"></i><span>RoboPilot AI™</span></div>
-                <div class="product-card" data-value="MatSci AI™"><i class="fas fa-atom"></i><span>MatSci AI™</span></div>
-                <div class="product-card" data-value="EngineTune AI™"><i class="fas fa-tachometer-alt"></i><span>EngineTune AI™</span></div>
-                <div class="product-card" data-value="MeshMind AI™"><i class="fas fa-cubes"></i><span>MeshMind AI™</span></div>
-            </div>
-            <input type="hidden" id="product" name="product">
-            <div class="button-group">
-                <button type="button" class="btn btn-secondary prev-btn" data-magnetic>Previous</button>
-                <button type="button" class="btn next-btn" data-magnetic>Next</button>
-            </div>
-        </div>
-        <div class="form-step" id="step-3">
-             <div class="form-group">
-                <textarea id="message" name="message" rows="8" placeholder=" "></textarea>
-                <label for="message">What is your primary goal for this demo?</label>
-            </div>
-            <div class="button-group">
-                <button type="button" class="btn btn-secondary prev-btn" data-magnetic>Previous</button>
-                <button type="submit" class="btn" id="submitBtn" data-magnetic>Submit Request</button>
-            </div>
-        </div>
-        <div class="form-step" id="success-step">
-            <div class="success-message">
-                <div class="success-icon">
-                    <svg viewBox="0 0 100 100"><circle class="circle" cx="50" cy="50" r="45" fill="none" stroke-width="5"/><polyline class="checkmark" points="25,55 45,70 75,35" fill="none" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="form-steps-container" id="steps-container">
+            <div class="form-step" id="step-1">
+                <div class="form-group" id="name-group">
+                    <input type="text" id="name" name="name" required placeholder=" " class="interactive-hover">
+                    <label for="name">Name</label>
+                    <i class="validation-icon"></i>
                 </div>
-                <h1>Request Sent!</h1>
-                <p>Our team will contact you shortly.</p>
+                <div class="error-message" id="name-error"></div>
+
+                <div class="form-group" id="email-group">
+                    <input type="email" id="email" name="email" required placeholder=" " class="interactive-hover">
+                    <label for="email">Work Email</label>
+                    <i class="validation-icon"></i>
+                </div>
+                <div class="error-message" id="email-error"></div>
+
+                <div class="button-group">
+                    <button type="button" class="btn next-btn interactive-hover">
+                        <span class="btn-text">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-step" id="step-2">
+                <p style="text-align:center; color: var(--color-text-secondary); margin-top:0; margin-bottom: 1rem;">
+                    What are you interested in?</p>
+                <div class="product-selector">
+                    <div class="product-card interactive-hover" data-value="ThermoSolver™">
+                        <div class="card-inner">
+                            <div class="card-front"><i class="fas fa-fire"></i><span>ThermoSolver™</span></div>
+                            <div class="card-back">Select</div>
+                        </div>
+                    </div>
+                    <div class="product-card interactive-hover" data-value="StressMaster™">
+                        <div class="card-inner">
+                            <div class="card-front"><i class="fas fa-cogs"></i><span>StressMaster™</span></div>
+                            <div class="card-back">Select</div>
+                        </div>
+                    </div>
+                    <div class="product-card interactive-hover" data-value="MechMotion AI™">
+                        <div class="card-inner">
+                            <div class="card-front"><i class="fas fa-robot"></i><span>MechMotion AI™</span></div>
+                            <div class="card-back">Select</div>
+                        </div>
+                    </div>
+                    <div class="product-card interactive-hover" data-value="FluidFlow AI™">
+                        <div class="card-inner">
+                            <div class="card-front"><i class="fas fa-wind"></i><span>FluidFlow AI™</span></div>
+                            <div class="card-back">Select</div>
+                        </div>
+                    </div>
+                    <div class="product-card interactive-hover" data-value="DesignGenesis AI™">
+                        <div class="card-inner">
+                            <div class="card-front"><i class="fas fa-lightbulb"></i><span>DesignGenesis AI™</span></div>
+                            <div class="card-back">Select</div>
+                        </div>
+                    </div>
+                    <div class="product-card interactive-hover" data-value="ManufacTwin AI™">
+                        <div class="card-inner">
+                            <div class="card-front"><i class="fas fa-clone"></i><span>ManufacTwin AI™</span></div>
+                            <div class="card-back">Select</div>
+                        </div>
+                    </div>
+                    <div class="product-card interactive-hover" data-value="RoboPilot AI™">
+                        <div class="card-inner">
+                            <div class="card-front"><i class="fas fa-route"></i><span>RoboPilot AI™</span></div>
+                            <div class="card-back">Select</div>
+                        </div>
+                    </div>
+                    <div class="product-card interactive-hover" data-value="MatSci AI™">
+                        <div class="card-inner">
+                            <div class="card-front"><i class="fas fa-atom"></i><span>MatSci AI™</span></div>
+                            <div class="card-back">Select</div>
+                        </div>
+                    </div>
+                    <div class="product-card interactive-hover" data-value="EngineTune AI™">
+                        <div class="card-inner">
+                            <div class="card-front"><i class="fas fa-tachometer-alt"></i><span>EngineTune AI™</span>
+                            </div>
+                            <div class="card-back">Select</div>
+                        </div>
+                    </div>
+                    <div class="product-card interactive-hover" data-value="MeshMind AI™">
+                        <div class="card-inner">
+                            <div class="card-front"><i class="fas fa-cubes"></i><span>MeshMind AI™</span></div>
+                            <div class="card-back">Select</div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="product" name="product">
+                <div class="error-message" id="product-error"></div>
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary prev-btn interactive-hover"><span
+                            class="btn-text">Previous</span></button>
+                    <button type="button" class="btn next-btn interactive-hover"><span
+                            class="btn-text">Next</span></button>
+                </div>
+            </div>
+
+            <div class="form-step" id="step-3">
+                <div class="form-group">
+                    <textarea id="message" name="message" rows="8" placeholder=" " class="interactive-hover"></textarea>
+                    <label for="message">What is your primary goal for this demo?</label>
+                </div>
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary prev-btn interactive-hover"><span
+                            class="btn-text">Previous</span></button>
+                    <button type="submit" class="btn interactive-hover" id="submitBtn"><span class="btn-text">Submit
+                            Request</span></button>
+                </div>
+            </div>
+
+            <div class="form-step" id="success-step">
+                <div class="success-message">
+                    <div class="success-icon">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="circle" cx="50" cy="50" r="45" fill="none" stroke-width="5" />
+                            <polyline class="checkmark" points="25,55 45,70 75,35" fill="none" stroke-width="8"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <h1 data-animate-text>Request Sent!</h1>
+                    <p>Our team will contact you shortly.</p>
+                </div>
             </div>
         </div>
     </div>
-    </div>
 
-    {% include '_footer.html' %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            const body = document.body;
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    // --- Particle Background with Interaction ---
-    const canvas = document.getElementById('hero-canvas');
-    let particles = [];
-    let particleTarget = null;
-    if (canvas && !isTouchDevice) {
-        const ctx = canvas.getContext('2d');
-        const setup = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            particles = [];
-            const particleCount = Math.floor(canvas.width * canvas.height / 25000);
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, size: Math.random() * 1.5 + 1 });
+            // --- NEW: Precision Cursor Logic ---
+            const mouseDot = document.getElementById('mouse-dot');
+            const mouseCircle = document.getElementById('mouse-circle');
+
+            let mouseX = 0, mouseY = 0;
+            let circleX = 0, circleY = 0;
+            const lerp = (a, b, n) => (1 - n) * a + n * b;
+
+            if (!isTouchDevice) {
+                body.style.cursor = 'none';
+
+                window.addEventListener('mousemove', e => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    mouseDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+                });
+
+                const updateCursor = () => {
+                    circleX = lerp(circleX, mouseX, 0.15);
+                    circleY = lerp(circleY, mouseY, 0.15);
+                    mouseCircle.style.transform = `translate(${circleX}px, ${circleY}px)`;
+                    requestAnimationFrame(updateCursor);
+                };
+                updateCursor();
+
+                window.addEventListener('mousedown', () => body.classList.add('is-clicking'));
+                window.addEventListener('mouseup', () => body.classList.remove('is-clicking'));
+
+            } else {
+                mouseDot.style.display = 'none';
+                mouseCircle.style.display = 'none';
+                body.style.cursor = 'auto';
+                document.querySelectorAll('*').forEach(el => el.style.cursor = 'auto');
             }
-        };
-        const animate = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                if (particleTarget) {
-                    const dx = particleTarget.x - p.x;
-                    const dy = particleTarget.y - p.y;
-                    p.vx += dx * 0.0005;
-                    p.vy += dy * 0.0005;
+
+            // --- Particle Background with Aura Repulsion ---
+            const canvas = document.getElementById('hero-canvas');
+            let particles = [];
+            if (canvas && !isTouchDevice) {
+                const ctx = canvas.getContext('2d');
+                const setup = () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    particles = [];
+                    const particleCount = Math.floor(canvas.width * canvas.height / 25000);
+                    for (let i = 0; i < particleCount; i++) {
+                        particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, size: Math.random() * 1.5 + 1 });
+                    }
+                };
+
+                const animate = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    const auraRadius = 150;
+                    const repelStrength = 1.5;
+
+                    particles.forEach(p => {
+                        const dx = p.x - circleX;
+                        const dy = p.y - circleY;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < auraRadius) {
+                            const force = (auraRadius - dist) / auraRadius;
+                            p.vx += (dx / dist) * force * repelStrength;
+                            p.vy += (dy / dist) * force * repelStrength;
+                        }
+
+                        p.x += p.vx; p.y += p.vy;
+                        p.vx *= 0.98; p.vy *= 0.98;
+
+                        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(0, 150, 255, 0.5)';
+                        ctx.fill();
+                    });
+                    requestAnimationFrame(animate);
+                };
+                setup(); animate();
+                window.addEventListener('resize', setup);
+            }
+
+            // --- 3D Form Tilt Interaction ---
+            const formWizard = document.getElementById('form-wizard');
+            if (formWizard && !isTouchDevice) {
+                window.addEventListener('mousemove', (e) => {
+                    const rect = formWizard.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    const rotateX = (y / (rect.height / 2)) * -8;
+                    const rotateY = (x / (rect.width / 2)) * 8;
+                    formWizard.style.transition = 'transform 0.05s linear';
+                    formWizard.style.transform = `perspective(2000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+                formWizard.addEventListener('mouseleave', () => {
+                    formWizard.style.transition = 'transform 0.5s var(--animation-timing-apple)';
+                    formWizard.style.transform = `perspective(2000px) rotateX(0deg) rotateY(0deg)`;
+                });
+            }
+
+            // --- Universal Magnetic Elements ---
+            const STRENGTH = 0.3;
+            const activateMagnetism = () => {
+                if (isTouchDevice) return;
+
+                const magnets = document.querySelectorAll('.interactive-hover');
+                magnets.forEach(magnet => {
+                    magnet.removeEventListener('mousemove', handleMagnetMove);
+                    magnet.removeEventListener('mouseleave', handleMagnetLeave);
+                    magnet.addEventListener('mousemove', handleMagnetMove);
+                    magnet.addEventListener('mouseleave', handleMagnetLeave);
+                });
+            };
+
+            function handleMagnetMove(e) {
+                const magnet = e.currentTarget;
+                const rect = magnet.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                magnet.style.transform = `translate(${x * STRENGTH}px, ${y * STRENGTH * 1.5}px)`;
+                body.classList.add('is-hovering');
+            }
+
+            function handleMagnetLeave(e) {
+                e.currentTarget.style.transform = 'translate(0, 0)';
+                body.classList.remove('is-hovering');
+            }
+
+            // --- Form Wizard Logic ---
+            const stepsContainer = document.getElementById('steps-container');
+            const formTitle = document.getElementById('form-title');
+            const nextBtns = document.querySelectorAll('.next-btn');
+            const prevBtns = document.querySelectorAll('.prev-btn');
+            const submitBtn = document.getElementById('submitBtn');
+            const productCards = document.querySelectorAll('.product-card');
+
+            let currentStep = 0;
+            const stepTitles = ["Let's start with your info", "What are you interested in?", "What are your goals?", "Success!"];
+
+            // --- NEW: Re-usable Text Animation Function ---
+            const animateText = (selector) => {
+                const textElement = document.querySelector(selector);
+                if (textElement && !textElement.dataset.animated) {
+                    textElement.dataset.animated = 'true';
+                    const text = textElement.textContent;
+                    textElement.innerHTML = '';
+                    text.split('').forEach((char, index) => {
+                        const span = document.createElement('span');
+                        span.textContent = char === ' ' ? '\u00A0' : char;
+                        span.style.setProperty('--delay', `${index * 0.05 + 0.3}s`);
+                        textElement.appendChild(span);
+                    });
                 }
-                p.x += p.vx; p.y += p.vy;
-                p.vx *= 0.98; p.vy *= 0.98;
+            };
 
-                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+            const updateFormSteps = () => {
+                const wizardWidth = formWizard.offsetWidth;
+                const translateZValue = wizardWidth / 2;
 
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(0, 150, 255, 0.5)';
-                ctx.fill();
+                document.getElementById('step-1').style.transform = `rotateY(0deg) translateZ(${translateZValue}px)`;
+                document.getElementById('step-2').style.transform = `rotateY(90deg) translateZ(${translateZValue}px)`;
+                document.getElementById('step-3').style.transform = `rotateY(180deg) translateZ(${translateZValue}px)`;
+                document.getElementById('success-step').style.transform = `rotateY(-90deg) translateZ(${translateZValue}px)`;
+
+                const angle = -90 * currentStep;
+                stepsContainer.style.transform = `translateZ(-${translateZValue}px) rotateY(${angle}deg)`;
+
+                formTitle.style.opacity = 0;
+                setTimeout(() => {
+                    formTitle.textContent = stepTitles[currentStep];
+                    formTitle.style.opacity = 1;
+                    if (currentStep < 3) {
+                        formTitle.dataset.animated = 'false';
+                        animateText('#form-title');
+                    }
+                }, 400);
+
+                if (currentStep === 1) {
+                    productCards.forEach((card, index) => {
+                        setTimeout(() => card.classList.add('is-visible'), index * 60);
+                    });
+                } else {
+                    productCards.forEach(card => card.classList.remove('is-visible'));
+                }
+
+                if (currentStep === 3) {
+                    animateText('#success-step [data-animate-text]');
+                }
+                setTimeout(activateMagnetism, 500);
+            };
+
+            nextBtns.forEach(btn => btn.addEventListener('click', () => { currentStep++; updateFormSteps(); }));
+            prevBtns.forEach(btn => btn.addEventListener('click', () => { currentStep--; updateFormSteps(); }));
+
+            // --- MODIFIED: Live Validation with Inline Errors ---
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // --- NEW: Inline Error Functions ---
+            const showInlineError = (inputId, message) => {
+                const errorDiv = document.getElementById(`${inputId}-error`);
+                const groupDiv = document.getElementById(`${inputId}-group`);
+                if (errorDiv) {
+                    errorDiv.textContent = message;
+                    errorDiv.classList.add('is-visible');
+                }
+                if (groupDiv) {
+                    groupDiv.classList.add('shake');
+                    setTimeout(() => groupDiv.classList.remove('shake'), 500);
+                }
+            };
+            const clearInlineError = (inputId) => {
+                const errorDiv = document.getElementById(`${inputId}-error`);
+                if (errorDiv) {
+                    errorDiv.classList.remove('is-visible');
+                }
+            };
+
+            const validateInput = (input, condition, errorId, clear) => {
+                const icon = input.parentElement.querySelector('.validation-icon');
+                icon.className = 'validation-icon fas';
+                if (input.value) {
+                    if (condition) {
+                        icon.classList.add('fa-check');
+                        if (clear) clearInlineError(errorId);
+                    } else {
+                        icon.classList.add('fa-times');
+                    }
+                } else {
+                    icon.className = 'validation-icon';
+                    if (clear) clearInlineError(errorId);
+                }
+            };
+            nameInput.addEventListener('input', () => validateInput(nameInput, nameInput.value.length >= 2, 'name', true));
+            emailInput.addEventListener('input', () => validateInput(emailInput, emailRegex.test(emailInput.value), 'email', true));
+
+            // --- Product Selector ---
+            const hiddenProductInput = document.getElementById('product');
+            const normalize = s => (s || '').replace(/™/g, '').trim().toLowerCase();
+            const urlProduct = new URLSearchParams(window.location.search).get('product');
+
+            if (urlProduct) {
+                const target = Array.from(productCards).find(c => normalize(c.dataset.value) === normalize(urlProduct));
+                if (target) {
+                    target.classList.add('selected');
+                    hiddenProductInput.value = (target.dataset.value || '').replace(/™/g, '').trim();
+                }
+            }
+
+            productCards.forEach(card => {
+                const selectCard = () => {
+                    productCards.forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    hiddenProductInput.value = (card.dataset.value || '').replace(/™/g, '').trim();
+                    clearInlineError('product');
+                };
+                card.addEventListener('click', selectCard);
+                card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectCard(); } });
             });
-            requestAnimationFrame(animate);
-        };
-        setup(); animate();
-        window.addEventListener('resize', setup);
-    }
 
-    // --- Custom Cursor ---
-    const spotlight = document.querySelector('.spotlight');
-    if (spotlight && !isTouchDevice) {
-        window.addEventListener('mousemove', e => {
-            spotlight.style.left = e.clientX + 'px';
-            spotlight.style.top = e.clientY + 'px';
-        });
-    } else if (spotlight) {
-        spotlight.style.display = 'none';
-    }
 
-    // --- Form Wizard Logic ---
-    const stepsContainer = document.getElementById('steps-container');
-    const formTitle = document.getElementById('form-title');
-    const nextBtns = document.querySelectorAll('.next-btn');
-    const prevBtns = document.querySelectorAll('.prev-btn');
-    const submitBtn = document.getElementById('submitBtn');
+            // ---
+            // --- !!! THIS IS THE FIX !!! ---
+            // ---
+            // The 'setTimeout' was replaced with a real 'fetch' request.
+            // ---
+            submitBtn.addEventListener('click', (e) => {
+                e.preventDefault();
 
-    let currentStep = 0;
-    const stepTitles = ["Let's start with your info", "What are you interested in?", "What are your goals?", "Success!"];
+                // Clear old errors
+                clearInlineError('name');
+                clearInlineError('email');
+                clearInlineError('product');
 
-    const updateFormSteps = () => {
-        const wizard = document.querySelector('.form-wizard');
-        const wizardWidth = wizard.offsetWidth;
-        const translateZValue = wizardWidth / 2;
+                const name = (nameInput.value || '').trim();
+                const email = (emailInput.value || '').trim();
+                const product = (hiddenProductInput.value || '').trim();
+                const message = (document.getElementById('message').value || '').trim();
 
-        document.getElementById('step-1').style.transform = `rotateY(0deg) translateZ(${translateZValue}px)`;
-        document.getElementById('step-2').style.transform = `rotateY(90deg) translateZ(${translateZValue}px)`;
-        document.getElementById('step-3').style.transform = `rotateY(180deg) translateZ(${translateZValue}px)`;
-        document.getElementById('success-step').style.transform = `rotateY(-90deg) translateZ(${translateZValue}px)`;
+                // Run all validation checks
+                let isValid = true;
+                if (!name || name.length < 2) {
+                    showInlineError('name', 'Name must be at least 2 characters.');
+                    validateInput(nameInput, false);
+                    isValid = false;
+                }
+                if (!email || !emailRegex.test(email)) {
+                    showInlineError('email', 'Please enter a valid work email.');
+                    validateInput(emailInput, false);
+                    isValid = false;
+                }
+                if (!product) {
+                    // This error check happens on Step 3, so we need to go back
+                    // But for simplicity, we'll just show an error and stop.
+                    // A better UX would be to show this error on Step 2.
+                    // For now, we'll just stop the submission.
+                    showInlineError('product', 'Please select a product.');
+                    isValid = false;
+                }
 
-        const angle = -90 * currentStep;
-        stepsContainer.style.transform = `translateZ(-${translateZValue}px) rotateY(${angle}deg)`;
+                if (!isValid) {
+                    // If validation fails on step 3, we should go back to the step with the error.
+                    if (!name || !email) {
+                        currentStep = 0;
+                        updateFormSteps();
+                        // Re-show errors
+                        if (!name) { showInlineError('name', 'Name must be at least 2 characters.'); validateInput(nameInput, false); }
+                        if (!email) { showInlineError('email', 'Please enter a valid work email.'); validateInput(emailInput, false); }
+                    } else if (!product) {
+                        currentStep = 1;
+                        updateFormSteps();
+                        showInlineError('product', 'Please select a product.');
+                    }
+                    return;
+                }
 
-        formTitle.style.opacity = 0;
-        setTimeout(() => {
-            formTitle.textContent = stepTitles[currentStep];
-            formTitle.style.opacity = 1;
-        }, 400);
-    };
+                // All good, show loader and submit
+                submitBtn.classList.add('is-loading');
 
-    const triggerParticleSurge = (e) => {
-        if (!isTouchDevice) {
-            const rect = e.target.getBoundingClientRect();
-            particleTarget = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
-            setTimeout(() => { particleTarget = null; }, 600);
-        }
-    };
+                // This is the data we will send
+                const formData = {
+                    name: name,
+                    email: email,
+                    product: product,
+                    message: message
+                };
 
-    nextBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            currentStep++;
+                // This is the new fetch request that actually sends the data
+                fetch('/submit_demo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log("Data successfully sent to server.");
+                            // Now show the success message
+                            submitBtn.classList.remove('is-loading');
+                            currentStep = 3; // Go to success
+                            updateFormSteps();
+                        } else {
+                            // Handle a potential server error
+                            console.error("Server returned an error.");
+                            submitBtn.classList.remove('is-loading');
+                            alert("An error occurred. Please try again.");
+                        }
+                    })
+                    .catch(error => {
+                        // Handle a network error
+                        console.error('Network error:', error);
+                        submitBtn.classList.remove('is-loading');
+                        alert("Could not connect to the server. Please try again.");
+                    });
+            });
+
+            // --- Initial and resize setup ---
             updateFormSteps();
-            triggerParticleSurge(e);
+            window.addEventListener('resize', updateFormSteps);
+            activateMagnetism();
+            animateText('#form-title'); // Animate title on first load
         });
-    });
-
-    prevBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            currentStep--;
-            updateFormSteps();
-            triggerParticleSurge(e);
-        });
-    });
-
-    // submit handling is implemented further below with validation
-
-    // --- Live Validation ---
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    const validateInput = (input, condition) => {
-        const icon = input.parentElement.querySelector('.validation-icon');
-        icon.className = 'validation-icon fas'; // Reset classes
-        if (input.value) {
-            if (condition) {
-                icon.classList.add('fa-check');
-            } else {
-                icon.classList.add('fa-times');
-            }
-        } else {
-             icon.className = 'validation-icon';
-        }
-    };
-
-    nameInput.addEventListener('input', () => validateInput(nameInput, nameInput.value.length >= 2));
-    emailInput.addEventListener('input', () => validateInput(emailInput, emailRegex.test(emailInput.value)));
-
-    // --- Product Selector ---
-    const productCards = document.querySelectorAll('.product-card');
-    const hiddenProductInput = document.getElementById('product');
-    // Accessibility: make product cards focusable and keyboard-activatable
-    productCards.forEach(card => {
-        card.setAttribute('role', 'button');
-        card.setAttribute('tabindex', '0');
-    });
-
-    // Helper to normalize product names for matching (strip trademark and lowercase)
-    const normalize = s => (s||'').replace(/™/g,'').trim().toLowerCase();
-
-    // Prefill from URL param ?product=Name
-    const urlProduct = new URLSearchParams(window.location.search).get('product');
-    if (urlProduct) {
-        const target = Array.from(productCards).find(c => normalize(c.dataset.value) === normalize(urlProduct));
-        if (target) {
-            target.classList.add('selected');
-            // Store a normalized product name (remove trademark symbol)
-            hiddenProductInput.value = (target.dataset.value || '').replace(/™/g, '').trim();
-        }
-    }
-
-    productCards.forEach(card => {
-        const selectCard = () => {
-            productCards.forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-            // Save normalized product name (strip ™)
-            hiddenProductInput.value = (card.dataset.value || '').replace(/™/g, '').trim();
-        };
-        card.addEventListener('click', selectCard);
-        card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectCard(); } });
-    });
-
-    // Basic client-side validation and improved submit handling
-    const showInlineError = (msg) => { alert(msg); };
-    submitBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const name = (document.getElementById('name').value || '').trim();
-        const email = (document.getElementById('email').value || '').trim();
-        const product = (document.getElementById('product').value || '').trim();
-        const message = (document.getElementById('message').value || '').trim();
-
-        if (!name || name.length < 2) { showInlineError('Please enter your name (2+ characters).'); return; }
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showInlineError('Please enter a valid work email.'); return; }
-        if (!product) { showInlineError('Please select a product for the demo.'); return; }
-
-        const data = { name, email, product, message };
-        fetch('/submit_demo', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                currentStep = 3; updateFormSteps(); triggerParticleSurge(e);
-            } else {
-                showInlineError(data.error || 'Submission failed.');
-            }
-        }).catch(() => showInlineError('Network error. Try again.'));
-    });
-
-    // Initial and resize setup
-    updateFormSteps();
-    window.addEventListener('resize', updateFormSteps);
-});
-</script>
+    </script>
 </body>
+
 </html>

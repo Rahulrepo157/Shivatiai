@@ -3,6 +3,37 @@ import sqlite3
 
 app = Flask(__name__)
 
+# --- MODIFICATION: Define DB name as a constant ---
+DATABASE = 'database.db'
+
+# --- MODIFICATION: Add the init_db() function ---
+def init_db():
+    """Initializes the database and creates the 'requests' table if it doesn't exist."""
+    print("Attempting to initialize database...")
+    try:
+        conn = sqlite3.connect(DATABASE)
+        cursor = conn.cursor()
+        
+        # SQL command to create the table
+        # 'IF NOT EXISTS' prevents an error if the table already exists.
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS requests (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            product TEXT,
+            message TEXT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+        ''')
+        
+        conn.commit()
+        conn.close()
+        print(f"Database '{DATABASE}' initialized successfully.")
+    except Exception as e:
+        print(f"Error initializing database: {e}")
+
+
 # Home route
 @app.route('/')
 def home():
@@ -125,7 +156,8 @@ def submit_demo():
     product = data.get('product')
     message = data.get('message')
 
-    conn = sqlite3.connect('database.db')
+    # --- MODIFICATION: Use DATABASE constant ---
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("INSERT INTO requests (name, email, product, message) VALUES (?, ?, ?, ?)",
                    (name, email, product, message))
@@ -137,7 +169,8 @@ def submit_demo():
 
 @app.route('/view_requests')
 def view_requests():
-    conn = sqlite3.connect('database.db')
+    # --- MODIFICATION: Use DATABASE constant ---
+    conn = sqlite3.connect(DATABASE)
     # return rows as dict-like objects
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
@@ -150,6 +183,6 @@ def view_requests():
 
 
 if __name__ == '__main__':
+    # --- MODIFICATION: Call init_db() before running the app ---
+    init_db()
     app.run(debug=True)
-
-
